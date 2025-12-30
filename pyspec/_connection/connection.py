@@ -516,7 +516,7 @@ class ClientConnection(
         Upon exiting the context, the movements will be initialized simultaneously
 
         Usage:
-            async with client.synchronized_motors():
+            async with client_connection.synchronized_motors():
                 # Motor movement will be held in here.
                 motor1.move(position)
                 motor2.move(position)

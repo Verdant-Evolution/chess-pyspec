@@ -1,16 +1,14 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-import inspect
-from typing import AsyncGenerator, Coroutine, TypeVar
-from typing_extensions import Self
+from typing import TypeVar
+
 from pyee.asyncio import AsyncIOEventEmitter
-import asyncio
 
 from pyspec._connection.data_types import DataType
 from pyspec._motor import Motor
-from pyspec._status import Status
 from pyspec._remote_property_table import RemotePropertyTable
+from pyspec._status import Status
 
 from ._connection import ClientConnection
 
@@ -48,6 +46,20 @@ class Client(AsyncIOEventEmitter):
             Status: The status property group. See the Status class for details.
         """
         return Status(self._remote_property_table)
+
+    def motor(self, motor_name: str) -> Motor:
+        """
+        The motor properties are used to control the motors.
+        The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server
+        are always transmitted as ASCII strings in the data that follows the packet header.
+
+        Args:
+            motor_name (str): The name of the motor to control.
+
+        Returns:
+            Motor: The motor property group. See the Motor class for details.
+        """
+        return Motor(motor_name, self._connection, self._remote_property_table)
 
     def var(
         self, var_name: str, dtype: type[T] | type[object] = object
@@ -118,10 +130,46 @@ class Client(AsyncIOEventEmitter):
         """
         return self._property("scaler/.all./count", bool)
 
-    async def exec_function(
-        self, function_name: str, *args: str | float | int
-    ) -> DataType:
+    async def call(self, function_name: str, *args: str | float | int) -> DataType:
+        """
+        Call a remote funciton on the server.
+        Args:
+            function_name (str): The name of the remote function to call.
+            *args (str | float | int): The arguments to pass to the remote function.
+        Returns:
+            DataType: The result of the remote function call.
+        """
         return await self._connection.remote_func(function_name, *args)
 
     async def exec(self, command: str) -> DataType:
+        """
+        Execute a command on the server.
+        Args:
+            command (str): The command to execute.
+        Returns:
+            DataType: The result of the command execution.
+        """
         return await self._connection.remote_cmd(command)
+
+    @asynccontextmanager
+    async def synchronized_motors(self):
+        """
+        Context manager to enable synchronized motor operations for the client.
+
+        While this context is active, motor movements will be held.
+        Upon exiting the context, the movements will be initialized simultaneously
+
+        Usage:
+            async with client.synchronized_motors():
+                # Motor movement will be held in here.
+                motor1.move(position)
+                motor2.move(position)
+
+                # Motors will not start moving yet.
+                await asyncio.sleep(1)  # Simulate other operations
+                # Motors will start moving simultaneously here.
+
+            # Outside of the context, all motors have completed their movements.
+        """
+        async with self._connection.synchronized_motors():
+            yield
