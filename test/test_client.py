@@ -26,7 +26,7 @@ async def test_client_property_get_next(server_process):
 @pytest.mark.asyncio
 async def test_client_exec_function(server_process):
     async with Client(HOST, PORT) as client:
-        result = await client.exec_function("sum", 2, 3)
+        result = await client.call("sum", 2, 3)
         assert result == 5
 
 

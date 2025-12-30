@@ -3,7 +3,7 @@ import asyncio
 import pytest
 
 from pyspec._connection import ClientConnection
-from pyspec._connection.connection import RemoteException
+from pyspec._connection.client_connection import RemoteException
 from conftest import HOST, PORT
 
 

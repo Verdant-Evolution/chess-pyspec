@@ -10,7 +10,6 @@ from typing import Any, Callable, Generic, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
-from pyspec._connection.connection import RemoteException
 from pyspec._connection.data_types import DataType
 from pyspec._remote_function import (
     SyncOrAsyncCallable,
@@ -209,7 +208,7 @@ class Server(AsyncIOEventEmitter, Singleton):
             return result
         except asyncio.CancelledError:
             LOGGER.info("Function '%s' aborted.", name)
-            raise RemoteException("Function execution aborted.")
+            raise RuntimeError("Function execution aborted.")
 
     async def broadcast_property(self, property_name: str, value: DataType) -> None:
         """
