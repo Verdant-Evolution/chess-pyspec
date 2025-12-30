@@ -1,9 +1,11 @@
 import asyncio
 import multiprocessing
+import time
 
 import pytest
 
 from pyspec._connection import ClientConnection
+from pyspec._connection.connection import RemoteException
 from pyspec.server import Server as PyspecServer
 
 HOST = "127.0.0.1"
@@ -15,14 +17,31 @@ class Server(PyspecServer):
     def sum(self, a: str, b: str):
         return float(a) + float(b)
 
-    def uhh(self):
-        return "This is not a remote function"
+    @PyspecServer.remote_function
+    async def async_sum(self, a: str, b: str):
+        return float(a) + float(b)
+
+    foo = PyspecServer.Property[int]("foo", 0)
+
+    ticker = PyspecServer.Property[int]("ticker", 0)
+
+    async def tick(self):
+        while True:
+            await asyncio.sleep(0.1)
+            self.ticker.set(self.ticker.get() + 1)
+
+    @PyspecServer.remote_function
+    async def long_running_func(self):
+        await asyncio.sleep(5)
+        return "done"
 
 
 # Helper to run server in a separate process
 def run_server(test_mode=True):
     async def main():
         async with Server(host=HOST, port=PORT, test_mode=test_mode) as server:
+            # Set a ticker task so we can watch a property
+            asyncio.create_task(server.tick())
             await server.serve_forever()
 
     asyncio.run(main())
@@ -32,6 +51,7 @@ def run_server(test_mode=True):
 def server_process():
     proc = multiprocessing.Process(target=run_server)
     proc.start()
+    time.sleep(0.05)
     yield
     proc.terminate()
     proc.join()
@@ -59,42 +79,57 @@ async def test_function_execution_success(server_process):
         assert result == 3
 
 
-# @pytest.mark.asyncio
-# async def test_property_read_write(server_process):
-#     async with ClientConnection(HOST, PORT) as client:
-#         await client.prop_set("foo", 123)
-#         value = await client.prop_get("foo")
-#         assert value == 123
+@pytest.mark.asyncio
+async def test_async_function_execution_success(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        result = await client.remote_func("async_sum", 1, 2)
+        assert result == 3
 
 
-# @pytest.mark.asyncio
-# async def test_property_subscribe(server_process):
-#     async with ClientConnection(HOST, PORT) as client:
-#         # Only works if server has a property 'bar' defined
-#         updates = []
-
-#         async def on_update(value):
-#             updates.append(value)
-
-#         client.on("property-change", lambda name, value: updates.append((name, value)))
-#         try:
-#             await client.prop_watch("bar")
-#             await client.prop_set("bar", 42)
-#             await asyncio.sleep(0.5)
-#             assert ("bar", 42) in updates
-#         except Exception:
-#             pytest.skip("No property 'bar' defined on server.")
+@pytest.mark.asyncio
+async def test_function_execution_not_found(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        with pytest.raises(RemoteException):
+            result = await client.remote_func("doesnt-exist-on-server", 1, 2)
 
 
-# @pytest.mark.asyncio
-# async def test_command_and_function_interrupt(server_process):
-#     async with ClientConnection(HOST, PORT) as client:
-#         # This is a placeholder; actual interruption logic depends on server implementation
-#         try:
-#             task = asyncio.create_task(client.remote_func("long_running_func"))
-#             await asyncio.sleep(0.2)
-#             await client.abort()
-#             with pytest.raises(asyncio.CancelledError):
-#                 await task
-#         except Exception:
-#             pytest.skip("No long_running_func or abort support on server.")
+@pytest.mark.asyncio
+async def test_property_read_write(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        await client.prop_set("foo", 123)
+        value = await client.prop_get("foo")
+        assert value == 123
+
+
+@pytest.mark.asyncio
+async def test_property_not_found(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        with pytest.raises(RemoteException):
+            await client.prop_get("doesnt-exist-on-server")
+
+        # Doesn't raise
+        await client.prop_set("doesnt-exist-on-server", 123)
+        await client.prop_watch("doesnt-exist-on-server")
+        await client.prop_unwatch("doesnt-exist-on-server")
+
+
+@pytest.mark.asyncio
+async def test_property_subscribe(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        updates = []
+        client.on("property-change", lambda name, value: updates.append((name, value)))
+        await client.prop_watch("ticker")
+        await client.prop_set("ticker", 42)
+        await asyncio.sleep(0.25)
+        assert ("ticker", 42) in updates
+
+
+@pytest.mark.asyncio
+async def test_command_and_function_interrupt(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        # This is a placeholder; actual interruption logic depends on server implementation
+        task = asyncio.create_task(client.remote_func("long_running_func"))
+        await asyncio.sleep(0.2)
+        await client.abort()
+        with pytest.raises(RemoteException):
+            await task
