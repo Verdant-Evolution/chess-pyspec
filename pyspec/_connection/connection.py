@@ -7,7 +7,8 @@ import threading
 import weakref
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Literal, TypeVar, overload
+from typing import Any, AsyncGenerator, Awaitable, Callable, Literal, TypeVar, overload
+import re
 
 import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
@@ -292,6 +293,8 @@ class ClientConnection(
     def __init__(self, host: str, port: int) -> None:
         _Connection.__init__(self, host, port)
         self.on("message", self._dispatch_typed_message_events)
+        self._synchronizing_motors = False
+        self._pending_motions: dict[str, float] = {}
 
     async def _dispatch_typed_message_events(self, msg: _Connection.Message) -> None:
         """
@@ -501,6 +504,91 @@ class ClientConnection(
         except asyncio.TimeoutError:
             self.logger.info("Timeout waiting for HELLO_REPLY from remote host")
             return False
+
+    @asynccontextmanager
+    async def synchronized_motors(
+        self, timeout: float | None = None
+    ) -> AsyncGenerator[None]:
+        """
+        Context manager to enable synchronized motor operations for the client.
+
+        While this context is active, motor movements will be held.
+        Upon exiting the context, the movements will be initialized simultaneously
+
+        Usage:
+            async with client.synchronized_motors():
+                # Motor movement will be held in here.
+                motor1.move(position)
+                motor2.move(position)
+
+                # Motors will not start moving yet.
+                await asyncio.sleep(1)  # Simulate other operations
+                # Motors will start moving simultaneously here.
+
+            # Outside of the context, all motors have completed their movements.
+        """
+        assert (
+            not self._synchronizing_motors
+        ), "Nested synchronized_motors contexts are not allowed."
+
+        move_done_pattern = re.compile(r"motor/(.+)/move_done")
+
+        waiting_for: dict[str, asyncio.Future] = {}
+
+        def motor_move_done_check(name: str, value: DataType) -> None:
+            if (match := move_done_pattern.match(name)) is None:
+                return
+            motor_name = match.group(1)
+            if motor_name in waiting_for:
+                self.logger.info(
+                    "move_done received for `%s` during synchronized motion.",
+                    motor_name,
+                )
+                waiting_for[motor_name].set_result(True)
+
+        motion_started = False
+        try:
+            if len(self._pending_motions) > 0:
+                raise RuntimeError(
+                    "There are pending motor motions from a previous synchronized_motors context."
+                )
+            self._synchronizing_motors = True
+
+            # Give control back to user.
+            yield
+
+            self.on("property-change", motor_move_done_check)
+            for mne in self._pending_motions.keys():
+                waiting_for[mne] = asyncio.Future()
+
+            # Start the prestart message
+            motion_started = True
+            await self.prop_set("motor/../prestart_all", None)
+
+            # Append the individual motor commands
+            for mne, position in self._pending_motions.items():
+                self.logger.info(
+                    "Starting synchronized move for `%s` to position %s.",
+                    mne,
+                    position,
+                )
+
+                await self.prop_set(f"motor/{mne}/start_one", position)
+
+            # Start all the motors simultaneously
+            await self.prop_set("motor/../start_all", None)
+
+            # Wait for them to be done
+            await asyncio.wait(waiting_for.values(), timeout=timeout)
+        except Exception as e:
+            self.logger.error("Error during synchronized motor operations: %s", str(e))
+            if motion_started:
+                await self.prop_set("motor/../abort_all", None)
+            raise
+        finally:
+            self._synchronizing_motors = False
+            self._pending_motions.clear()
+            self.remove_listener("message", motor_move_done_check)
 
 
 class ServerConnectionEventEmitter(AsyncIOEventEmitter):

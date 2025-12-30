@@ -121,13 +121,13 @@ def test_associative_array_serialization():
     assert aa2.data["key2\x1csub"] == 42
 
 
-def test_header_v2_none_serialization():
+def test_header_v2_error_type_serialization():
     header = HeaderV2(cmd=Command.CMD, name="none")
-    data = None
+    data = ErrorStr("An error occurred")
     data_bytes = header.prep_self_and_serialize_data(data)
     assert header.type == Type.ERROR
     value = header.deserialize_data(data_bytes)
-    assert value is None
+    assert value == data
 
 
 def test_header_v2_array_1d_serialization():
@@ -186,7 +186,14 @@ def test_header_name_length():
         HeaderV2(cmd=Command.CMD, name="b" * (NAME_LEN + 1))
 
 
-def test_header_error_type():
-    header = HeaderV2(cmd=Command.CMD, name="errortest")
-    data = header.prep_self_and_serialize_data(ErrorStr("An error occurred"))
-    assert header.type == Type.ERROR
+def test_number_serialization():
+    header = HeaderV4(cmd=Command.CMD, name="number")
+    numbers = [42, 3.14, -7, 0.001]
+    for number in numbers:
+        data_bytes = header.prep_self_and_serialize_data(number)
+        if isinstance(number, int):
+            assert header.type == Type.STRING
+        else:
+            assert header.type == Type.DOUBLE
+        value = header.deserialize_data(data_bytes)
+        assert value == number
