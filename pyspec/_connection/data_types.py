@@ -5,7 +5,11 @@ from typing import Iterable, Literal, TypeVar, Union, overload
 
 import numpy as np
 
-DataType = Union[np.ndarray, str, float, "AssociativeArray", None]
+
+class ErrorStr(str): ...
+
+
+DataType = Union[np.ndarray, str, float, "AssociativeArray", ErrorStr, None]
 
 
 def is_signed_int(dtype: np.dtype) -> bool:
@@ -46,22 +50,6 @@ class Type(Enum):
     ARR_STRING = 13
     ARR_LONG64 = 14
     ARR_ULONG64 = 15
-
-    @staticmethod
-    def from_data(data: DataType) -> "Type":
-        if isinstance(data, np.ndarray):
-            return Type.from_numpy_type(data.dtype)
-        elif isinstance(data, str):
-            return Type.STRING
-        elif isinstance(data, float):
-            return Type.DOUBLE
-        elif isinstance(data, AssociativeArray):
-            return Type.ASSOC
-        elif data is None:
-            # Default to STRING for things that don't need data
-            return Type.STRING
-        else:
-            raise ValueError(f"Unsupported data type: {type(data)}")
 
     def is_array_type(self) -> bool:
         return self in {

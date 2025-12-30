@@ -6,7 +6,7 @@ from typing import Generic, Literal, TypeVar, Union
 import numpy as np
 
 from .command import Command
-from .data_types import AssociativeArray, DataType, Type
+from .data_types import AssociativeArray, DataType, ErrorStr, Type, try_cast
 
 T = TypeVar("T", bound=Literal[2, 3, 4])
 
@@ -66,7 +66,6 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
         cmd: Command,
         name: str = "",
         sequence_number: int = 0,
-        is_error: bool = False,
     ) -> None:
         super().__init__()
         self.magic = SPEC_MAGIC
@@ -84,11 +83,7 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
         self.cols = 0
         self.len = 0
         self.sequence_number = sequence_number
-
         self.type = Type.STRING  # Default type
-
-        if is_error:
-            self.type = Type.ERROR
 
     @property
     def name(self) -> str:
@@ -126,15 +121,26 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
         Sets the type, rows, and cols attributes accordingly.
         """
         # TODO: Need to check if data is supposed to end in a NULL byte or not.
-        _type = Type.from_data(data)
         data_bytes = b""
-        if isinstance(data, float):
+        if isinstance(data, ErrorStr):
+            _type = Type.ERROR
+            data_bytes = data.encode("utf-8")
+        elif isinstance(data, float):
+            _type = Type.DOUBLE
+            # We choose to always serialize floats as DOUBLEs.
             data_bytes = struct.pack("<d", data)
-        elif isinstance(data, str):
+        elif isinstance(data, (str, int)):
+            _type = Type.STRING
+            # The spec server sends both string-valued and number-valued items as strings.
+            # Numbers are converted to strings using a printf("%.15g") format.
+            if isinstance(data, int):
+                data = f"{data:.15g}"
             data_bytes = struct.pack("<{}s".format(len(data)), data.encode("utf-8"))
         elif isinstance(data, AssociativeArray):
+            _type = Type.ASSOC
             data_bytes = data.serialize()
         elif isinstance(data, np.ndarray):
+            _type = Type.from_numpy_type(data.dtype)
             if data.ndim > 2:
                 raise ValueError("Only 1D and 2D arrays are supported.")
             data = np.atleast_2d(data)
@@ -144,14 +150,10 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
             else:
                 data_bytes = data.tobytes()
         elif data is None:
+            _type = Type.STRING  # Default to STRING type for None
             data_bytes = b""
         else:
             raise ValueError(f"Cannot serialize data of type {type(data)}.")
-
-        # TODO: This is kind of a weird place to do this.
-        # Don't override ERROR types
-        if self.type != Type.ERROR:
-            self.type = _type
 
         self.len = len(data_bytes)
         return data_bytes
@@ -170,11 +172,18 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
         if _type == Type.DOUBLE:
             return struct.unpack("<d", data_bytes)[0]
         elif _type == Type.STRING:
-            return data_bytes.decode("utf-8")
+            data_string = data_bytes.decode("utf-8")
+            # Try to cast to numeric is possible.
+            # https://certif.com/spec_help/server.html
+            # The spec server sends both string-valued and number-valued items as strings.
+            # Numbers are converted to strings using a printf("%.15g") format.
+            # However, spec will accept Type.DOUBLE values.
+            value = try_cast(data_string)
+            return value
         elif _type == Type.ASSOC:
             return AssociativeArray.deserialize(data_bytes)
         elif _type == Type.ERROR:
-            return None
+            return ErrorStr(data_bytes.decode("utf-8"))
         elif _type == Type.ARR_STRING:
             array = decode_to_numpy_string_array(data_bytes).reshape(
                 (self.rows, self.cols)
@@ -229,11 +238,8 @@ class HeaderV2(_HeaderBase[Literal[2]]):
         cmd: Command,
         name: str = "",
         sequence_number: int = 0,
-        is_error: bool = False,
     ) -> None:
-        super().__init__(
-            2, ctypes.sizeof(HeaderV2), cmd, name, sequence_number, is_error
-        )
+        super().__init__(2, ctypes.sizeof(HeaderV2), cmd, name, sequence_number)
 
 
 class HeaderV3(_HeaderBase[Literal[3]]):
@@ -258,11 +264,8 @@ class HeaderV3(_HeaderBase[Literal[3]]):
         cmd: Command,
         name: str = "",
         sequence_number: int = 0,
-        is_error: bool = False,
     ) -> None:
-        super().__init__(
-            3, ctypes.sizeof(HeaderV3), cmd, name, sequence_number, is_error
-        )
+        super().__init__(3, ctypes.sizeof(HeaderV3), cmd, name, sequence_number)
 
 
 class HeaderV4(_HeaderBase[Literal[4]]):
@@ -288,11 +291,8 @@ class HeaderV4(_HeaderBase[Literal[4]]):
         cmd: Command,
         name: str = "",
         sequence_number: int = 0,
-        is_error: bool = False,
     ) -> None:
-        super().__init__(
-            4, ctypes.sizeof(HeaderV4), cmd, name, sequence_number, is_error
-        )
+        super().__init__(4, ctypes.sizeof(HeaderV4), cmd, name, sequence_number)
 
 
 HeaderVersion = Literal[2, 3, 4]

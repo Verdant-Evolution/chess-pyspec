@@ -14,6 +14,7 @@ from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
 from .command import Command
+from .data_types import ErrorStr
 from .message import DataType, Header, HeaderPrefix, HeaderV2, HeaderV3, HeaderV4
 
 LOGGER = logging.getLogger("pyspec.connection")
@@ -811,8 +812,8 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
             error_message,
         )
         await self._send(
-            HeaderV4(Command.REPLY, sequence_number=sequence_number, is_error=True),
-            data=error_message,
+            HeaderV4(Command.REPLY, sequence_number=sequence_number),
+            data=ErrorStr(error_message),
         )
 
     @asynccontextmanager
