@@ -94,7 +94,7 @@ class Server(AsyncIOEventEmitter, Singleton):
         self.port = port
         self._server: asyncio.Server | None = None
         self._property_listeners: dict[str, set[ServerConnection]] = defaultdict(set)
-        self._running_tasks: set[asyncio.Task] = set()
+        self._abortable_tasks: set[asyncio.Task] = set()
         self._remote_functions = self._build_remote_function_table()
         self._remote_properties = self._register_properties()
 
@@ -153,10 +153,10 @@ class Server(AsyncIOEventEmitter, Singleton):
             task (asyncio.Task): The task to register as abortable.
         """
         try:
-            self._running_tasks.add(task)
+            self._abortable_tasks.add(task)
             yield
         finally:
-            self._running_tasks.discard(task)
+            self._abortable_tasks.discard(task)
 
     async def execute_command(self, command: str) -> DataType:
         """
@@ -212,8 +212,8 @@ class Server(AsyncIOEventEmitter, Singleton):
 
     async def broadcast_property(self, property_name: str, value: DataType) -> None:
         """
-        Broadcasts a property value to all connected clients
-        that are subscribed to updates for that property.
+        Broadcasts a property value to all connected clients that
+        are subscribed to updates for that property.
         """
         listening_clients = self._property_listeners.get(property_name, set())
         await asyncio.gather(
@@ -225,9 +225,9 @@ class Server(AsyncIOEventEmitter, Singleton):
         Aborts all abortable tasks on the server.
         See the abortable() context manager.
         """
-        for task in list(self._running_tasks):
+        for task in list(self._abortable_tasks):
             task.cancel()
-        self._running_tasks.clear()
+        self._abortable_tasks.clear()
 
     async def _on_client_connected(
         self, client_reader: asyncio.StreamReader, client_writer: asyncio.StreamWriter
