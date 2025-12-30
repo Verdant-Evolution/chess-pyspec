@@ -205,9 +205,43 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
 
         raise ValueError(f"Cannot deserialize data with Type {_type}")
 
+    def short_str(self, data: DataType) -> str:
+        match self.cmd:
+            case Command.HELLO:
+                return f"{self.cmd.name}(seq={self.sequence_number})"
+            case Command.HELLO_REPLY:
+                return f"{self.cmd.name}(seq={self.sequence_number})"
+            case Command.CMD | Command.FUNC:
+                return f"{self.cmd.name}(`{data}`)"
+            case Command.CMD_WITH_RETURN | Command.FUNC_WITH_RETURN:
+                return f"{self.cmd.name}(`{data}`, seq={self.sequence_number})"
+            case Command.CHAN_SEND:
+                return f"{self.cmd.name}(`{self.name}`, seq={self.sequence_number})"
+            case Command.REGISTER | Command.UNREGISTER:
+                return f"{self.cmd.name}(`{self.name}`)"
+            case Command.EVENT:
+                return f"{self.cmd.name}(`{self.name}`)"
+            case Command.REPLY:
+                return f"{self.cmd.name}(seq={self.sequence_number})"
+            case Command.CLOSE | Command.ABORT:
+                return f"{self.cmd.name}"
+            case Command.RETURN:
+                # This is unused in the current version of SPEC.
+                # So the semantics are not defined.
+                return f"{self.cmd.name}(seq={self.sequence_number})"
+            case _:
+                return f"{self.cmd.name}(seq={self.sequence_number})"
+
+    def long_str(self, data: DataType) -> str:
+        return (
+            f"<HeaderV{self.vers} cmd={self.cmd.name} type={self.type.name} name='{self.name}' "
+            f"seq={self.sequence_number} rows={self.rows} cols={self.cols} len={self.len} "
+            f"data={data}>"
+        )
+
     def __repr__(self) -> str:
         return (
-            f"<HeaderV2 cmd={self.cmd} type={self.type} name='{self.name}' "
+            f"<HeaderV2 cmd={self.cmd.name} type={self.type.name} name='{self.name}' "
             f"seq={self.sequence_number} rows={self.rows} cols={self.cols} len={self.len}>"
         )
 

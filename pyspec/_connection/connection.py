@@ -162,7 +162,8 @@ class _Connection(AsyncIOEventEmitter):
     async def _send(self, header: Header, data: DataType = None) -> None:
         """Sends a message to the connected server."""
         data_bytes = header.prep_self_and_serialize_data(data)
-        self.logger.debug("Sending header: %s", header)
+        self.logger.info("Sending: %s", header.short_str(data))
+        self.logger.debug("Detail: %s", header.long_str(data))
         await self.__send(bytes(header))
         if data_bytes:
             await self.__send(data_bytes)
@@ -180,7 +181,7 @@ class _Connection(AsyncIOEventEmitter):
             self.logger.debug("Received header: %s", header)
             data = await self._read_data(self._reader, header)
             self.logger.debug("Received data: %s", data)
-            self.logger.info("Received message: %s", header.cmd)
+            self.logger.info("Received: %s", header.short_str(data))
             self.emit("message", _Connection.Message(header, data))
 
     async def _read_header(
@@ -334,12 +335,6 @@ class ClientConnection(
         """
         sequence_number = get_next_sequence_number()
         header.sequence_number = sequence_number
-        self.logger.info(
-            "Sending a `%s` command and waiting for reply %d",
-            header.cmd.name,
-            sequence_number,
-        )
-
         response = asyncio.Future()
         self.once(
             "message",
@@ -369,7 +364,6 @@ class ClientConnection(
         Raises:
             RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
-        self.logger.info("Getting property '%s' from remote host", prop)
         return (
             await self._send_with_reply(HeaderV4(Command.CHAN_READ, name=prop))
         ).data
@@ -386,8 +380,6 @@ class ClientConnection(
         Raises:
             RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
-        self.logger.info("Setting value for property '%s' on remote host", prop)
-        self.logger.debug("Setting value for property '%s': %s", prop, value)
         await self._send(HeaderV4(Command.CHAN_SEND, name=prop), data=value)
 
     async def prop_watch(self, prop: str) -> None:
@@ -413,7 +405,6 @@ class ClientConnection(
         the elements are explicitly assigned values on the server,
         not when the values change by way of built-in code, such as from calcA, getangles or getcounts.
         """
-        self.logger.info("Watching property '%s' on remote host", prop)
         await self._send(HeaderV4(Command.REGISTER, name=prop))
 
     async def prop_unwatch(self, prop: str) -> None:
@@ -421,7 +412,6 @@ class ClientConnection(
         Unregisters property on the remote host.
         The remote host will no longer send events to the client when the property value changes.
         """
-        self.logger.info("Unwatching property '%s' on remote host", prop)
         await self._send(HeaderV4(Command.UNREGISTER, name=prop))
 
     async def abort(self) -> None:
@@ -430,7 +420,6 @@ class ClientConnection(
         This has the same effect on the remote host as a ^C from the keyboard.
         Any pending commands in the server queue from the client will be removed.
         """
-        self.logger.info("Sending ABORT command to remote host")
         await self._send(HeaderV4(Command.ABORT))
 
     async def remote_cmd_no_return(self, cmd: str) -> None:
@@ -441,7 +430,6 @@ class ClientConnection(
         Args:
             cmd (str): The command string to send to the remote host. e.g. "1+1"
         """
-        self.logger.info("Sending command '%s' to remote host", cmd)
         await self._send(HeaderV4(Command.CMD), data=cmd)
 
     async def remote_cmd(self, cmd: str) -> DataType:
@@ -455,9 +443,6 @@ class ClientConnection(
         Returns:
             DataType: The result of the command execution from the remote host.
         """
-        self.logger.info(
-            "Sending command '%s' to remote host and waiting for return", cmd
-        )
         return (
             await self._send_with_reply(HeaderV4(Command.CMD_WITH_RETURN), data=cmd)
         ).data
@@ -472,7 +457,6 @@ class ClientConnection(
             *args: The arguments to pass to the function. These will all be converted to strings before sending.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
-        self.logger.info("Calling function '%s' on remote host", func_string)
         await self._send(HeaderV4(Command.FUNC), data=func_string)
 
     async def remote_func(self, func: str, *args) -> DataType:
@@ -488,9 +472,6 @@ class ClientConnection(
             DataType: The result of the function execution from the remote host.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
-        self.logger.info(
-            "Calling function '%s' on remote host and waiting for return", func_string
-        )
         return (
             await self._send_with_reply(
                 HeaderV4(Command.FUNC_WITH_RETURN), data=func_string
@@ -510,14 +491,12 @@ class ClientConnection(
         Returns:
             bool: True if the HELLO_REPLY was received within the timeout, False otherwise.
         """
-        self.logger.info("Sending HELLO to remote host")
 
         try:
             await asyncio.wait_for(
                 self._send_with_reply(HeaderV4(Command.HELLO)),
                 timeout=timeout,
             )
-            self.logger.info("Received HELLO_REPLY from remote host")
             return True
         except asyncio.TimeoutError:
             self.logger.info("Timeout waiting for HELLO_REPLY from remote host")
@@ -780,7 +759,6 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
         There is nothing to prevent a user-level call of prop_send() from generating events for built-in properties,
         although that may lead to an unexpected client response.
         """
-        self.logger.info("Sending event for property `%s`", property)
         await self._send(HeaderV4(Command.EVENT, name=property), data=value)
 
     async def serve_forever(self) -> None:
@@ -796,7 +774,6 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
         """
         Sends a reply to a remote command or function call.
         """
-        self.logger.info("Sending reply for sequence number `%d`", sequence_number)
         await self._send(
             HeaderV4(Command.REPLY, sequence_number=sequence_number), data=data
         )
@@ -805,11 +782,6 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
         """
         Sends an error reply to a remote command or function call.
         """
-        self.logger.info(
-            "Sending error reply for sequence number `%d` to remote host: `%s`",
-            sequence_number,
-            error_message,
-        )
         await self._send(
             HeaderV4(Command.REPLY, sequence_number=sequence_number),
             data=ErrorStr(error_message),
@@ -835,7 +807,6 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
         """
         Sends a HELLO_REPLY to the client in response to a HELLO command.
         """
-        self.logger.info("Sending HELLO_REPLY")
         await self._send(HeaderV4(Command.HELLO_REPLY, sequence_number=sequence_number))
 
 

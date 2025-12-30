@@ -10,6 +10,7 @@ from typing import Any, Callable, Generic, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
+from pyspec._connection.connection import RemoteException
 from pyspec._connection.data_types import DataType
 from pyspec._remote_function import (
     SyncOrAsyncCallable,
@@ -204,11 +205,11 @@ class Server(AsyncIOEventEmitter, Singleton):
             if asyncio.iscoroutine(result):
                 task = asyncio.create_task(result)
                 with self.abortable(task):
-                    return await result
+                    return await task
             return result
         except asyncio.CancelledError:
             LOGGER.info("Function '%s' aborted.", name)
-            pass
+            raise RemoteException("Function execution aborted.")
 
     async def broadcast_property(self, property_name: str, value: DataType) -> None:
         """
@@ -240,15 +241,12 @@ class Server(AsyncIOEventEmitter, Singleton):
         logger = LOGGER.getChild(f"{host}:{port}")
 
         def on_close():
-            logger.info("Close")
             client_writer.close()
 
         async def on_abort():
-            logger.warning("Abort")
             await self.abort()
 
         async def on_hello(sequence_number: int):
-            logger.info("Hello")
             await connection.hello_reply(sequence_number)
 
         async def on_cmd_no_return(command: str):
@@ -315,9 +313,7 @@ class Server(AsyncIOEventEmitter, Singleton):
 
     async def __aenter__(self):
         self._server = await asyncio.start_server(
-            self._on_client_connected,
-            self.host,
-            self.port,
+            self._on_client_connected, self.host, self.port, reuse_port=True
         )
         return self
 

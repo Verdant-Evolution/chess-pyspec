@@ -35,10 +35,15 @@ def parse_remote_function_string(function_string: str) -> tuple[str, tuple[str, 
 
     name, args_str = function_string[:-1].split("(", 1)
 
-    # Use ast.literal_eval to safely parse the arguments
-    # This will handle more complex argument types like strings with commas
-    # It is a safer and more constrained alternative to eval
-    args = ast.literal_eval(f"({args_str},)")
+    args_str = args_str.strip()
+    if args_str:
+        # Use ast.literal_eval to safely parse the arguments
+        # This will handle more complex argument types like strings with commas
+        # It is a safer and more constrained alternative to eval
+        args = ast.literal_eval(f"({args_str},)")
+    else:
+        args = ()
+
     return name, args
 
 
