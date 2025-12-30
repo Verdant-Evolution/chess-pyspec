@@ -5,17 +5,15 @@ import inspect
 import logging
 from collections import defaultdict
 from contextlib import AsyncExitStack, asynccontextmanager
-from operator import is_
+from pathlib import Path
 from typing import AsyncIterator, Awaitable, Callable, Generic, Literal, TypeVar, cast
 
-from Cython import final
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
 from pyspec._connection.data_types import DataType
 
 from ._connection import ClientConnection
-from pathlib import Path
 
 T = TypeVar("T", bound=DataType)
 K = TypeVar("K", bound=DataType)

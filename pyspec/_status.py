@@ -1,4 +1,4 @@
-from ._remote_property_table import RemotePropertyTable, PropertyGroup
+from ._remote_property_table import PropertyGroup, RemotePropertyTable
 
 
 class Status(PropertyGroup):
