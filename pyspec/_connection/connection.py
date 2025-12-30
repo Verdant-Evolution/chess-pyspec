@@ -161,7 +161,7 @@ class _Connection(AsyncIOEventEmitter):
     async def _send(self, header: Header, data: DataType = None) -> None:
         """Sends a message to the connected server."""
         data_bytes = header.prep_self_and_serialize_data(data)
-        self.logger.info("Sending header: %s", header)
+        self.logger.debug("Sending header: %s", header)
         await self.__send(bytes(header))
         if data_bytes:
             await self.__send(data_bytes)
@@ -719,6 +719,9 @@ class ServerConnection(_Connection, ServerConnectionEventEmitter):
     def __init__(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
         _Connection.__init__(self, reader, writer)
         self.on("message", self._dispatch_typed_message_events)
+        self.logger = logging.getLogger("pyspec.server").getChild(
+            f"{self.host}:{self.port}"
+        )
 
     def _dispatch_typed_message_events(self, msg: ServerConnection.Message) -> None:
         """
