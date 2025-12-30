@@ -14,7 +14,7 @@ from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
 from .command import Command
-from .data_types import ErrorStr
+from .data_types import ErrorStr, Type
 from .message import DataType, Header, HeaderPrefix, HeaderV2, HeaderV3, HeaderV4
 
 LOGGER = logging.getLogger("pyspec.connection")
@@ -27,7 +27,7 @@ class RemoteException(Exception):
     """Exception raised when an error occurs on the remote server."""
 
 
-class IndexedSingleton(type):
+class IndexedSingleton:
     """
     Metaclass for creating indexed singleton classes.
 
@@ -38,7 +38,7 @@ class IndexedSingleton(type):
     _instances = {}
     _lock = threading.Lock()
 
-    def __call__(
+    def __new__(
         cls,
         *args,
     ):
@@ -47,7 +47,7 @@ class IndexedSingleton(type):
         instance = ref() if ref is not None else None
         if instance is None:
             with cls._lock:
-                instance = super().__call__(*args)
+                instance = super().__new__(cls)
             cls._instances[key] = weakref.ref(instance)
         return instance
 
@@ -286,9 +286,8 @@ class ClientConnectionEventEmitter(AsyncIOEventEmitter):
 class ClientConnection(
     _Connection,
     ClientConnectionEventEmitter,
-    metaclass=IndexedSingleton,
+    IndexedSingleton,
 ):
-
     def __init__(self, host: str, port: int) -> None:
         _Connection.__init__(self, host, port)
         self.on("message", self._dispatch_typed_message_events)
@@ -349,7 +348,7 @@ class ClientConnection(
         )
         await self._send(header, data)
         msg: _Connection.Message = await response
-        if msg.header.is_error:
+        if msg.header.type == Type.ERROR:
             self.logger.error(
                 "Received %s reply for sequence number %d",
                 msg.header.type,

@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
+import threading
 from collections import defaultdict
 from contextlib import contextmanager
-import threading
 from typing import Any, Callable, Generic, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
@@ -27,14 +28,14 @@ T = TypeVar("T", bound=DataType)
 F = TypeVar("F", bound=SyncOrAsyncCallable)
 
 
-class Singleton(type):
+class Singleton:
     _lock = threading.Lock()
 
-    def __new__(cls, name, bases, attrs):
-        if not hasattr(cls, "instance"):
-            with cls._lock:
-                cls.instance = super(Singleton, cls).__new__(cls, name, bases, attrs)
-        return cls.instance
+    def __new__(cls, *args, **kwargs):
+        with cls._lock:
+            if not hasattr(cls, "_instance"):
+                cls._instance = super(Singleton, cls).__new__(cls)
+        return cls._instance
 
 
 class ServerException(Exception):
@@ -46,7 +47,7 @@ class ServerException(Exception):
         return self.msg
 
 
-class Server(AsyncIOEventEmitter, metaclass=Singleton):
+class Server(AsyncIOEventEmitter, Singleton):
 
     class Property(Generic[T], AsyncIOEventEmitter):
         def __init__(
@@ -73,6 +74,8 @@ class Server(AsyncIOEventEmitter, metaclass=Singleton):
 
     @staticmethod
     def remote_function(function: F) -> F:
+        # TODO: Need to figure out how to type this properly
+        # Since the client will only give you strs.
         """Decorator to mark a function as remotely callable."""
         mark_remote_function(function)
         if not asyncio.iscoroutinefunction(function):
@@ -110,9 +113,9 @@ class Server(AsyncIOEventEmitter, metaclass=Singleton):
         This table is used to dispatch remote function calls from clients.
         """
         remote_functions: dict[str, SyncOrAsyncCallable] = {}
-        for attr_name in dir(self):
-            attr = getattr(self, attr_name)
+        for attr_name, attr in inspect.getmembers(self):
             if is_remote_function(attr):
+                LOGGER.debug("Registering remote function: `%s`", attr_name)
                 remote_functions[remote_function_name(attr)] = attr
         return remote_functions
 
@@ -128,9 +131,11 @@ class Server(AsyncIOEventEmitter, metaclass=Singleton):
             )
 
         remote_properties: dict[str, Server.Property[Any]] = {}
-        for attr_name in dir(self):
-            attr = getattr(self, attr_name)
+        for attr_name, attr in inspect.getmembers(self):
             if isinstance(attr, Server.Property):
+                LOGGER.debug(
+                    "Registering remote property: `%s` at `%s`", attr_name, attr.name
+                )
                 attr.on("set", make_broadcaster(attr.name))
                 remote_properties[attr.name] = attr
         return remote_properties

@@ -111,10 +111,6 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
     def type(self, value: Type) -> None:
         self._type = value.value
 
-    @property
-    def is_error(self) -> bool:
-        return self.type == Type.ERROR
-
     def prep_self_and_serialize_data(self, data: DataType) -> bytes:
         """
         Serialize the given data.
@@ -155,6 +151,7 @@ class _HeaderBase(ctypes.Structure, Generic[T]):
         else:
             raise ValueError(f"Cannot serialize data of type {type(data)}.")
 
+        self.type = _type
         self.len = len(data_bytes)
         return data_bytes
 

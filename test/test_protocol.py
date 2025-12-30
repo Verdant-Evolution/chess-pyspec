@@ -10,7 +10,7 @@ from pyspec._connection.message import (
     Type,
     NAME_LEN,
 )
-from pyspec._connection.data_types import AssociativeArray, DataType
+from pyspec._connection.data_types import AssociativeArray, DataType, ErrorStr
 
 # Helper to create a header and serialize/deserialize data
 
@@ -33,7 +33,6 @@ def test_header_v2_serialization():
     assert header.name == "test"
     assert header.cmd == Command.CMD
     assert header.sequence_number == 1
-    assert not header.is_error
     assert header.rows == 0
     assert header.cols == 0
     assert header.len == struct.calcsize("d")
@@ -58,7 +57,6 @@ def test_header_v3_serialization():
     assert header.name == "test"
     assert header.cmd == Command.CMD
     assert header.sequence_number == 1
-    assert not header.is_error
     assert header.rows == 0
     assert header.cols == 0
     assert header.len == struct.calcsize("d")
@@ -83,7 +81,6 @@ def test_header_v4_serialization():
     assert header.name == "test"
     assert header.cmd == Command.CMD
     assert header.sequence_number == 1
-    assert not header.is_error
     assert header.rows == 0
     assert header.cols == 0
     assert header.len == struct.calcsize("d")
@@ -190,6 +187,6 @@ def test_header_name_length():
 
 
 def test_header_error_type():
-    header = HeaderV2(cmd=Command.CMD, name="errortest", is_error=True)
+    header = HeaderV2(cmd=Command.CMD, name="errortest")
+    data = header.prep_self_and_serialize_data(ErrorStr("An error occurred"))
     assert header.type == Type.ERROR
-    assert header.is_error
