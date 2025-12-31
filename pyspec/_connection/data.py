@@ -220,3 +220,17 @@ class AssociativeArray:
         for key, value in by_two(data_str.split(cls.ITEM_SEPARATOR)):
             instance.data[key] = try_cast(value)
         return instance
+
+    def __str__(self) -> str:
+        items = list(self.data.items())
+        if len(items) > 5:
+            display_items = items[:5]
+            display_str = "{" + ", ".join(
+                f"{key}: {value}" for key, value in display_items
+            )
+            display_str += ", ... }"
+        else:
+            display_str = (
+                "{" + ", ".join(f"{key}: {value}" for key, value in items) + "}"
+            )
+        return display_str

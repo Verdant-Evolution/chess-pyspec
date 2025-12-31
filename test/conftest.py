@@ -24,7 +24,7 @@ class Server(PyspecServer):
 
     async def tick(self):
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.01)
             self.ticker.set(self.ticker.get() + 1)
 
     @PyspecServer.remote_function

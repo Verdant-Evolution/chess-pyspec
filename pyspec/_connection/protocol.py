@@ -421,6 +421,7 @@ def serialize(
 
 def short_str(header: HeaderStruct, data: DataType) -> str:
     cmd = Command(header.command)
+    name = header.name.decode("utf-8").rstrip("\x00")
     match cmd:
         case Command.HELLO:
             return f"{cmd.name}(seq={header.sequence_number})"
@@ -431,11 +432,11 @@ def short_str(header: HeaderStruct, data: DataType) -> str:
         case Command.CMD_WITH_RETURN | Command.FUNC_WITH_RETURN:
             return f"{cmd.name}(`{data}`, seq={header.sequence_number})"
         case Command.CHAN_SEND:
-            return f"{cmd.name}(`{header.name}`, seq={header.sequence_number})"
+            return f"{cmd.name}(`{name}`, seq={header.sequence_number})"
         case Command.REGISTER | Command.UNREGISTER:
-            return f"{cmd.name}(`{header.name}`)"
+            return f"{cmd.name}(`{name}`)"
         case Command.EVENT:
-            return f"{cmd.name}(`{header.name}`)"
+            return f"{cmd.name}(`{name}`)"
         case Command.REPLY:
             return f"{cmd.name}(seq={header.sequence_number})"
         case Command.CLOSE | Command.ABORT:

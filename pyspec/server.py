@@ -50,6 +50,15 @@ class ServerException(Exception):
 class Server(AsyncIOEventEmitter, Singleton):
 
     class Property(Generic[T], AsyncIOEventEmitter):
+        """
+        Defines a property that can be remotely accessed by clients.
+
+        Args:
+            name (str): The name of the property.
+            initial_value (T): The initial value of the property.
+            dtype (type[T], optional): The expected data type of the property. Defaults to object (no validation).
+        """
+
         def __init__(
             self,
             name: str,
@@ -76,7 +85,9 @@ class Server(AsyncIOEventEmitter, Singleton):
     def remote_function(function: F) -> F:
         # TODO: Need to figure out how to type this properly
         # Since the client will only give you strs.
-        """Decorator to mark a function as remotely callable."""
+        """
+        Decorator to mark a function as remotely callable.
+        """
         mark_remote_function(function)
         if not asyncio.iscoroutinefunction(function):
             LOGGER.warning(

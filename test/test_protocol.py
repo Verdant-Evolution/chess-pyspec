@@ -48,11 +48,13 @@ async def test_associative_array_serialization():
     aa["three"] = "the"
     aa["three", "0"] = "time"
     aa["two"] = "is"
+    aa["four"] = "fourth"
+    aa["four", "sub"] = "fourth"
 
     header = Header(Command.CMD, 0, "assoc array test")
     header_struct, data_bytes = serialize(header, aa)
 
-    read_header, read_data, endianness = await read_one_message(
+    read_header, read_data, _ = await read_one_message(
         bytes(header_struct) + data_bytes
     )
 
@@ -89,7 +91,7 @@ DTypes = [
 @pytest.mark.asyncio
 async def test_numpy_array_serialization(endianness, dtype):
     array = np.array([[1, 2, 3], [4, 5, 6]], dtype=dtype)
-    header = Header(Command.CMD, 1, f"numpy array test {dtype}")
+    header = Header(Command.CHAN_SEND, 1, f"numpy array test {dtype}")
     header_struct, data_bytes = serialize(header, array, endianness=endianness)
 
     assert header_struct.data_type == Type.from_numpy_type(array.dtype).value

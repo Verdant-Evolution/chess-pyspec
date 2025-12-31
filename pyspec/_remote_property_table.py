@@ -21,6 +21,11 @@ LOGGER = logging.getLogger(__name__)
 
 
 class PropertyEventEmitter(Generic[T], AsyncIOEventEmitter):
+    """
+    This class extends AsyncIOEventEmitter to provide type-safe
+    event emission and handling for property change events.
+    """
+
     def emit(self, event: Literal["change"], value: T) -> None:  # type: ignore[override]
         super().emit(event, value)
 

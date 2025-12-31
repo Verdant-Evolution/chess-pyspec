@@ -58,6 +58,8 @@ async def test_property_not_found(server_process):
             await client.prop_get("doesnt-exist-on-server")
 
         # Doesn't raise
+        # These errors would show up under /error events,
+        # since these are "fire-and-forget" operations
         await client.prop_set("doesnt-exist-on-server", 123)
         await client.prop_watch("doesnt-exist-on-server")
         await client.prop_unwatch("doesnt-exist-on-server")
@@ -70,7 +72,7 @@ async def test_property_subscribe(server_process):
         client.on("property-change", lambda name, value: updates.append((name, value)))
         await client.prop_watch("ticker")
         await client.prop_set("ticker", 42)
-        await asyncio.sleep(0.25)
+        await asyncio.sleep(0.05)
         assert ("ticker", 42) in updates
 
 
@@ -79,7 +81,7 @@ async def test_command_and_function_interrupt(server_process):
     async with ClientConnection(HOST, PORT) as client:
         # This is a placeholder; actual interruption logic depends on server implementation
         task = asyncio.create_task(client.remote_func("long_running_func"))
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.05)
         await client.abort()
         with pytest.raises(RemoteException):
             await task
