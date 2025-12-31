@@ -4,7 +4,7 @@ import logging
 import struct
 import time
 from dataclasses import dataclass
-from typing import Literal, TypeVar, Union, overload
+from typing import Literal, TypeVar, Union
 
 import numpy as np
 
@@ -21,13 +21,18 @@ from .data import (
 
 LOGGER = logging.getLogger("pyspec.protocol")
 
-T = TypeVar("T", bound=Literal[2, 3, 4])
-
 NAME_LEN = 80
 SPEC_MAGIC = 4277009102
 
 
-def encode_numpy_string_array(arr: np.ndarray) -> bytes:
+@dataclass
+class Header:
+    command: Command
+    sequence_number: int = 0
+    name: str = ""
+
+
+def _encode_numpy_string_array(arr: np.ndarray) -> bytes:
     """
     Encode a numpy array of strings into bytes, with each string NULL-terminated.
     Numpy stores them as fixed-length, but SPEC expects NULL-terminated strings.
@@ -36,7 +41,7 @@ def encode_numpy_string_array(arr: np.ndarray) -> bytes:
     return b"".join(byte_strings)
 
 
-def decode_to_numpy_string_array(data_bytes: bytes) -> np.ndarray:
+def _decode_to_numpy_string_array(data_bytes: bytes) -> np.ndarray:
     """
     Decode bytes into a numpy array of strings, splitting on NULL bytes.
     Needs special handling since strings are not fixed-length.
@@ -45,13 +50,6 @@ def decode_to_numpy_string_array(data_bytes: bytes) -> np.ndarray:
     max_length = max(map(len, strings))
     array = np.array(strings, dtype=f"|U{max_length}")
     return array
-
-
-@dataclass
-class Header:
-    command: Command
-    sequence_number: int = 0
-    name: str = ""
 
 
 FIELDS_V2 = [
@@ -153,45 +151,6 @@ LE_HEADERS = (HeaderV4_LE, HeaderV3_LE, HeaderV2_LE)
 BE_HEADERS = (HeaderV4_BE, HeaderV3_BE, HeaderV2_BE)
 
 
-def short_str(header: HeaderStruct, data: DataType) -> str:
-    cmd = Command(header.command)
-    match cmd:
-        case Command.HELLO:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.HELLO_REPLY:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.CMD | Command.FUNC:
-            return f"{cmd.name}(`{data}`)"
-        case Command.CMD_WITH_RETURN | Command.FUNC_WITH_RETURN:
-            return f"{cmd.name}(`{data}`, seq={header.sequence_number})"
-        case Command.CHAN_SEND:
-            return f"{cmd.name}(`{header.name}`, seq={header.sequence_number})"
-        case Command.REGISTER | Command.UNREGISTER:
-            return f"{cmd.name}(`{header.name}`)"
-        case Command.EVENT:
-            return f"{cmd.name}(`{header.name}`)"
-        case Command.REPLY:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.CLOSE | Command.ABORT:
-            return f"{cmd.name}"
-        case Command.RETURN:
-            # This is unused in the current version of SPEC.
-            # So the semantics are not defined.
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case _:
-            return f"{cmd.name}(seq={header.sequence_number})"
-
-
-def long_str(header: HeaderStruct, data: DataType) -> str:
-    cmd = Command(header.command)
-    _type = Type(header.data_type)
-    return (
-        f"<HeaderV{header.version} cmd={cmd.name} type={_type.name} name='{header.name}' "
-        f"seq={header.sequence_number} rows={header.rows} cols={header.cols} len={header.len} "
-        f"data={data}>"
-    )
-
-
 def _determine_header_struct(
     version: int,
     header_size: int,
@@ -218,6 +177,59 @@ def _determine_header_struct(
             f"Could not safely deserialize header with size {header_size} and version {version}; size too small."
         )
     return header_struct
+
+
+def _deserialize_data(
+    header: HeaderStruct,
+    data_bytes: bytes,
+    endianness: Literal["<", ">"] = NATIVE_ENDIANNESS,
+) -> DataType:
+    """
+    Deserialize the given bytes into data.
+    Uses the type, rows, and cols attributes to determine how to deserialize.
+
+    Raises:
+        ValueError: If the type is unsupported for deserialization.
+        UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
+    """
+    # TODO: Need to check if data is supposed to end in a NULL byte or not.
+    data_type = Type(header.data_type)
+    if data_type == Type.DOUBLE:
+        return struct.unpack(f"{endianness}d", data_bytes)[0]
+    elif data_type == Type.STRING:
+        data_string = data_bytes.decode("utf-8")
+        # Try to cast to numeric is possible.
+        # https://certif.com/spec_help/server.html
+        # The spec server sends both string-valued and number-valued items as strings.
+        # Numbers are converted to strings using a printf("%.15g") format.
+        # However, spec will accept Type.DOUBLE values.
+        value = try_cast(data_string)
+        return value
+    elif data_type == Type.ASSOC:
+        return AssociativeArray.deserialize(data_bytes)
+    elif data_type == Type.ERROR:
+        return ErrorStr(data_bytes.decode("utf-8"))
+    elif data_type == Type.ARR_STRING:
+        array = _decode_to_numpy_string_array(data_bytes).reshape(
+            (header.rows, header.cols)
+        )
+        if header.rows == 1:
+            array = array.flatten()
+        return array
+    elif data_type.is_array_type():
+        if data_type == Type.ARR_STRING:
+            array = _decode_to_numpy_string_array(data_bytes)
+        else:
+            array = np.frombuffer(data_bytes, dtype=data_type.to_numpy_type(endianness))
+
+        array = array.reshape((header.rows, header.cols))
+        # TODO: Need to test this with SPEC.
+        # I am not sure whether SPEC would send a 0 or 1 for the other dimension of a 1D array.
+        # Based on the old pyspec impl, it looks like vectors are always row vectors.
+        # So if we have rows == 1, we flatten to 1D.
+        if header.rows == 1:
+            array = array.flatten()
+        return array
 
 
 async def _read_prefix(
@@ -322,59 +334,6 @@ async def message_stream(
             break
 
 
-def _deserialize_data(
-    header: HeaderStruct,
-    data_bytes: bytes,
-    endianness: Literal["<", ">"] = NATIVE_ENDIANNESS,
-) -> DataType:
-    """
-    Deserialize the given bytes into data.
-    Uses the type, rows, and cols attributes to determine how to deserialize.
-
-    Raises:
-        ValueError: If the type is unsupported for deserialization.
-        UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
-    """
-    # TODO: Need to check if data is supposed to end in a NULL byte or not.
-    data_type = Type(header.data_type)
-    if data_type == Type.DOUBLE:
-        return struct.unpack(f"{endianness}d", data_bytes)[0]
-    elif data_type == Type.STRING:
-        data_string = data_bytes.decode("utf-8")
-        # Try to cast to numeric is possible.
-        # https://certif.com/spec_help/server.html
-        # The spec server sends both string-valued and number-valued items as strings.
-        # Numbers are converted to strings using a printf("%.15g") format.
-        # However, spec will accept Type.DOUBLE values.
-        value = try_cast(data_string)
-        return value
-    elif data_type == Type.ASSOC:
-        return AssociativeArray.deserialize(data_bytes)
-    elif data_type == Type.ERROR:
-        return ErrorStr(data_bytes.decode("utf-8"))
-    elif data_type == Type.ARR_STRING:
-        array = decode_to_numpy_string_array(data_bytes).reshape(
-            (header.rows, header.cols)
-        )
-        if header.rows == 1:
-            array = array.flatten()
-        return array
-    elif data_type.is_array_type():
-        if data_type == Type.ARR_STRING:
-            array = decode_to_numpy_string_array(data_bytes)
-        else:
-            array = np.frombuffer(data_bytes, dtype=data_type.to_numpy_type(endianness))
-
-        array = array.reshape((header.rows, header.cols))
-        # TODO: Need to test this with SPEC.
-        # I am not sure whether SPEC would send a 0 or 1 for the other dimension of a 1D array.
-        # Based on the old pyspec impl, it looks like vectors are always row vectors.
-        # So if we have rows == 1, we flatten to 1D.
-        if header.rows == 1:
-            array = array.flatten()
-        return array
-
-
 def serialize(
     header: Header,
     data: DataType,
@@ -422,7 +381,7 @@ def serialize(
 
         rows, cols = data.shape
         if data_type == Type.ARR_STRING:
-            data_bytes = encode_numpy_string_array(data)
+            data_bytes = _encode_numpy_string_array(data)
         else:
             # Make sure the data is encoded in the right format.
             # This is not relevant for string arrays.
@@ -457,4 +416,43 @@ def serialize(
             name=header.name.encode("utf-8").ljust(NAME_LEN, b"\x00"),
         ),
         data_bytes,
+    )
+
+
+def short_str(header: HeaderStruct, data: DataType) -> str:
+    cmd = Command(header.command)
+    match cmd:
+        case Command.HELLO:
+            return f"{cmd.name}(seq={header.sequence_number})"
+        case Command.HELLO_REPLY:
+            return f"{cmd.name}(seq={header.sequence_number})"
+        case Command.CMD | Command.FUNC:
+            return f"{cmd.name}(`{data}`)"
+        case Command.CMD_WITH_RETURN | Command.FUNC_WITH_RETURN:
+            return f"{cmd.name}(`{data}`, seq={header.sequence_number})"
+        case Command.CHAN_SEND:
+            return f"{cmd.name}(`{header.name}`, seq={header.sequence_number})"
+        case Command.REGISTER | Command.UNREGISTER:
+            return f"{cmd.name}(`{header.name}`)"
+        case Command.EVENT:
+            return f"{cmd.name}(`{header.name}`)"
+        case Command.REPLY:
+            return f"{cmd.name}(seq={header.sequence_number})"
+        case Command.CLOSE | Command.ABORT:
+            return f"{cmd.name}"
+        case Command.RETURN:
+            # This is unused in the current version of SPEC.
+            # So the semantics are not defined.
+            return f"{cmd.name}(seq={header.sequence_number})"
+        case _:
+            return f"{cmd.name}(seq={header.sequence_number})"
+
+
+def long_str(header: HeaderStruct, data: DataType) -> str:
+    cmd = Command(header.command)
+    _type = Type(header.data_type)
+    return (
+        f"<HeaderV{header.version} cmd={cmd.name} type={_type.name} name='{header.name}' "
+        f"seq={header.sequence_number} rows={header.rows} cols={header.cols} len={header.len} "
+        f"data={data}>"
     )

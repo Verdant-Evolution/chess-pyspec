@@ -11,9 +11,8 @@ import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
 
 from .connection import Connection
-from .data import DataType, ErrorStr, Type
+from .data import DataType, ErrorStr
 from .protocol import Command, Header
-
 
 LAST_SEQUENCE_NUMBER = 0
 
