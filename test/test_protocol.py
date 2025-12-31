@@ -2,198 +2,166 @@ import ctypes
 import pytest
 import struct
 import numpy as np
-from pyspec._connection.header import (
-    HeaderV2,
-    HeaderV3,
-    HeaderV4,
+from pyspec._connection.protocol import (
+    Header,
     Command,
     Type,
-    NAME_LEN,
+    serialize,
+    _read_one_message,
+    NATIVE_ENDIANNESS,
 )
-from pyspec._connection.data import AssociativeArray, DataType, ErrorStr
-
-# Helper to create a header and serialize/deserialize data
-
-
-def test_header_v2_serialization():
-    header = HeaderV2(cmd=Command.CMD, name="test", sequence_number=1)
-
-    data = 3.14159
-    data_bytes = header.prep_self_and_serialize_data(data)
-    assert header.type == Type.DOUBLE
-    assert header.len == len(data_bytes)
-
-    header_bytes = bytes(header)
-    assert len(header_bytes) == header.size
-
-    # Now deserialize
-    header = HeaderV2.from_buffer_copy(header_bytes)
-    value = header.deserialize_data(data_bytes)
-    assert pytest.approx(value, 1e-6) == data
-    assert header.name == "test"
-    assert header.cmd == Command.CMD
-    assert header.sequence_number == 1
-    assert header.rows == 0
-    assert header.cols == 0
-    assert header.len == struct.calcsize("d")
-    assert header.type == Type.DOUBLE
+from pyspec._connection.data import AssociativeArray, ErrorStr
+import asyncio
+import itertools
 
 
-def test_header_v3_serialization():
-    header = HeaderV3(cmd=Command.CMD, name="test", sequence_number=1)
-
-    data = 3.14159
-    data_bytes = header.prep_self_and_serialize_data(data)
-    assert header.type == Type.DOUBLE
-    assert header.len == len(data_bytes)
-
-    header_bytes = bytes(header)
-    assert len(header_bytes) == header.size
-
-    # Now deserialize
-    header = HeaderV3.from_buffer_copy(header_bytes)
-    value = header.deserialize_data(data_bytes)
-    assert pytest.approx(value, 1e-6) == data
-    assert header.name == "test"
-    assert header.cmd == Command.CMD
-    assert header.sequence_number == 1
-    assert header.rows == 0
-    assert header.cols == 0
-    assert header.len == struct.calcsize("d")
-    assert header.type == Type.DOUBLE
+async def read_one_message(
+    msg: bytes,
+):
+    stream = asyncio.StreamReader()
+    stream.feed_data(msg)
+    stream.feed_eof()
+    return await _read_one_message(stream)
 
 
-def test_header_v4_serialization():
-    header = HeaderV4(cmd=Command.CMD, name="test", sequence_number=1)
+@pytest.mark.asyncio
+async def test_string_serialization():
+    header = Header(Command.CMD, 0, "here is a name or something!")
+    data = "some data"
 
-    data = 3.14159
-    data_bytes = header.prep_self_and_serialize_data(data)
-    assert header.type == Type.DOUBLE
-    assert header.len == len(data_bytes)
+    header_struct, data_bytes = serialize(header, data)
 
-    header_bytes = bytes(header)
-    assert len(header_bytes) == header.size
+    read_header, read_data, endianness = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
 
-    # Now deserialize
-    header = HeaderV4.from_buffer_copy(header_bytes)
-    value = header.deserialize_data(data_bytes)
-    assert pytest.approx(value, 1e-6) == data
-    assert header.name == "test"
-    assert header.cmd == Command.CMD
-    assert header.sequence_number == 1
-    assert header.rows == 0
-    assert header.cols == 0
-    assert header.len == struct.calcsize("d")
-    assert header.type == Type.DOUBLE
+    assert read_header.command == header.command
+    assert read_header.name == header.name
+    assert read_data == data
+    assert endianness == NATIVE_ENDIANNESS
 
 
-def test_header_v3_string_serialization():
-    header = HeaderV3(cmd=Command.CMD, name="strtest")
-    data = "hello world"
-    data_bytes = header.prep_self_and_serialize_data(data)
-    assert header.type == Type.STRING
-    value = header.deserialize_data(data_bytes)
-    assert value == data
-
-
-def test_header_v4_array_serialization():
-    arr = np.array([[1, 2], [3, 4]], dtype=np.int32)
-    header = HeaderV4(cmd=Command.CMD, name="arrtest")
-    data_bytes = header.prep_self_and_serialize_data(arr)
-    assert header.type == Type.ARR_LONG
-    assert header.rows == 2
-    assert header.cols == 2
-    arr2 = header.deserialize_data(data_bytes)
-    assert isinstance(arr2, np.ndarray)
-    assert np.array_equal(arr, arr2)
-
-
-def test_associative_array_serialization():
+@pytest.mark.asyncio
+async def test_associative_array_serialization():
     aa = AssociativeArray()
-    aa.data = {}
-    aa["key1"] = "value1"
-    aa["key2"] = "value2"
-    aa["key2", "sub"] = 42
-    b = aa.serialize()
-    aa2 = AssociativeArray.deserialize(b)
-    assert aa2.data["key1\x1c"] == "value1"
-    assert aa2.data["key2\x1c"] == "value2"
-    assert aa2.data["key2\x1csub"] == 42
+    aa["one"] = "now"
+    aa["three"] = "the"
+    aa["three", "0"] = "time"
+    aa["two"] = "is"
+
+    header = Header(Command.CMD, 0, "assoc array test")
+    header_struct, data_bytes = serialize(header, aa)
+
+    read_header, read_data, endianness = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header.command == header.command
+    assert read_header.name == header.name
+    assert isinstance(read_data, AssociativeArray)
+    assert read_data["one"] == "now"
+    assert read_data["two"] == "is"
+    assert read_data["three"] == "the"
+    assert read_data["three", "0"] == "time"
 
 
-def test_header_v2_error_type_serialization():
-    header = HeaderV2(cmd=Command.CMD, name="none")
-    data = ErrorStr("An error occurred")
-    data_bytes = header.prep_self_and_serialize_data(data)
-    assert header.type == Type.ERROR
-    value = header.deserialize_data(data_bytes)
-    assert value == data
+Endianness = [
+    "<",
+    ">",
+]
+
+DTypes = [
+    np.uint8,
+    np.int8,
+    np.uint16,
+    np.int16,
+    np.uint32,
+    np.int32,
+    np.float32,
+    np.float64,
+]
 
 
-def test_header_v2_array_1d_serialization():
-    arr = np.array([1.5, 2.5, 3.5], dtype=np.float64)
-    header = HeaderV2(cmd=Command.CMD, name="array1d")
-    data_bytes = header.prep_self_and_serialize_data(arr)
-    assert header.type == Type.ARR_DOUBLE
-    arr2 = header.deserialize_data(data_bytes)
-    assert isinstance(arr2, np.ndarray)
-    assert np.array_equal(arr, arr2)
+@pytest.mark.parametrize(
+    "endianness, dtype",
+    itertools.product(Endianness, DTypes),
+)
+@pytest.mark.asyncio
+async def test_numpy_array_serialization(endianness, dtype):
+    array = np.array([[1, 2, 3], [4, 5, 6]], dtype=dtype)
+    header = Header(Command.CMD, 1, f"numpy array test {dtype}")
+    header_struct, data_bytes = serialize(header, array, endianness=endianness)
+
+    assert header_struct.data_type == Type.from_numpy_type(array.dtype).value
+    read_header, read_data, read_endianness = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert read_endianness == endianness
+    assert isinstance(read_data, np.ndarray)
+    np.testing.assert_array_equal(read_data, array)
 
 
-def test_header_v2_string_array():
-    arr = np.array([["alpha", "beta", "gamma"], ["delta", "epsilon", "zeta"]])
-    header = HeaderV2(Command.CMD)
-    data_bytes = header.prep_self_and_serialize_data(arr)
-    assert header.name == ""
-    assert header.rows == 2
-    assert header.cols == 3
-    assert header.type == Type.ARR_STRING
-    value = header.deserialize_data(data_bytes)
-    assert isinstance(value, np.ndarray)
-    assert np.array_equal(value, arr)
+@pytest.mark.asyncio
+async def test_error_string_serialization():
+    error_message = ErrorStr("This is an error.")
+
+    header = Header(Command.CMD, 0, "error string test")
+    header_struct, data_bytes = serialize(header, error_message)
+
+    read_header, read_data, _ = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert isinstance(read_data, ErrorStr)
+    assert read_data == error_message
 
 
-def test_header_v2_array_unsupported_ndim():
-    arr = np.zeros((2, 2, 2), dtype=np.float32)
-    header = HeaderV2(cmd=Command.CMD, name="badarray")
-    with pytest.raises(ValueError):
-        header.prep_self_and_serialize_data(arr)
+@pytest.mark.asyncio
+async def test_empty_data_serialization():
+    header = Header(Command.CMD, 0, "empty data test")
+    data = None
+
+    header_struct, data_bytes = serialize(header, data)
+
+    read_header, read_data, _ = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    # For empty data, we expect an empty string
+    assert read_data == ""
 
 
-def test_header_v2_unsupported_type():
-    header = HeaderV2(cmd=Command.CMD, name="unsupported")
+@pytest.mark.asyncio
+async def test_float_data_serialization():
+    float_data = 3.14159
 
-    class Dummy:
-        pass
+    header = Header(Command.CMD, 0, "float data test")
+    header_struct, data_bytes = serialize(header, float_data)
 
-    dummy = Dummy()
-    with pytest.raises(ValueError):
-        header.prep_self_and_serialize_data(dummy)  # type: ignore
+    read_header, read_data, _ = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
 
-
-def test_header_v2_deserialize_wrong_type():
-    header = HeaderV2(cmd=Command.CMD, name="wrongtype")
-    header.type = Type.STRING
-    with pytest.raises(UnicodeDecodeError):
-        # Pass invalid bytes for string
-        header.deserialize_data(b"\xff\xff\xff")
+    assert read_header == header
+    assert isinstance(read_data, float)
+    assert read_data == float_data
 
 
-def test_header_name_length():
-    header = HeaderV2(cmd=Command.CMD, name="a" * NAME_LEN)
-    assert header.name == "a" * NAME_LEN
-    with pytest.raises(ValueError):
-        HeaderV2(cmd=Command.CMD, name="b" * (NAME_LEN + 1))
+@pytest.mark.asyncio
+async def test_int_data_serialization():
+    int_data = 42
 
+    header = Header(Command.REPLY, 0, "int data test")
+    header_struct, data_bytes = serialize(header, int_data)
 
-def test_number_serialization():
-    header = HeaderV4(cmd=Command.CMD, name="number")
-    numbers = [42, 3.14, -7, 0.001]
-    for number in numbers:
-        data_bytes = header.prep_self_and_serialize_data(number)
-        if isinstance(number, int):
-            assert header.type == Type.STRING
-        else:
-            assert header.type == Type.DOUBLE
-        value = header.deserialize_data(data_bytes)
-        assert value == number
+    read_header, read_data, _ = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert isinstance(read_data, int)
+    assert read_data == int_data

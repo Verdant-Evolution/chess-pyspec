@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import sys
 from enum import Enum
 from typing import Iterable, Literal, TypeVar, Union
 
 import numpy as np
+
+NATIVE_ENDIANNESS = "<" if sys.byteorder == "little" else ">"
 
 
 class ErrorStr(str): ...
@@ -44,9 +47,13 @@ class Type(Enum):
             Type.ARR_STRING,
         }
 
-    def to_numpy_type(self) -> np.dtype:
+    def to_numpy_type(
+        self, endianness: Literal["<", ">"] = NATIVE_ENDIANNESS
+    ) -> np.dtype:
         if self in ARRAY_TYPE_TO_NUMERIC_DTYPE:
-            return ARRAY_TYPE_TO_NUMERIC_DTYPE[self]
+            return with_endianness(
+                ARRAY_TYPE_TO_NUMERIC_DTYPE[self], endianness=endianness
+            )
         else:
             raise ValueError(f"Type {self} is not an array type.")
 
@@ -65,6 +72,10 @@ class Type(Enum):
 
 
 DtypeStr = Literal["float", "int", "uint"]
+
+
+def with_endianness(dtype: np.dtype, endianness: Literal["<", ">"]) -> np.dtype:
+    return np.dtype(endianness + dtype.str[1:])
 
 
 def is_signed_int(dtype: np.dtype) -> bool:

@@ -9,7 +9,7 @@ from pyee.asyncio import AsyncIOEventEmitter
 
 from .connection import Connection
 from .data import DataType, ErrorStr
-from .header import Command, HeaderV4
+from .protocol import Command, Header
 
 
 class ServerConnectionEventEmitter(AsyncIOEventEmitter):
@@ -225,7 +225,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
         """
 
-        match msg.header.cmd:
+        match msg.header.command:
             case Command.CLOSE:
                 self.emit("close")
             case Command.ABORT:
@@ -250,7 +250,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
                     raise TypeError(
                         f"Expected command data to be str, got {type(msg.data)}"
                     )
-                match msg.header.cmd:
+                match msg.header.command:
                     case Command.CMD:
                         self.emit("remote-cmd-no-return", msg.data)
                     case Command.CMD_WITH_RETURN:
@@ -260,7 +260,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
                     case Command.FUNC_WITH_RETURN:
                         self.emit("remote-func", msg.header.sequence_number, msg.data)
             case _:
-                raise ValueError(f"Unknown command: {msg.header.cmd}")
+                raise ValueError(f"Unknown command: {msg.header.command}")
 
     async def prop_send(self, property: str, value) -> None:
         """
@@ -268,7 +268,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         There is nothing to prevent a user-level call of prop_send() from generating events for built-in properties,
         although that may lead to an unexpected client response.
         """
-        await self._send(HeaderV4(Command.EVENT, name=property), data=value)
+        await self._send(Header(Command.EVENT, name=property), data=value)
 
     async def serve_forever(self) -> None:
         """
@@ -284,7 +284,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         Sends a reply to a remote command or function call.
         """
         await self._send(
-            HeaderV4(Command.REPLY, sequence_number=sequence_number), data=data
+            Header(Command.REPLY, sequence_number=sequence_number), data=data
         )
 
     async def reply_error(self, sequence_number: int, error_message: str) -> None:
@@ -292,7 +292,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         Sends an error reply to a remote command or function call.
         """
         await self._send(
-            HeaderV4(Command.REPLY, sequence_number=sequence_number),
+            Header(Command.REPLY, sequence_number=sequence_number),
             data=ErrorStr(error_message),
         )
 
@@ -316,4 +316,4 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Sends a HELLO_REPLY to the client in response to a HELLO command.
         """
-        await self._send(HeaderV4(Command.HELLO_REPLY, sequence_number=sequence_number))
+        await self._send(Header(Command.HELLO_REPLY, sequence_number=sequence_number))

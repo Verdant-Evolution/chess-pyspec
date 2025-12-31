@@ -4,12 +4,17 @@ import asyncio
 import ctypes
 import logging
 from dataclasses import dataclass
-from typing import TypeVar, overload
+from typing import Literal, TypeVar, overload
 
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
-from .header import DataType, Header, HeaderPrefix, HeaderV2, HeaderV3, HeaderV4
+from .protocol import (
+    DataType,
+    Header,
+    message_stream,
+)
+from . import protocol
 
 LOGGER = logging.getLogger("pyspec.connection")
 
@@ -100,6 +105,16 @@ class Connection(AsyncIOEventEmitter):
         self._listener: asyncio.Task | None = None
         self.logger = LOGGER.getChild(f"{self.host}:{self.port}")
 
+        self._peer_endianness: Literal["<", ">"] | None = None
+        """
+        Keeps track of the endianness of the remote connection.
+        Endianness is determined by looking at the magic number in the header of incoming messages.
+        If None, endianness has not yet been determined, and messages will be sent with native endianness.
+
+        If set, all messages sent along this connection will use the determined endianness.
+        A warning will be logged if the endianness is changed mid-connection.
+        """
+
     @property
     def is_connected(self) -> bool:
         """Returns True if the connection is established and open."""
@@ -126,68 +141,25 @@ class Connection(AsyncIOEventEmitter):
 
     async def _send(self, header: Header, data: DataType = None) -> None:
         """Sends a message to the connected server."""
-        data_bytes = header.prep_self_and_serialize_data(data)
-        self.logger.info("Sending: %s", header.short_str(data))
-        self.logger.debug("Detail: %s", header.long_str(data))
-        await self.__send(bytes(header))
+        header_struct, data_bytes = protocol.serialize(
+            header, data, self._peer_endianness
+        )
+        self.logger.info("Sending: %s", protocol.short_str(header_struct, data))
+        self.logger.debug("Detail: %s", protocol.long_str(header_struct, data))
+        await self.__send(bytes(header_struct))
         if data_bytes:
             await self.__send(data_bytes)
 
     async def _listen(self):
         """Listens for raw data from the connected server."""
         assert self._reader is not None, "Connection is not established."
-        while True:
-            try:
-                header = await self._read_header(self._reader)
-            except asyncio.IncompleteReadError:
-                self.logger.info("Connection closed by remote host")
-                self.emit("close")
-                break
-            self.logger.debug("Received header: %s", header)
-            data = await self._read_data(self._reader, header)
-            self.logger.debug("Received data: %s", data)
-            self.logger.info("Received: %s", header.short_str(data))
+        async for header, data, endianness in message_stream(self._reader, self.logger):
+            if self._peer_endianness is not None:
+                if self._peer_endianness != endianness:
+                    self.logger.warning(
+                        "Endianness changed mid-connection from %s to %s",
+                        self._peer_endianness,
+                        endianness,
+                    )
+            self._peer_endianness = endianness
             self.emit("message", Connection.Message(header, data))
-
-    async def _read_header(
-        self,
-        stream: asyncio.StreamReader,
-    ) -> Header:
-        """Reads a message header from the stream."""
-        prefix = await read_struct(stream, HeaderPrefix)
-        prefix.vers
-
-        if prefix.vers == 2:
-            return await read_struct(stream, HeaderV2, prefix=bytes(prefix))
-        elif prefix.vers == 3:
-            return await read_struct(stream, HeaderV3, prefix=bytes(prefix))
-        elif prefix.vers == 4:
-            return await read_struct(stream, HeaderV4, prefix=bytes(prefix))
-
-        raise ValueError(f"Unsupported header version: {prefix.vers}")
-
-    async def _read_data(
-        self,
-        stream: asyncio.StreamReader,
-        header: Header,
-    ) -> DataType:
-        """Deserialize data from the stream based on the provided header."""
-        return header.deserialize_data(await stream.readexactly(header.len))
-
-
-async def read_struct(
-    stream: asyncio.StreamReader,
-    struct_type: type[T],
-    prefix: bytes = b"",
-) -> T:
-    """
-    Reads a ctypes structure from the stream.
-
-    Args:
-        stream (asyncio.StreamReader): The stream to read from.
-        struct_type (type[T]): The ctypes structure type to read.
-        prefix (bytes, optional): Any bytes that have already been read for the structure. Defaults to b"".
-    """
-    return struct_type.from_buffer_copy(
-        prefix + await stream.readexactly(ctypes.sizeof(struct_type) - len(prefix))
-    )

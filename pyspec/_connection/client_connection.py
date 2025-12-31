@@ -11,8 +11,8 @@ import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
 
 from .connection import Connection
-from .data import DataType, Type
-from .header import Command, Header, HeaderV4
+from .data import DataType, ErrorStr, Type
+from .protocol import Command, Header
 
 
 LAST_SEQUENCE_NUMBER = 0
@@ -157,11 +157,11 @@ class ClientConnection(
         """
         Given a received message, emit the appropriate typed event based on the message command.
         """
-        if msg.header.cmd == Command.EVENT:
+        if msg.header.command == Command.EVENT:
             self.emit("property-change", msg.header.name, msg.data)
-        elif msg.header.cmd == Command.HELLO_REPLY:
+        elif msg.header.command == Command.HELLO_REPLY:
             self.emit("hello-reply")
-        elif msg.header.cmd == Command.REPLY:
+        elif msg.header.command == Command.REPLY:
             self.emit(f"reply-{msg.header.sequence_number}", msg.data)
 
     async def __aenter__(self) -> ClientConnection:
@@ -170,10 +170,10 @@ class ClientConnection(
 
         self.logger.info("Connected")
 
-        response = await self._send_with_reply(HeaderV4(Command.HELLO))
-        if response.header.cmd != Command.HELLO_REPLY:
+        response = await self._send_with_reply(Header(Command.HELLO))
+        if response.header.command != Command.HELLO_REPLY:
             raise RuntimeError(
-                f"Expected HELLO_REPLY from server. Received: {response.header.cmd}"
+                f"Expected HELLO_REPLY from server. Received: {response.header.command}"
             )
 
         return self
@@ -182,7 +182,7 @@ class ClientConnection(
         await super().__aexit__(exc_type, exc, tb)
 
         if self.is_connected:
-            await self._send(HeaderV4(Command.CLOSE))
+            await self._send(Header(Command.CLOSE))
         if self._writer:
             self._writer.close()
             await self._writer.wait_closed()
@@ -203,10 +203,9 @@ class ClientConnection(
         )
         await self._send(header, data)
         msg: Connection.Message = await response
-        if msg.header.type == Type.ERROR:
+        if isinstance(msg.data, ErrorStr):
             self.logger.error(
-                "Received %s reply for sequence number %d",
-                msg.header.type,
+                "Received ERROR reply for sequence number %d",
                 sequence_number,
             )
             error_message = msg.data if isinstance(msg.data, str) else "Unknown error"
@@ -224,9 +223,7 @@ class ClientConnection(
         Raises:
             RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
-        return (
-            await self._send_with_reply(HeaderV4(Command.CHAN_READ, name=prop))
-        ).data
+        return (await self._send_with_reply(Header(Command.CHAN_READ, name=prop))).data
 
     async def prop_set(self, prop: str, value: DataType) -> None:
         """
@@ -240,7 +237,7 @@ class ClientConnection(
         Raises:
             RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
-        await self._send(HeaderV4(Command.CHAN_SEND, name=prop), data=value)
+        await self._send(Header(Command.CHAN_SEND, name=prop), data=value)
 
     async def prop_watch(self, prop: str) -> None:
         """
@@ -265,14 +262,14 @@ class ClientConnection(
         the elements are explicitly assigned values on the server,
         not when the values change by way of built-in code, such as from calcA, getangles or getcounts.
         """
-        await self._send(HeaderV4(Command.REGISTER, name=prop))
+        await self._send(Header(Command.REGISTER, name=prop))
 
     async def prop_unwatch(self, prop: str) -> None:
         """
         Unregisters property on the remote host.
         The remote host will no longer send events to the client when the property value changes.
         """
-        await self._send(HeaderV4(Command.UNREGISTER, name=prop))
+        await self._send(Header(Command.UNREGISTER, name=prop))
 
     async def abort(self) -> None:
         """
@@ -280,7 +277,7 @@ class ClientConnection(
         This has the same effect on the remote host as a ^C from the keyboard.
         Any pending commands in the server queue from the client will be removed.
         """
-        await self._send(HeaderV4(Command.ABORT))
+        await self._send(Header(Command.ABORT))
 
     async def remote_cmd_no_return(self, cmd: str) -> None:
         """
@@ -290,7 +287,7 @@ class ClientConnection(
         Args:
             cmd (str): The command string to send to the remote host. e.g. "1+1"
         """
-        await self._send(HeaderV4(Command.CMD), data=cmd)
+        await self._send(Header(Command.CMD), data=cmd)
 
     async def remote_cmd(self, cmd: str) -> DataType:
         """
@@ -304,7 +301,7 @@ class ClientConnection(
             DataType: The result of the command execution from the remote host.
         """
         return (
-            await self._send_with_reply(HeaderV4(Command.CMD_WITH_RETURN), data=cmd)
+            await self._send_with_reply(Header(Command.CMD_WITH_RETURN), data=cmd)
         ).data
 
     async def remote_func_no_return(self, func: str, *args) -> None:
@@ -317,7 +314,7 @@ class ClientConnection(
             *args: The arguments to pass to the function. These will all be converted to strings before sending.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
-        await self._send(HeaderV4(Command.FUNC), data=func_string)
+        await self._send(Header(Command.FUNC), data=func_string)
 
     async def remote_func(self, func: str, *args) -> DataType:
         """
@@ -334,7 +331,7 @@ class ClientConnection(
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
         return (
             await self._send_with_reply(
-                HeaderV4(Command.FUNC_WITH_RETURN), data=func_string
+                Header(Command.FUNC_WITH_RETURN), data=func_string
             )
         ).data
 
@@ -354,7 +351,7 @@ class ClientConnection(
 
         try:
             await asyncio.wait_for(
-                self._send_with_reply(HeaderV4(Command.HELLO)),
+                self._send_with_reply(Header(Command.HELLO)),
                 timeout=timeout,
             )
             return True
