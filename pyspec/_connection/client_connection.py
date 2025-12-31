@@ -11,8 +11,9 @@ import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
 
 from .connection import Connection
-from .data_types import DataType, Type
-from .message import Command, Header, HeaderV4
+from .data import DataType, Type
+from .header import Command, Header, HeaderV4
+
 
 LAST_SEQUENCE_NUMBER = 0
 
@@ -23,7 +24,7 @@ class RemoteException(Exception):
 
 def get_next_sequence_number() -> int:
     """
-    Loops throuhg a uint32 sequence number for messages.
+    Loops through a uint32 sequence number for messages.
     0 is reserved for messages that do not expect a reply.
     1-4294967295 are valid sequence numbers.
     """
@@ -138,6 +139,14 @@ class ClientConnection(
     ClientConnectionEventEmitter,
     IndexedSingleton,
 ):
+    """
+    ClientConnection represents a connection to a remote Spec server.
+
+    It provides methods to interact with the server, including reading and writing properties,
+    executing commands and functions, and handling events.
+
+    """
+
     def __init__(self, host: str, port: int) -> None:
         Connection.__init__(self, host, port)
         self.on("message", self._dispatch_typed_message_events)

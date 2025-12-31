@@ -10,7 +10,7 @@ from typing import Any, Callable, Generic, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
-from pyspec._connection.data_types import DataType
+from pyspec._connection.data import DataType
 from pyspec._remote_function import (
     SyncOrAsyncCallable,
     is_remote_function,

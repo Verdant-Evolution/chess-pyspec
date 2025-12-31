@@ -9,7 +9,7 @@ from typing import TypeVar, overload
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
-from .message import DataType, Header, HeaderPrefix, HeaderV2, HeaderV3, HeaderV4
+from .header import DataType, Header, HeaderPrefix, HeaderV2, HeaderV3, HeaderV4
 
 LOGGER = logging.getLogger("pyspec.connection")
 

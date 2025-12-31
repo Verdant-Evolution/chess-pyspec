@@ -8,8 +8,8 @@ from typing import Any, Awaitable, Callable, Literal, overload
 from pyee.asyncio import AsyncIOEventEmitter
 
 from .connection import Connection
-from .data_types import DataType, ErrorStr
-from .message import Command, HeaderV4
+from .data import DataType, ErrorStr
+from .header import Command, HeaderV4
 
 
 class ServerConnectionEventEmitter(AsyncIOEventEmitter):

@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 from typing import Any, Callable, Coroutine, TypeVar
 
-from pyspec._connection.data_types import DataType
+from pyspec._connection.data import DataType
 
 SyncOrAsyncCallable = (
     Callable[..., DataType] | Callable[..., Coroutine[Any, Any, DataType]]

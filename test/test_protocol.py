@@ -2,7 +2,7 @@ import ctypes
 import pytest
 import struct
 import numpy as np
-from pyspec._connection.message import (
+from pyspec._connection.header import (
     HeaderV2,
     HeaderV3,
     HeaderV4,
@@ -10,7 +10,7 @@ from pyspec._connection.message import (
     Type,
     NAME_LEN,
 )
-from pyspec._connection.data_types import AssociativeArray, DataType, ErrorStr
+from pyspec._connection.data import AssociativeArray, DataType, ErrorStr
 
 # Helper to create a header and serialize/deserialize data
 

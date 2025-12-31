@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Iterable, Literal, TypeVar, Union, overload
+from typing import Iterable, Literal, TypeVar, Union
 
 import numpy as np
 
@@ -10,28 +10,6 @@ class ErrorStr(str): ...
 
 
 DataType = Union[np.ndarray, str, float, "AssociativeArray", ErrorStr, None]
-
-
-def is_signed_int(dtype: np.dtype) -> bool:
-    return np.issubdtype(dtype, np.signedinteger)
-
-
-def is_floating_point(dtype: np.dtype) -> bool:
-    return np.issubdtype(dtype, np.floating)
-
-
-DtypeStr = Literal["float", "int", "uint"]
-
-
-def dtype_str(dtype: np.dtype) -> DtypeStr:
-    if is_floating_point(dtype):
-        return "float"
-    elif is_signed_int(dtype):
-        return "int"
-    elif np.issubdtype(dtype, np.unsignedinteger):
-        return "uint"
-    else:
-        raise ValueError(f"Unsupported dtype: {dtype}")
 
 
 class Type(Enum):
@@ -86,17 +64,39 @@ class Type(Enum):
         raise ValueError(f"Unsupported numpy dtype: {dtype}")
 
 
+DtypeStr = Literal["float", "int", "uint"]
+
+
+def is_signed_int(dtype: np.dtype) -> bool:
+    return np.issubdtype(dtype, np.signedinteger)
+
+
+def is_floating_point(dtype: np.dtype) -> bool:
+    return np.issubdtype(dtype, np.floating)
+
+
+def dtype_str(dtype: np.dtype) -> DtypeStr:
+    if is_floating_point(dtype):
+        return "float"
+    elif is_signed_int(dtype):
+        return "int"
+    elif np.issubdtype(dtype, np.unsignedinteger):
+        return "uint"
+    else:
+        raise ValueError(f"Unsupported dtype: {dtype}")
+
+
 NUMERIC_DTYPE_TO_TYPE: dict[tuple[DtypeStr, int], Type] = {
-    ("float", 4): Type.ARR_FLOAT,
-    ("float", 8): Type.ARR_DOUBLE,
     ("int", 1): Type.ARR_CHAR,
     ("uint", 1): Type.ARR_UCHAR,
     ("int", 2): Type.ARR_SHORT,
     ("uint", 2): Type.ARR_USHORT,
     ("int", 4): Type.ARR_LONG,
     ("uint", 4): Type.ARR_ULONG,
+    ("float", 4): Type.ARR_FLOAT,
     ("int", 8): Type.ARR_LONG64,
     ("uint", 8): Type.ARR_ULONG64,
+    ("float", 8): Type.ARR_DOUBLE,
 }
 ARRAY_TYPE_TO_NUMERIC_DTYPE: dict[Type, np.dtype] = {
     Type.ARR_FLOAT: np.dtype(np.float32),

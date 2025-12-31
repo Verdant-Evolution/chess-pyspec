@@ -6,7 +6,7 @@ from typing import Generic, Literal, TypeVar, Union
 import numpy as np
 
 from .command import Command
-from .data_types import AssociativeArray, DataType, ErrorStr, Type, try_cast
+from .data import AssociativeArray, DataType, ErrorStr, Type, try_cast
 
 T = TypeVar("T", bound=Literal[2, 3, 4])
 

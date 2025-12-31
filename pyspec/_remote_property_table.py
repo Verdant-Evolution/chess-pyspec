@@ -11,7 +11,7 @@ from typing import AsyncIterator, Awaitable, Callable, Generic, Literal, TypeVar
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
-from pyspec._connection.data_types import DataType
+from pyspec._connection.data import DataType
 
 from ._connection import ClientConnection
 

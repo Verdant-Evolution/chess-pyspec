@@ -5,7 +5,7 @@ from typing import TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
-from pyspec._connection.data_types import DataType
+from pyspec._connection.data import DataType
 from pyspec._motor import Motor
 from pyspec._remote_property_table import RemotePropertyTable
 from pyspec._status import Status
