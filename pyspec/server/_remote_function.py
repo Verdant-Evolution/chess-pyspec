@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import asyncio
+import logging
 import ast
 from typing import Any, Callable, Coroutine, TypeVar
 
 from pyspec._connection.data import DataType
+
+LOGGER = logging.getLogger("pyspec.server")
 
 SyncOrAsyncCallable = (
     Callable[..., DataType] | Callable[..., Coroutine[Any, Any, DataType]]
@@ -53,3 +57,19 @@ def build_remote_function_string(
     """Build a remote function call string from its name and arguments."""
     args_str = ", ".join(repr(arg) for arg in args)
     return f"{function_name}({args_str})"
+
+
+def remote_function(function: F) -> F:
+    # TODO: Need to figure out how to type this properly
+    # Since the client will only give you strs.
+    """
+    Decorator to mark a function as remotely callable.
+    """
+    mark_remote_function(function)
+    if not asyncio.iscoroutinefunction(function):
+        LOGGER.warning(
+            "Remote function '%s' is not asynchronous. "
+            "Consider making it async for better performance.",
+            function.__name__,
+        )
+    return function

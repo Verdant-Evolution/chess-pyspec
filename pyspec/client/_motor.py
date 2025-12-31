@@ -1,8 +1,5 @@
-from contextlib import contextmanager
-from typing import Coroutine
-import asyncio
+from pyspec._connection import ClientConnection
 
-from ._connection import ClientConnection
 from ._remote_property_table import PropertyGroup, RemotePropertyTable
 
 

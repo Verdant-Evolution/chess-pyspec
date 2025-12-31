@@ -6,26 +6,23 @@ import logging
 import threading
 from collections import defaultdict
 from contextlib import contextmanager
-from typing import Any, Callable, Generic, TypeVar
+from typing import Any, Callable, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
 from pyspec._connection.data import DataType
-from pyspec._remote_function import (
+from pyspec.server._motor import Motor
+from pyspec.server._remote_property import Property
+from ._remote_function import (
     SyncOrAsyncCallable,
     is_remote_function,
-    mark_remote_function,
     parse_remote_function_string,
     remote_function_name,
 )
 
-from ._connection import ServerConnection
+from .._connection import ServerConnection
 
 LOGGER = logging.getLogger("pyspec.server")
-
-
-T = TypeVar("T", bound=DataType)
-F = TypeVar("F", bound=SyncOrAsyncCallable)
 
 
 class Singleton:
@@ -49,54 +46,6 @@ class ServerException(Exception):
 
 class Server(AsyncIOEventEmitter, Singleton):
 
-    class Property(Generic[T], AsyncIOEventEmitter):
-        """
-        Defines a property that can be remotely accessed by clients.
-
-        Args:
-            name (str): The name of the property.
-            initial_value (T): The initial value of the property.
-            dtype (type[T], optional): The expected data type of the property. Defaults to object (no validation).
-        """
-
-        def __init__(
-            self,
-            name: str,
-            initial_value: T,
-            dtype: type[T] | type[object] = object,
-        ):
-            super().__init__()
-            self.name = name
-            self._value: T = initial_value
-            self._dtype = dtype
-
-        def get(self) -> T:
-            return self._value
-
-        def set(self, value: T) -> None:
-            if not isinstance(value, self._dtype):
-                raise TypeError(
-                    f"Expected data of type {self._dtype}, got {type(value)}"
-                )
-            self._value = value
-            self.emit("set", value)
-
-    @staticmethod
-    def remote_function(function: F) -> F:
-        # TODO: Need to figure out how to type this properly
-        # Since the client will only give you strs.
-        """
-        Decorator to mark a function as remotely callable.
-        """
-        mark_remote_function(function)
-        if not asyncio.iscoroutinefunction(function):
-            LOGGER.warning(
-                "Remote function '%s' is not asynchronous. "
-                "Consider making it async for better performance.",
-                function.__name__,
-            )
-        return function
-
     def __init__(
         self, host: str = "localhost", port: int | None = None, test_mode: bool = False
     ):
@@ -116,6 +65,14 @@ class Server(AsyncIOEventEmitter, Singleton):
                 "Server is running in TEST MODE. Arbitrary code execution is allowed."
             )
 
+    def install_motor(self, motor: Motor):
+        # TODO: implement
+        ...
+
+    def uninstall_motor(self, motor_name: str):
+        # TODO: implement
+        ...
+
     def _build_remote_function_table(self):
         """
         Builds the table of remote functions by inspecting the Server instance for
@@ -132,7 +89,7 @@ class Server(AsyncIOEventEmitter, Singleton):
 
     def _register_properties(self):
         """
-        Registers all Server.Property attributes found on the Server instance.
+        Registers all Property attributes found on the Server instance.
         This method sets up listeners to broadcast property changes to connected clients.
         """
 
@@ -141,14 +98,14 @@ class Server(AsyncIOEventEmitter, Singleton):
                 self.broadcast_property(property_name, value)
             )
 
-        remote_properties: dict[str, Server.Property[Any]] = {}
-        for attr_name, attr in inspect.getmembers(self):
-            if isinstance(attr, Server.Property):
+        remote_properties: dict[str, Property[Any]] = {}
+        for attr_name, prop in inspect.getmembers(self):
+            if isinstance(prop, Property):
                 LOGGER.debug(
-                    "Registering remote property: `%s` at `%s`", attr_name, attr.name
+                    "Registering remote property: `%s` at `%s`", attr_name, prop.name
                 )
-                attr.on("set", make_broadcaster(attr.name))
-                remote_properties[attr.name] = attr
+                prop.on("change", make_broadcaster(prop.name))
+                remote_properties[prop.name] = prop
         return remote_properties
 
     @contextmanager

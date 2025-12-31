@@ -5,17 +5,29 @@ from typing import TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
+from pyspec._connection import ClientConnection
 from pyspec._connection.data import DataType
-from pyspec._motor import Motor
-from pyspec._remote_property_table import RemotePropertyTable
-from pyspec._status import Status
 
-from ._connection import ClientConnection
+from ._motor import Motor
+from ._remote_property_table import RemotePropertyTable
+from ._status import Status
 
 T = TypeVar("T", bound=DataType)
 
 
 class Client(AsyncIOEventEmitter):
+    """
+    This class represents a client that connects to a PySpec server.
+
+    This should be the main entry point for users of the pyspec.client package.
+    The methods of this class allow access to various slices of server functionality,
+    such as motor control, status monitoring, variable access, and command execution.
+
+    Args:
+        host (str): The hostname or IP address of the server.
+        port (int): The port number of the server.
+    """
+
     def __init__(self, host: str, port: int):
         self._connection = ClientConnection(host, port)
         self._remote_property_table = RemotePropertyTable(self._connection)

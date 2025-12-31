@@ -11,9 +11,8 @@ from typing import AsyncIterator, Awaitable, Callable, Generic, Literal, TypeVar
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
+from pyspec._connection import ClientConnection
 from pyspec._connection.data import DataType
-
-from ._connection import ClientConnection
 
 T = TypeVar("T", bound=DataType)
 K = TypeVar("K", bound=DataType)
@@ -26,8 +25,9 @@ class PropertyEventEmitter(Generic[T], AsyncIOEventEmitter):
     event emission and handling for property change events.
     """
 
-    def emit(self, event: Literal["change"], value: T) -> None:  # type: ignore[override]
-        super().emit(event, value)
+    def emit(self, event: str, *args: Any, **kwargs: Any) -> None:  # type: ignore
+        # type: (Literal["change"], T) -> None # type: ignore
+        super().emit(event, *args, **kwargs)
 
     def on(self, event: Literal["change"], func: Callable[[T], None]) -> None:  # type: ignore[override]
         super().on(event, func)

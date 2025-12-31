@@ -1,3 +1,40 @@
+"""
+This module implements the SPEC protocol for communication between
+a client and server. It includes functionality for serializing and
+deserializing messages, handling different protocol versions, and
+managing endianness.
+
+Most of the complexity arises from implementing compatibility with clients of
+arbitrary endianness.
+
+References:
+- SPEC Server Help: https://certif.com/spec_help/server.html
+- Associative Arrays: https://certif.com/spec_manual/ref_2_3_4_1.html
+
+Notes:
+The SPEC server protocol's has permissive endianness handling:
+    "The spec server will check the endianess of the magic element of the first packet sent by the
+    client and swap header and data bytes in that packet and subsequent incoming and outgoing data,
+    if necessary, to accommodate the client. The client can send and read packet headers (and binary array data)
+    using the native endian format of the client's platform."
+
+So we have to be able to handle both big-endian and little-endian messages.
+Endianness only affects multi-byte data types, which includes all numeric types.
+Strings and string arrays are unaffected, since they are encoded in UTF-8, which is a single
+byte encoding.
+
+
+
+Classes:
+- Header: Represents a message header.
+
+Methods:
+- serialize: Serializes a Header and DataType into bytes for sending.
+- message_stream: Converts a StreamReader into an async generator of (Header, DataType) tuples.
+- short_str: Constructs a short string representation of the header and data.
+- long_str: Constructs a long string representation of the header and data.
+"""
+
 import asyncio
 import ctypes
 import logging
@@ -420,6 +457,15 @@ def serialize(
 
 
 def short_str(header: HeaderStruct, data: DataType) -> str:
+    """
+    Construct a short string representation of the header and data.
+    Focuses on the command and key parameters.
+    Useful for frequent logging compared to `long_str`.
+
+    Args:
+        header (HeaderStruct): The header to represent.
+        data (DataType): The data to represent.
+    """
     cmd = Command(header.command)
     name = header.name.decode("utf-8").rstrip("\x00")
     match cmd:
@@ -450,10 +496,18 @@ def short_str(header: HeaderStruct, data: DataType) -> str:
 
 
 def long_str(header: HeaderStruct, data: DataType) -> str:
+    """
+    Construct a long string representation of the header and data.
+    Contains all of the information in the V2 header.
+
+    Args:
+        header (HeaderStruct): The header to represent.
+        data (DataType): The data to represent.
+    """
     cmd = Command(header.command)
     _type = Type(header.data_type)
     return (
-        f"<HeaderV{header.version} cmd={cmd.name} type={_type.name} name='{header.name}' "
-        f"seq={header.sequence_number} rows={header.rows} cols={header.cols} len={header.len} "
-        f"data={data}>"
+        f"<HeaderV{header.version} magic={header.magic} size={header.size} cmd={cmd.name} "
+        f"type={_type.name} name='{header.name}'seq={header.sequence_number} "
+        f"rows={header.rows} cols={header.cols} len={header.len} data={data}>"
     )

@@ -142,6 +142,7 @@ class Connection(AsyncIOEventEmitter):
         )
         self.logger.info("Sending: %s", protocol.short_str(header_struct, data))
         self.logger.debug("Detail: %s", protocol.long_str(header_struct, data))
+
         await self.__send(bytes(header_struct))
         if data_bytes:
             await self.__send(data_bytes)

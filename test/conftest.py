@@ -1,6 +1,6 @@
 import asyncio
 
-from pyspec.server import Server as PyspecServer
+from pyspec.server import Server as PyspecServer, Property, remote_function
 import multiprocessing
 import time
 import pytest
@@ -10,24 +10,24 @@ PORT = 56789
 
 
 class Server(PyspecServer):
-    @PyspecServer.remote_function
+    @remote_function
     def sum(self, a: str, b: str):
         return float(a) + float(b)
 
-    @PyspecServer.remote_function
+    @remote_function
     async def async_sum(self, a: str, b: str):
         return float(a) + float(b)
 
-    foo = PyspecServer.Property[int]("foo", 0)
+    foo = Property[int]("foo", 0)
 
-    ticker = PyspecServer.Property[int]("ticker", 0)
+    ticker = Property[int]("ticker", 0)
 
     async def tick(self):
         while True:
             await asyncio.sleep(0.01)
             self.ticker.set(self.ticker.get() + 1)
 
-    @PyspecServer.remote_function
+    @remote_function
     async def long_running_func(self):
         await asyncio.sleep(5)
         return "done"
