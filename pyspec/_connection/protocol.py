@@ -42,7 +42,6 @@ import struct
 import time
 from dataclasses import dataclass
 from typing import Literal, TypeVar, Union
-from webbrowser import get
 
 import numpy as np
 
