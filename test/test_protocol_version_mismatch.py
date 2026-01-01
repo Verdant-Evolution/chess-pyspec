@@ -1,6 +1,5 @@
 import ctypes
 import pytest
-import struct
 import asyncio
 from pyspec._connection.protocol import (
     HeaderV2_LE,

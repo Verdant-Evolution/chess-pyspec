@@ -466,7 +466,7 @@ def serialize(
             data_type=data_type.value,
             rows=rows,
             cols=cols,
-            len=len(data_bytes),
+            length=len(data_bytes),
             err=0,
             flags=0,
             name=header.name.encode("utf-8").ljust(NAME_LEN, b"\x00"),
@@ -528,5 +528,5 @@ def long_str(header: HeaderStruct, data: DataType) -> str:
     return (
         f"<Header version={header.version} magic={header.magic} size={header.size} cmd={cmd.name} "
         f"type={_type.name} name='{header.name.decode('utf-8').rstrip(chr(0))}' seq={header.sequence_number} "
-        f"rows={header.rows} cols={header.cols} len={header.length} data={data}>"
+        f"rows={header.rows} cols={header.cols} length={header.length} data={data}>"
     )
