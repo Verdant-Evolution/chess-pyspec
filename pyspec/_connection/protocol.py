@@ -42,6 +42,7 @@ import struct
 import time
 from dataclasses import dataclass
 from typing import Literal, TypeVar, Union
+from webbrowser import get
 
 import numpy as np
 
@@ -60,6 +61,19 @@ LOGGER = logging.getLogger("pyspec.protocol")
 
 NAME_LEN = 80
 SPEC_MAGIC = 4277009102
+
+
+def log_once(logger: logging.Logger, level: int, msg: str):
+    """
+    Logs a message only once.
+    """
+    if not hasattr(log_once, "_logged_messages"):
+        setattr(log_once, "_logged_messages", set())
+
+    logged: set = getattr(log_once, "_logged_messages")
+    if msg not in logged:
+        logger.log(level, msg)
+        logged.add(msg)
 
 
 @dataclass
@@ -100,7 +114,7 @@ FIELDS_V2 = [
     ("data_type", ctypes.c_int),
     ("rows", ctypes.c_uint),
     ("cols", ctypes.c_uint),
-    ("len", ctypes.c_uint),
+    ("length", ctypes.c_uint),
     ("name", ctypes.c_char * NAME_LEN),
 ]
 
@@ -124,7 +138,7 @@ FIELDS_V3 = [
     ("data_type", ctypes.c_int),
     ("rows", ctypes.c_uint),
     ("cols", ctypes.c_uint),
-    ("len", ctypes.c_uint),
+    ("length", ctypes.c_uint),
     ("err", ctypes.c_int),
     ("name", ctypes.c_char * NAME_LEN),
 ]
@@ -149,7 +163,7 @@ FIELDS_V4 = [
     ("data_type", ctypes.c_int),
     ("rows", ctypes.c_uint),
     ("cols", ctypes.c_uint),
-    ("len", ctypes.c_uint),
+    ("length", ctypes.c_uint),
     ("err", ctypes.c_int),
     ("flags", ctypes.c_int),
     ("name", ctypes.c_char * NAME_LEN),
@@ -207,6 +221,12 @@ def _determine_header_struct(
     header_options = LE_HEADERS if endianness == "<" else BE_HEADERS
     for header_struct in header_options:
         if ctypes.sizeof(header_struct) <= header_size:
+            log_once(
+                LOGGER,
+                logging.WARNING,
+                f"Unknown header version {version}; "
+                f"falling back to header struct {header_struct.__name__} based on size {header_size}.",
+            )
             return header_struct
 
     if header_struct is None:
@@ -279,30 +299,28 @@ async def _read_prefix(
         stream (asyncio.StreamReader): The stream to read from.
 
     Returns:
-        HeaderPrefix: The read header prefix.
-    """
-    magic_bytes = await stream.readexactly(4)
-    (magic_le,) = struct.unpack("<I", magic_bytes)
-    (magic_be,) = struct.unpack(">I", magic_bytes)
-    if magic_le == SPEC_MAGIC:
-        endianness = "<"
-    elif magic_be == SPEC_MAGIC:
-        endianness = ">"
-    else:
-        raise RuntimeError(
-            f"Invalid magic number: {magic_le} (LE) / {magic_be} (BE); expected {SPEC_MAGIC}."
-        )
+        Tuple[bytes, int, int, Literal["<", ">"]]: The raw prefix bytes, version, size, and endianness.
 
-    version_bytes = await stream.readexactly(4)
-    (version,) = struct.unpack(f"{endianness}I", version_bytes)
+    """
 
     # Warning. We parse the size field as an unsigned int here, since in V4 it was changed to unsigned.
     # However, older versions of SPEC used a signed int.
     # Unless the size of the header is larger than 2GB, this should not cause issues.
-    size_bytes = await stream.readexactly(4)
-    (size,) = struct.unpack(f"{endianness}I", size_bytes)
+    fields = "Iii"
+    prefix_bytes = await stream.readexactly(struct.calcsize(fields))
+    (magic_le, version, size) = struct.unpack(f"<{fields}", prefix_bytes)
+    if magic_le == SPEC_MAGIC:
+        endianness = "<"
+        return prefix_bytes, version, size, endianness
 
-    return magic_bytes + version_bytes + size_bytes, version, size, endianness
+    (magic_be, version, size) = struct.unpack(f">{fields}", prefix_bytes)
+    if magic_be == SPEC_MAGIC:
+        endianness = ">"
+        return prefix_bytes, version, size, endianness
+
+    raise RuntimeError(
+        f"Invalid magic number: {magic_le} (LE) / {magic_be} (BE); expected {SPEC_MAGIC}."
+    )
 
 
 async def _read_one_message(
@@ -329,10 +347,12 @@ async def _read_one_message(
 
     header = header_struct.from_buffer_copy(
         prefix_bytes
-        + await stream.readexactly(ctypes.sizeof(header_struct) - len(prefix_bytes))
+        + await stream.readexactly(
+            max(ctypes.sizeof(header_struct), header_size) - len(prefix_bytes)
+        )
     )
 
-    data_bytes = await stream.readexactly(header.len)
+    data_bytes = await stream.readexactly(header.length)
     data = _deserialize_data(header, data_bytes, apparent_endianness)
 
     logger.info("Received: %s", short_str(header, data))
@@ -507,7 +527,7 @@ def long_str(header: HeaderStruct, data: DataType) -> str:
     cmd = Command(header.command)
     _type = Type(header.data_type)
     return (
-        f"<HeaderV{header.version} magic={header.magic} size={header.size} cmd={cmd.name} "
-        f"type={_type.name} name='{header.name}'seq={header.sequence_number} "
-        f"rows={header.rows} cols={header.cols} len={header.len} data={data}>"
+        f"<Header version={header.version} magic={header.magic} size={header.size} cmd={cmd.name} "
+        f"type={_type.name} name='{header.name.decode('utf-8').rstrip(chr(0))}' seq={header.sequence_number} "
+        f"rows={header.rows} cols={header.cols} len={header.length} data={data}>"
     )
