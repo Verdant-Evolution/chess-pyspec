@@ -167,3 +167,19 @@ async def test_int_data_serialization():
     assert read_header == header
     assert isinstance(read_data, int)
     assert read_data == int_data
+
+
+@pytest.mark.asyncio
+async def test_numpy_string_array_serialization():
+    array = np.array([["foo", "bar"], ["baz", "qux"]], dtype="U10")
+    header = Header(Command.CHAN_SEND, 2, "numpy string array test")
+    header_struct, data_bytes = serialize(header, array)
+
+    read_header, read_data, _ = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert isinstance(read_data, np.ndarray)
+    assert read_data.dtype.kind in {"U", "S"}  # Unicode or bytes string
+    np.testing.assert_array_equal(read_data, array)

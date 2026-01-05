@@ -45,28 +45,21 @@ class ContextWaiter:
         await ContextWaiter(...)
     """
 
-    def __init__(
-        self, awaitable: Awaitable, done_callback: Callable[[], None] | None = None
-    ):
+    def __init__(self, awaitable: Awaitable):
         self._awaitable = awaitable
-        self._done_callback = done_callback
 
     async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(self, exc_type, exc, tb) -> None:
-        try:
-            await self._awaitable
-        finally:
-            if self._done_callback is not None:
-                self._done_callback()
+        await self._awaitable
 
     def __await__(self):
         async def enter_exit():
             async with self:
                 pass
 
-        yield from enter_exit()
+        return enter_exit().__await__()
 
 
 class RemotePropertyTable(AsyncIOEventEmitter):
@@ -134,7 +127,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             future = asyncio.Future()
 
             def check_value(new_value: T) -> None:
-                if new_value == value:
+                if new_value == value and not future.done():
                     future.set_result(None)
 
             def on_done(*args, **kwargs) -> None:
@@ -143,7 +136,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             future.add_done_callback(on_done)
 
             self.on("change", check_value)
-            return ContextWaiter(future, on_done)
+            return ContextWaiter(asyncio.wait_for(future, timeout))
 
         def is_subscribed(self) -> bool:
             """
@@ -266,13 +259,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         Returns:
             T: The next value of the property cast to the specified type.
         """
-        assert self.is_subscribed(
-            property_name
-        ), "Property must be watched to read next value."
-
-        future = asyncio.Future()
-        self.once(f"property-{property_name}", lambda value: future.set_result(value))
-        data = await future
+        data = await self.read_next(property_name)
         if not isinstance(data, dtype):
             raise TypeError(f"Expected data of type {dtype}, got {type(data)}")
         return cast(T, data)

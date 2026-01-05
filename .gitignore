@@ -13,3 +13,8 @@ wheels/
 *.so
 *.dll
 *.pyd
+
+
+# Coverages
+.coverage
+htmlcov/

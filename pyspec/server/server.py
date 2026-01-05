@@ -34,6 +34,17 @@ class Singleton:
                 cls._instance = super(Singleton, cls).__new__(cls)
         return cls._instance
 
+    @classmethod
+    def dispose(cls):
+        """
+        Disposes of the singleton instance. This can be useful in testing scenarios
+        where you want to reset the state of the server between tests.
+        """
+        with cls._lock:
+            if hasattr(cls, "_instance"):
+                del cls._instance
+                LOGGER.debug(f"{cls.__name__} singleton instance disposed.")
+
 
 class ServerException(Exception):
     def __init__(self, msg: str, *args: object) -> None:
@@ -289,6 +300,9 @@ class Server(AsyncIOEventEmitter, Singleton):
             self._server.close()
             await self._server.wait_closed()
             self._server = None
+            LOGGER.info("Server shut down.")
+        # Dispose of the singleton instance to allow for fresh instances in testing or future runs
+        self.dispose()
 
     async def serve_forever(self):
         """Runs the server indefinitely."""

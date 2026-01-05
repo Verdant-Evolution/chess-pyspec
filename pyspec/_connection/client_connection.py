@@ -169,7 +169,7 @@ class ClientConnection(
 
         self.logger.info("Connected")
 
-        response = await self._send_with_reply(Header(Command.HELLO))
+        response = await self.hello()
         if response.header.command != Command.HELLO_REPLY:
             raise RuntimeError(
                 f"Expected HELLO_REPLY from server. Received: {response.header.command}"
@@ -334,7 +334,7 @@ class ClientConnection(
             )
         ).data
 
-    async def hello(self, timeout: float = 5.0) -> bool:
+    async def hello(self, timeout: float = 5.0):
         """
         Sends a HELLO command to the remote host.
         The remote host should respond with a HELLO_REPLY message.
@@ -343,20 +343,13 @@ class ClientConnection(
         Args:
             timeout (float): The maximum time to wait for a reply, in seconds.
 
-
         Returns:
-            bool: True if the HELLO_REPLY was received within the timeout, False otherwise.
+            Connection.Message: The message received from the server in response to the HELLO command.
         """
-
-        try:
-            await asyncio.wait_for(
-                self._send_with_reply(Header(Command.HELLO)),
-                timeout=timeout,
-            )
-            return True
-        except asyncio.TimeoutError:
-            self.logger.info("Timeout waiting for HELLO_REPLY from remote host")
-            return False
+        return await asyncio.wait_for(
+            self._send_with_reply(Header(Command.HELLO)),
+            timeout=timeout,
+        )
 
     @asynccontextmanager
     async def synchronized_motors(

@@ -2,6 +2,10 @@ from __future__ import annotations
 from typing import Generic, TypeVar, Literal, Callable, Any
 from pyee.asyncio import AsyncIOEventEmitter
 from pyspec._connection.data import DataType
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 
 T = TypeVar("T", bound=DataType)
 
@@ -49,3 +53,6 @@ class Property(PropertyEventEmitter[T]):
             raise TypeError(f"Expected data of type {self._dtype}, got {type(value)}")
         self._value = value
         self.emit("change", value)
+        LOGGER.debug(
+            f"Property '{self.name}' updated to {value} and 'change' event emitted."
+        )

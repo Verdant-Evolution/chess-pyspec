@@ -265,13 +265,6 @@ def _deserialize_data(
         return AssociativeArray.deserialize(data_bytes)
     elif data_type == Type.ERROR:
         return ErrorStr(data_bytes.decode("utf-8"))
-    elif data_type == Type.ARR_STRING:
-        array = _decode_to_numpy_string_array(data_bytes).reshape(
-            (header.rows, header.cols)
-        )
-        if header.rows == 1:
-            array = array.flatten()
-        return array
     elif data_type.is_array_type():
         if data_type == Type.ARR_STRING:
             array = _decode_to_numpy_string_array(data_bytes)
