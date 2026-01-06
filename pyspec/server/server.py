@@ -267,6 +267,10 @@ class Server(AsyncIOEventEmitter, Singleton):
         async def on_property_watch(property_name: str):
             logger.info("Subscribed to property: %s", property_name)
             self._property_listeners[property_name].add(connection)
+            # Immediately send the current value of the property upon subscription
+            if property_name in self._remote_properties:
+                prop = self._remote_properties[property_name]
+                await connection.prop_send(property_name, prop.get())
 
         async def on_property_unwatch(property_name: str):
             logger.info("Unsubscribed from property: %s", property_name)
