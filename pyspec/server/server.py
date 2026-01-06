@@ -11,7 +11,6 @@ from typing import Any, Callable, TypeVar
 from pyee.asyncio import AsyncIOEventEmitter
 
 from pyspec._connection.data import DataType
-from pyspec.server._motor import Motor
 from pyspec.server._remote_property import Property
 from ._remote_function import (
     SyncOrAsyncCallable,
@@ -75,14 +74,6 @@ class Server(AsyncIOEventEmitter, Singleton):
             LOGGER.warning(
                 "Server is running in TEST MODE. Arbitrary code execution is allowed."
             )
-
-    def install_motor(self, motor: Motor):
-        # TODO: implement
-        ...
-
-    def uninstall_motor(self, motor_name: str):
-        # TODO: implement
-        ...
 
     def _build_remote_function_table(self):
         """

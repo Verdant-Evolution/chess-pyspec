@@ -334,7 +334,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         return RemotePropertyTable.ReadableProperty(name, self, coerce)
 
-    def writeonly_property(self, name: str) -> RemotePropertyTable.WritableProperty[T]:
+    def writeonly_property(self, name: str) -> RemotePropertyTable.WritableProperty:
         """
         Gets a helper object to manage interfacing with a write-only property.
         """
