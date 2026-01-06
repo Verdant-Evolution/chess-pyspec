@@ -21,14 +21,14 @@ class Motor(PropertyGroup):
         self._client_connection = client_connection
         self._remote_property_table = remote_property_table
 
-        self.position = self._readonly_property("position", float, coerce=float)
+        self.position = self._readonly_property("position", float)
         """
         motor/{mne}/position
             on("change"): Sent when the dial position or user offset changes.
             get: Returns the current motor position in user units.
             set: Sets the user offset on the server.
         """
-        self.dial_position = self._property("dial_position", float, coerce=float)
+        self.dial_position = self._property("dial_position", float)
         """
         motor/{mne}/dial_position
             on("change"): Sent when the dial position changes.
@@ -39,7 +39,7 @@ class Motor(PropertyGroup):
 
                 onto the command queue, unless the dial position is already set to that value.
         """
-        self.offset = self._property("offset", float, coerce=float)
+        self.offset = self._property("offset", float)
         """
         motor/{mne}/offset
             on("change"): Sent when the offset changes.
@@ -52,19 +52,19 @@ class Motor(PropertyGroup):
                 The data should contain the offset value in motor units (degrees, mm, etc.).
                 The server will calculate `value` for the argument in `set` appropriately.
         """
-        self.step_size = self._readonly_property("step_size", float, coerce=float)
+        self.step_size = self._readonly_property("step_size", float)
         """
         motor/{mne}/step_size
             on("change"): Sent when the steps-per-unit parameter changes.
             get: Returns the current steps-per-unit parameter.
         """
-        self.sign = self._readonly_property("sign", int, coerce=int)
+        self.sign = self._readonly_property("sign", int)
         """
         motor/{mne}/sign
             on("change"): Sent when the sign-of-user*dial parameter changes.
             get: Returns the current sign-of-user*dial parameter.
         """
-        self.moving = self._readonly_property("move_done", bool, coerce=bool)
+        self.moving = self._readonly_property("move_done", bool)
         """
         motor/{mne}/move_done
             on("change"): Sent when moving starts (True) and stops (False).
@@ -72,33 +72,31 @@ class Motor(PropertyGroup):
 
         Note: This does seem a little backwards from the name of the SPEC prop.
         """
-        self.high_lim_hit = self._readonly_property("high_lim_hit", bool, coerce=bool)
+        self.high_lim_hit = self._readonly_property("high_lim_hit", bool)
         """
         motor/{mne}/high_lim_hit
             on("change"): Sent when the high-limit switch has been hit.
             get: True if the high-limit switch has been hit.
         """
-        self.low_lim_hit = self._readonly_property("low_lim_hit", bool, coerce=bool)
+        self.low_lim_hit = self._readonly_property("low_lim_hit", bool)
         """
         motor/{mne}/low_lim_hit
             on("change"): Sent when the low-limit switch has been hit.
             get: True if the low-limit switch has been hit.
         """
-        self.emergency_stop = self._readonly_property(
-            "emergency_stop", bool, coerce=bool
-        )
+        self.emergency_stop = self._readonly_property("emergency_stop", bool)
         """
         motor/{mne}/emergency_stop
             on("change"): Sent when a motor controller indicates a hardware emergency stop.
             get: True if an emergency-stop switch or condition has been activated.
         """
-        self.motor_fault = self._readonly_property("motor_fault", bool, coerce=bool)
+        self.motor_fault = self._readonly_property("motor_fault", bool)
         """
         motor/{mne}/motor_fault
             on("change"): Sent when a motor controller indicates a hardware motor fault.
             get: True if a motor-fault condition has been activated.
         """
-        self.high_limit = self._property("high_limit", float, coerce=float)
+        self.high_limit = self._property("high_limit", float)
         """
         motor/{mne}/high_limit
             on("change"): Sent when the value of the high limit position changes.
@@ -110,7 +108,7 @@ class Motor(PropertyGroup):
                 onto the server command queue. (The last argument adds the current low limit to the set_lm command line.)
 
         """
-        self.low_limit = self._property("low_limit", float, coerce=float)
+        self.low_limit = self._property("low_limit", float)
         """
         motor/{mne}/low_limit
             on("change"): Sent when the value of the low limit position changes.
@@ -121,7 +119,9 @@ class Motor(PropertyGroup):
 
             onto the server command queue. (The last argument adds the current high limit to the set_lm command line.)
         """
-        self.limits = self._writeonly_property("limits", str)
+        self.limits: RemotePropertyTable.WritableProperty[str] = (
+            self._writeonly_property("limits")
+        )
         """
         motor/{mne}/limits
             set: Sets both motor limits by pushing
@@ -131,7 +131,9 @@ class Motor(PropertyGroup):
                 onto the server command queue,
                 where data should contain the low and high motor limit values in a string.
         """
-        self.search = self._writeonly_property("search", str)
+        self.search: RemotePropertyTable.WritableProperty[str] = (
+            self._writeonly_property("search")
+        )
         """
         motor/{mne}/search
             set: The server starts a home or limit search by pushing a
@@ -151,7 +153,7 @@ class Motor(PropertyGroup):
                 # Need to check how that is supposed to be formatted.
 
         """
-        self.unusable = self._readonly_property("unusable", bool, coerce=bool)
+        self.unusable = self._readonly_property("unusable", bool)
         """
         motor/{mne}/unusable
             on("change"): Sent when a "disable" option to motor_par() has changed the enabled/disabled state of a motor on the server.
@@ -166,7 +168,9 @@ class Motor(PropertyGroup):
 
         # self.sync_check = self._property("sync_check", str)
 
-        self._start_one = self._writeonly_property("start_one", float)
+        self._start_one: RemotePropertyTable.WritableProperty[float] = (
+            self._writeonly_property("start_one")
+        )
         """
         motor/mne/start_one
             set: If preceded by a prestart_all, adds a

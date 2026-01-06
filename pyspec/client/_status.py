@@ -17,14 +17,14 @@ class Status(PropertyGroup):
         super().__init__("status", remote_property_table)
         self._remote_property_table = remote_property_table
 
-        self.quit = self._readonly_property("quit", bool, coerce=bool)
+        self.quit = self._readonly_property("quit", bool)
         """
         status/quit
             on("change"): Sent when the server exits.
             get: Always read back as zero.
         """
 
-        self.shell = self._readonly_property("shell", bool, coerce=bool)
+        self.shell = self._readonly_property("shell", bool)
         """
         status/shell
             on("change"): Sent when the server enters a subshell (True) or returns from a subshell (False).
@@ -34,7 +34,7 @@ class Status(PropertyGroup):
         the server does not process commands from clients for the first one second of the subshell.
         Prior to spec release 6.06.01, the server did not process commands when in a subshell at all.
         """
-        self.ready = self._readonly_property("ready", bool, coerce=bool)
+        self.ready = self._readonly_property("ready", bool)
         """
         status/ready
             on("change"): Sent when the server is waiting for input at the interactive prompt (True)
@@ -42,7 +42,7 @@ class Status(PropertyGroup):
                             The server is available to execute commands from clients when it is ready.
             get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.
         """
-        self.simulate = self._readonly_property("simulate", bool, coerce=bool)
+        self.simulate = self._readonly_property("simulate", bool)
         """
         status/simulate
             on("change"): Sent when the server enters (True) or leaves (False) simulate mode.

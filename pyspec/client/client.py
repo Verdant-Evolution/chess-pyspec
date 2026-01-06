@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-from typing import TypeVar
+from typing import Any, Callable, TypeVar
 
 from pyee.asyncio import AsyncIOEventEmitter
 
@@ -41,14 +41,14 @@ class Client(AsyncIOEventEmitter):
         await self._connection.__aexit__(exc_type, exc, tb)
 
     def _property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self, name: str, coerce: Callable[[Any], T] | None = None
     ) -> RemotePropertyTable.Property[T]:
-        return self._remote_property_table.property(name, dtype)
+        return self._remote_property_table.property(name, coerce)
 
     def _readonly_property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self, name: str, coerce: Callable[[Any], T] | None = None
     ) -> RemotePropertyTable.ReadableProperty[T]:
-        return self._remote_property_table.readonly_property(name, dtype)
+        return self._remote_property_table.readonly_property(name, coerce)
 
     def status(self) -> Status:
         """
@@ -75,7 +75,7 @@ class Client(AsyncIOEventEmitter):
         return Motor(motor_name, self._connection, self._remote_property_table)
 
     def var(
-        self, var_name: str, dtype: type[T] | type[object] = object
+        self, var_name: str, coerce: Callable[[Any], T] | None = None
     ) -> RemotePropertyTable.Property[T]:
         """
         The var properties allow values of any variables to be transferred between the server and the client.
@@ -99,12 +99,12 @@ class Client(AsyncIOEventEmitter):
 
         Args:
             var_name (str): The name of the variable on the server.
-            dtype (type[T] | type[object], optional): The data type of the variable. Defaults to object (no validation)
+            coerce (Callable[[Any], T], optional): An optional function to coerce the data to a specific type.
 
         Returns:
             RemotePropertyTable.Property[T]: The property representing the variable on the server.
         """
-        return self._property(f"var/{var_name}", dtype)
+        return self._property(f"var/{var_name}", coerce)
 
     def output(self, filename: str) -> Output:
         """

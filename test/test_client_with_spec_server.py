@@ -69,19 +69,32 @@ async def test_status():
 @pytest.mark.asyncio
 async def test_motor():
     async with Client("localhost", SERVER_PORT) as client:
-        async with client.motor("s0v") as s0v:
-            await s0v.move(0)
-            assert await s0v.position.get() == 0
+        s0v = client.motor("s0v")
+        async with s0v:
+            await asyncio.sleep(1)
+            current_position = await s0v.position.get()
+            await s0v.move(-current_position)
+        assert await s0v.position.get() == -current_position
 
 
 @pytest.mark.asyncio
 async def test_sync_motors():
     async with Client("localhost", SERVER_PORT) as client:
-        async with client.motor("s0v") as s0v, client.motor("s1v") as s1v:
-            await asyncio.sleep(1)
+        s0v = client.motor("s0v")
+        s1v = client.motor("s1v")
+        async with s0v, s1v:
             async with client.synchronized_motors():
-                await s0v.move(1)
-                await s1v.move(1)
+                s0v_current = await s0v.position.get()
+                s1v_current = await s1v.position.get()
 
-            assert await s0v.position.get() == 0
-            assert await s1v.position.get() == 0
+                s0v_target = -s0v_current
+                s1v_target = -s1v_current
+
+                await s0v.move(s0v_target)
+                await s1v.move(s1v_target)
+
+                assert await s0v.position.get() != s0v_target
+                assert await s1v.position.get() != s1v_target
+
+        assert await s0v.position.get() == s0v_target
+        assert await s1v.position.get() == s1v_target
