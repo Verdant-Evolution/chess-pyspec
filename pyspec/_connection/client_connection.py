@@ -81,19 +81,6 @@ class ClientConnectionEventEmitter(AsyncIOEventEmitter):
         """
 
     @overload
-    def emit(self, event: Literal["hello-reply"]) -> bool: ...
-    @overload
-    def on(
-        self, event: Literal["hello-reply"], func: Callable[[], Any]
-    ) -> Callable[[], Any]:
-        """
-        Register an event listener for the 'hello-reply' event.
-
-        A 'hello-reply' event is emitted when a HELLO_REPLY message is received from the server.
-        This should only correspond to a HELLO command previously sent by the client.
-        """
-
-    @overload
     def emit(
         self, event: Literal["property-change"], property_name: str, value: DataType
     ) -> bool: ...
@@ -158,10 +145,15 @@ class ClientConnection(
         """
         if msg.header.command == Command.EVENT:
             self.emit("property-change", msg.header.name, msg.data)
-        elif msg.header.command == Command.HELLO_REPLY:
-            self.emit("hello-reply")
-        elif msg.header.command == Command.REPLY:
+        elif (
+            msg.header.command == Command.REPLY
+            or msg.header.command == Command.HELLO_REPLY
+        ):
             self.emit(f"reply-{msg.header.sequence_number}", msg.data)
+        else:
+            self.logger.error(
+                "Received message with unrecognized command: %s", msg.header.command
+            )
 
     async def __aenter__(self) -> ClientConnection:
         self._reader, self._writer = await asyncio.open_connection(self.host, self.port)
@@ -169,11 +161,7 @@ class ClientConnection(
 
         self.logger.info("Connected")
 
-        response = await self.hello()
-        if response.header.command != Command.HELLO_REPLY:
-            raise RuntimeError(
-                f"Expected HELLO_REPLY from server. Received: {response.header.command}"
-            )
+        await self.hello()
 
         return self
 
@@ -186,30 +174,26 @@ class ClientConnection(
             self._writer.close()
             await self._writer.wait_closed()
 
-    async def _send_with_reply(
-        self, header: Header, data: DataType = None
-    ) -> Connection.Message:
+    async def _send_with_reply(self, header: Header, data: DataType = None) -> DataType:
         """
         Sends a message to the connected server and waits for a reply.
         """
         sequence_number = get_next_sequence_number()
         header.sequence_number = sequence_number
         response = asyncio.Future()
-        self.once(
-            "message",
-            lambda msg: msg.header.sequence_number == sequence_number
-            and response.set_result(msg),
-        )
+
+        self.once(f"reply-{sequence_number}", response.set_result)
         await self._send(header, data)
-        msg: Connection.Message = await response
-        if isinstance(msg.data, ErrorStr):
+
+        msg_data: DataType = await response
+        if isinstance(msg_data, ErrorStr):
             self.logger.error(
                 "Received ERROR reply for sequence number %d",
                 sequence_number,
             )
-            error_message = msg.data if isinstance(msg.data, str) else "Unknown error"
+            error_message = msg_data if isinstance(msg_data, str) else "Unknown error"
             raise RemoteException(f"Error from server: {error_message}")
-        return msg
+        return msg_data
 
     async def prop_get(self, prop: str) -> DataType:
         """
@@ -222,7 +206,7 @@ class ClientConnection(
         Raises:
             RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
-        return (await self._send_with_reply(Header(Command.CHAN_READ, name=prop))).data
+        return await self._send_with_reply(Header(Command.CHAN_READ, name=prop))
 
     async def prop_set(self, prop: str, value: DataType) -> None:
         """
@@ -299,9 +283,7 @@ class ClientConnection(
         Returns:
             DataType: The result of the command execution from the remote host.
         """
-        return (
-            await self._send_with_reply(Header(Command.CMD_WITH_RETURN), data=cmd)
-        ).data
+        return await self._send_with_reply(Header(Command.CMD_WITH_RETURN), data=cmd)
 
     async def remote_func_no_return(self, func: str, *args) -> None:
         """
@@ -328,11 +310,9 @@ class ClientConnection(
             DataType: The result of the function execution from the remote host.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
-        return (
-            await self._send_with_reply(
-                Header(Command.FUNC_WITH_RETURN), data=func_string
-            )
-        ).data
+        return await self._send_with_reply(
+            Header(Command.FUNC_WITH_RETURN), data=func_string
+        )
 
     async def hello(self, timeout: float = 5.0):
         """

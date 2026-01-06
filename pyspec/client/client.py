@@ -7,6 +7,7 @@ from pyee.asyncio import AsyncIOEventEmitter
 
 from pyspec._connection import ClientConnection
 from pyspec._connection.data import DataType
+from pyspec.client._output import Output
 
 from ._motor import Motor
 from ._remote_property_table import RemotePropertyTable
@@ -105,9 +106,7 @@ class Client(AsyncIOEventEmitter):
         """
         return self._property(f"var/{var_name}", dtype)
 
-    def output(
-        self, filename: str, dtype: type[T] | type[object] = object
-    ) -> RemotePropertyTable.ReadableProperty[T]:
+    def output(self, filename: str) -> Output:
         """
         The output property puts copies of the strings written to files or to the screen in events sent to clients.
 
@@ -122,7 +121,7 @@ class Client(AsyncIOEventEmitter):
 
             (The output property was introduced in spec release 5.07.04-1.)
         """
-        return self._readonly_property(f"output/{filename}", dtype)
+        return Output(self._readonly_property(f"output/{filename}", str), filename)
 
     def count(self) -> RemotePropertyTable.Property[bool]:
         """

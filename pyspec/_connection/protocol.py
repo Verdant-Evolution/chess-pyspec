@@ -248,7 +248,9 @@ def _deserialize_data(
         ValueError: If the type is unsupported for deserialization.
         UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
     """
-    # TODO: Need to check if data is supposed to end in a NULL byte or not.
+    assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
+    data_bytes = data_bytes[:-1]
+
     data_type = Type(header.data_type)
     if data_type == Type.DOUBLE:
         return struct.unpack(f"{endianness}d", data_bytes)[0]
@@ -440,9 +442,11 @@ def serialize(
             ).tobytes()
     elif data is None:
         data_type = Type.STRING  # Default to STRING type for None
-        data_bytes = b""
     else:
         raise ValueError(f"Cannot serialize data of type {type(data)}.")
+
+    # TODO: This is a silly copy.
+    data_bytes += b"\x00"
 
     # Send as V4 header.
     header_struct = HeaderV4_LE if endianness == "<" else HeaderV4_BE

@@ -6,7 +6,16 @@ import logging
 from collections import defaultdict
 from contextlib import AsyncExitStack, asynccontextmanager
 from pathlib import Path
-from typing import AsyncIterator, Awaitable, Callable, Generic, Literal, TypeVar, cast
+from typing import (
+    Any,
+    AsyncIterator,
+    Awaitable,
+    Callable,
+    Generic,
+    Literal,
+    TypeVar,
+    cast,
+)
 
 from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
@@ -92,24 +101,52 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             name: str,
             property_table: "RemotePropertyTable",
             dtype: type[T] | type[object] = object,
+            coerce: Callable[[DataType], T] | None = None,
         ):
+            # TODO: Use a composed emitter. Not inherited.
+            # Its cleaner for DX.
             super().__init__()
             self.name = name
             self._property_table = property_table
             self._dtype = dtype
+            self._coerce = coerce
+            # TODO: Consider switching the order of coerce and dtype.
+            # Probably better dx like that.
 
-    class ReadableProperty(_PropertyBase[T]):
-        async def get(self) -> T:
-            return await self._property_table.read_as(self.name, self._dtype)
-
-        async def get_next(self) -> T:
-            return await self._property_table.read_next_as(self.name, self._dtype)
-
-        def _emit_change(self, value: T) -> None:
+        def _cast_value(self, value: DataType) -> T:
             if not isinstance(value, self._dtype):
+                if self._coerce is not None:
+                    try:
+                        return self._coerce(value)
+                    except Exception as e:
+                        raise TypeError(
+                            f"Failed to coerce value '{value}' to type {self._dtype}"
+                        ) from e
                 raise TypeError(
                     f"Expected data of type {self._dtype}, got {type(value)}"
                 )
+            return cast(T, value)
+
+    class ReadableProperty(_PropertyBase[T]):
+        async def get(self) -> T:
+            value = await self._property_table.read(self.name)
+            return self._cast_value(value)
+
+        async def get_next(self) -> T:
+            value = await self._property_table.read_next(self.name)
+            return self._cast_value(value)
+
+        def _emit_change(self, value: T) -> None:
+            try:
+                value = self._cast_value(value)
+            except TypeError:
+                LOGGER.error(
+                    "Received value of incorrect type for property '%s': expected %s, got %s",
+                    self.name,
+                    self._dtype,
+                    type(value),
+                )
+                return
             self.emit("change", value)
 
         def wait_for(self, value: T, timeout: float | None = None) -> ContextWaiter:
@@ -121,9 +158,6 @@ class RemotePropertyTable(AsyncIOEventEmitter):
                 timeout (float | None): Optional timeout in seconds.
             """
             assert self.is_subscribed(), "Property must be watched to wait for a value."
-
-            # TODO: Consider splitting these implementations.
-            # to help with DX and typing.
             future = asyncio.Future()
 
             def check_value(new_value: T) -> None:
@@ -228,42 +262,6 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         self.once(f"property-{property_name}", lambda value: future.set_result(value))
         return await future
 
-    async def read_as(
-        self, property_name: str, dtype: type[T] | type[object] = object
-    ) -> T:
-        """
-        Reads the value of a property and ensures it is of the specified type.
-        See read() for more details.
-
-        Args:
-            property_name (str): The name of the property to read.
-            dtype (type[T] | type[object]): The expected type of the property value.
-        Returns:
-            T: The value of the property cast to the specified type.
-        """
-        data = await self.read(property_name)
-        if not isinstance(data, dtype):
-            raise TypeError(f"Expected data of type {dtype}, got {type(data)}")
-        return cast(T, data)
-
-    async def read_next_as(
-        self, property_name: str, dtype: type[T] | type[object] = object
-    ) -> T:
-        """
-        Reads the next value of a property and ensures it is of the specified type.
-        See read_next() for more details.
-
-        Args:
-            property_name (str): The name of the property to read.
-            dtype (type[T] | type[object]): The expected type of the property value.
-        Returns:
-            T: The next value of the property cast to the specified type.
-        """
-        data = await self.read_next(property_name)
-        if not isinstance(data, dtype):
-            raise TypeError(f"Expected data of type {dtype}, got {type(data)}")
-        return cast(T, data)
-
     async def write(self, property_name: str, value: DataType) -> None:
         """
         Writes a value to a property on the server.
@@ -305,20 +303,26 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             await self._connection.prop_unwatch(property_name)
 
     def property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self,
+        name: str,
+        dtype: type[T] | type[object] = object,
+        coerce: Callable[[Any], T] | None = None,
     ) -> RemotePropertyTable.Property[T]:
         """
         Gets a helper object to manage interfacing with a read-write property.
         """
-        return RemotePropertyTable.Property(name, self, dtype)
+        return RemotePropertyTable.Property(name, self, dtype, coerce)
 
     def readonly_property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self,
+        name: str,
+        dtype: type[T] | type[object] = object,
+        coerce: Callable[[Any], T] | None = None,
     ) -> RemotePropertyTable.ReadableProperty[T]:
         """
         Gets a helper object to manage interfacing with a read-only property.
         """
-        return RemotePropertyTable.ReadableProperty(name, self, dtype)
+        return RemotePropertyTable.ReadableProperty(name, self, dtype, coerce)
 
     def writeonly_property(
         self, name: str, dtype: type[T] | type[object] = object
@@ -355,17 +359,27 @@ class PropertyGroup:
         return (self._prefix / name).as_posix()
 
     def _property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self,
+        name: str,
+        dtype: type[T] | type[object] = object,
+        coerce: Callable[[Any], T] | None = None,
     ) -> RemotePropertyTable.Property[T]:
-        return self._remote_property_table.property(self._path(name), dtype)
+        return self._remote_property_table.property(self._path(name), dtype, coerce)
 
     def _readonly_property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self,
+        name: str,
+        dtype: type[T] | type[object] = object,
+        coerce: Callable[[Any], T] | None = None,
     ) -> RemotePropertyTable.ReadableProperty[T]:
-        return self._remote_property_table.readonly_property(self._path(name), dtype)
+        return self._remote_property_table.readonly_property(
+            self._path(name), dtype, coerce
+        )
 
     def _writeonly_property(
-        self, name: str, dtype: type[T] | type[object] = object
+        self,
+        name: str,
+        dtype: type[T] | type[object] = object,
     ) -> RemotePropertyTable.WritableProperty[T]:
         return self._remote_property_table.writeonly_property(self._path(name), dtype)
 
