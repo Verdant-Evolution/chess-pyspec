@@ -355,7 +355,7 @@ class ClientConnection(
         """
         assert (
             not self._synchronizing_motors
-        ), "Nested synchronized_motors contexts are not allowed."
+        ), "Concurrent synchronized_motors contexts are not allowed."
 
         move_done_pattern = re.compile(r"motor/(.+)/move_done")
 
@@ -384,28 +384,31 @@ class ClientConnection(
             yield
 
             self.on("property-change", motor_move_done_check)
-            for mne in self._pending_motions.keys():
-                waiting_for[mne] = asyncio.Future()
+            try:
+                for mne in self._pending_motions.keys():
+                    waiting_for[mne] = asyncio.Future()
 
-            # Start the prestart message
-            motion_started = True
-            await self.prop_set("motor/../prestart_all", None)
+                # Start the prestart message
+                motion_started = True
+                await self.prop_set("motor/../prestart_all", None)
 
-            # Append the individual motor commands
-            for mne, position in self._pending_motions.items():
-                self.logger.info(
-                    "Starting synchronized move for `%s` to position %s.",
-                    mne,
-                    position,
-                )
+                # Append the individual motor commands
+                for mne, position in self._pending_motions.items():
+                    self.logger.info(
+                        "Starting synchronized move for `%s` to position %s.",
+                        mne,
+                        position,
+                    )
 
-                await self.prop_set(f"motor/{mne}/start_one", position)
+                    await self.prop_set(f"motor/{mne}/start_one", position)
 
-            # Start all the motors simultaneously
-            await self.prop_set("motor/../start_all", None)
+                # Start all the motors simultaneously
+                await self.prop_set("motor/../start_all", None)
 
-            # Wait for them to be done
-            await asyncio.wait(waiting_for.values(), timeout=timeout)
+                # Wait for them to be done
+                await asyncio.wait(waiting_for.values(), timeout=timeout)
+            finally:
+                self.remove_listener("property-change", motor_move_done_check)
         except Exception as e:
             self.logger.error("Error during synchronized motor operations: %s", str(e))
             if motion_started:
@@ -414,4 +417,3 @@ class ClientConnection(
         finally:
             self._synchronizing_motors = False
             self._pending_motions.clear()
-            self.remove_listener("message", motor_move_done_check)
