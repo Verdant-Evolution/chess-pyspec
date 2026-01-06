@@ -405,7 +405,6 @@ def serialize(
     if endianness is None:
         endianness = NATIVE_ENDIANNESS
 
-    # TODO: Need to check if data is supposed to end in a NULL byte or not.
     rows, cols = 0, 0
     data_bytes = b""
     if isinstance(data, ErrorStr):

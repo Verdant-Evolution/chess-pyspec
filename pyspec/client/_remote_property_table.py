@@ -111,8 +111,6 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             self.name = name
             self._property_table = property_table
             self._coerce = coerce
-            # TODO: Consider switching the order of coerce and dtype.
-            # Probably better dx like that.
 
         def _cast_value(self, value: DataType) -> T:
             if self._coerce is not None:
