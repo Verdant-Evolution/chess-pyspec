@@ -253,6 +253,7 @@ def _deserialize_data(
 
     data_type = Type(header.data_type)
     if data_type == Type.DOUBLE:
+        # This is not actually sent by a true SPEC server.
         return struct.unpack(f"{endianness}d", data_bytes)[0]
     elif data_type == Type.STRING:
         data_string = data_bytes.decode("utf-8")
@@ -410,17 +411,17 @@ def serialize(
     if isinstance(data, ErrorStr):
         data_type = Type.ERROR
         data_bytes = data.encode("utf-8")
-    elif isinstance(data, float):
-        data_type = Type.DOUBLE
-        # We choose to always serialize floats as DOUBLEs.
-        data_bytes = struct.pack("<d", data)
-    elif isinstance(data, (str, int)):
+    elif isinstance(data, (str, int, float)):
         data_type = Type.STRING
         # The spec server sends both string-valued and number-valued items as strings.
         # Numbers are converted to strings using a printf("%.15g") format.
-        if isinstance(data, int):
+
+        # Despite SPEC claiming that it will handle DOUBLE type things just fine,
+        # we have found that its better to just keep them STRINGs, since that is what it really
+        # expects. Especially if it is going to concatenate it to a string in a command, which is common.
+        if isinstance(data, (int, float)):
             data = f"{data:.15g}"
-        data_bytes = struct.pack("<{}s".format(len(data)), data.encode("utf-8"))
+        data_bytes = struct.pack("{}s".format(len(data)), data.encode("utf-8"))
     elif isinstance(data, AssociativeArray):
         data_type = Type.ASSOC
         data_bytes = data.serialize()
