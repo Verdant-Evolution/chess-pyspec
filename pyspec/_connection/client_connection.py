@@ -365,7 +365,9 @@ class ClientConnection(
             if (match := move_done_pattern.match(name)) is None:
                 return
             motor_name = match.group(1)
-            if motor_name in waiting_for:
+            # Here we are comparing the value of the move_done property to 0,
+            # which is the value it should be set to when a move is completed.
+            if motor_name in waiting_for and value == 0:
                 self.logger.info(
                     "move_done received for `%s` during synchronized motion.",
                     motor_name,
