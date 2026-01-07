@@ -28,20 +28,6 @@ K = TypeVar("K", bound=DataType)
 LOGGER = logging.getLogger(__name__)
 
 
-class PropertyEventEmitter(Generic[T], AsyncIOEventEmitter):
-    """
-    This class extends AsyncIOEventEmitter to provide type-safe
-    event emission and handling for property change events.
-    """
-
-    def emit(self, event: str, *args: Any, **kwargs: Any) -> None:  # type: ignore
-        # type: (Literal["change", "event"], T) -> None # type: ignore
-        super().emit(event, *args, **kwargs)
-
-    def on(self, event: Literal["change", "event"], func: Callable[[T], None]) -> None:  # type: ignore[override]
-        super().on(event, func)
-
-
 class ContextWaiter:
     """
     This class allows for awaiting an awaitable either via
@@ -82,136 +68,17 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         _table (dict[str, DataType]): A local cache of property values.
         _connection (ClientConnection): The client connection to the SPEC server.
 
-    Nested Classes:
-        _PropertyBase(Generic[T], PropertyEventEmitter[T]):
-            Base class for properties, providing common functionality for getting values
-            and emitting change events.
-        EventStream(_PropertyBase[T]):
-            A property that just monitors events in a stream.
-            Not necessarily directly writable or readable.
-        ReadableProperty(EventStream[T]):
-            A read-only property that allows getting values and subscribing to changes.
-        WritableProperty(_PropertyBase[T]):
-            A write-only property that allows setting values.
-        Property(ReadableProperty[T], WritableProperty[T]):
-            A read-write property that allows getting and setting values, as well as
-            subscribing to changes.
+    Public Methods:
+        read(property_name: str) -> DataType: Reads the value of a property.
+        read_next(property_name: str) -> DataType: Waits for the next update of a property and returns its value.
+        write(property_name: str, value: DataType) -> None: Writes a value to a property on the server.
+        subscribe(property_name: str) -> None: Subscribes to updates for a property.
+        unsubscribe(property_name: str) -> None: Unsubscribes from a property.
+        property(name: str, coerce: Callable[[Any], T] | None = None) -> RemotePropertyTable.Property[T]: Gets a helper object to manage interfacing with a read-write property.
+        readonly_property(name: str, coerce: Callable[[Any], T] | None = None) -> RemotePropertyTable.ReadableProperty[T]: Gets a helper object to manage interfacing with a read-only property.
+        writeonly_property(name: str) -> RemotePropertyTable.WritableProperty: Gets a helper object to manage interfacing with a write-only property.
+        is_subscribed(property_name: str) -> bool: Checks if there are any active subscriptions to a property.
     """
-
-    class _PropertyBase(PropertyEventEmitter[T]):
-        def __init__(
-            self,
-            name: str,
-            property_table: "RemotePropertyTable",
-            coerce: Callable[[DataType], T] | None = None,
-        ):
-            # TODO: Use a composed emitter. Not inherited.
-            # Its cleaner for DX.
-            super().__init__()
-            self.name = name
-            self._property_table = property_table
-            self._coerce = coerce
-
-        def _cast_value(self, value: DataType) -> T:
-            if self._coerce is not None:
-                try:
-                    return self._coerce(value)
-                except Exception as e:
-                    raise TypeError(
-                        f"Failed to coerce value '{value}' to type {self._coerce}"
-                    ) from e
-            return cast(T, value)
-
-    class EventStream(_PropertyBase[T]):
-        async def get_next(self) -> T:
-            value = await self._property_table.read_next(self.name)
-            return self._cast_value(value)
-
-        def wait_for(self, value: T, timeout: float | None = None) -> ContextWaiter:
-            """
-            Waits until the property changes to the specified value.
-
-            Args:
-                value (T): The value to wait for.
-                timeout (float | None): Optional timeout in seconds.
-            """
-            assert self.is_subscribed(), "Property must be watched to wait for a value."
-            future = asyncio.Future()
-
-            def check_value(new_value: T) -> None:
-                if new_value == value and not future.done():
-                    future.set_result(None)
-
-            def on_done(*args, **kwargs) -> None:
-                self.remove_listener("change", check_value)
-
-            future.add_done_callback(on_done)
-
-            self.on("change", check_value)
-            return ContextWaiter(asyncio.wait_for(future, timeout))
-
-        def is_subscribed(self) -> bool:
-            """
-            Checks if there are any active subscriptions to this property.
-
-            Returns:
-                bool: True if there are active subscriptions, False otherwise.
-            """
-            return self._property_table.is_subscribed(self.name)
-
-        def _emit_change(self, value: T) -> None:
-            try:
-                value = self._cast_value(value)
-            except TypeError:
-                LOGGER.error(
-                    "Received value of incorrect type for property '%s': expected %s, got %s",
-                    self.name,
-                    type(value),
-                )
-                return
-            self.emit("change", value)
-
-        def _emit_event(self, value: T) -> None:
-            self.emit("event", value)
-
-        @asynccontextmanager
-        async def subscribed(
-            self,
-        ) -> AsyncIterator[Self]:
-
-            event_name = f"property-{self.name}"
-            initialized = False
-
-            def skip_first_emit_change(value: T) -> None:
-                # This shenanigans is necessary to preserve change semantics.
-                # The initial value of the property is sent back immediately upon subscribing as an "event".
-                # We don't want to call that a "change" at this level, so we don't emit that.
-                # The initialized value is of course still available from read() at any time.
-                nonlocal initialized
-                if initialized:
-                    self._emit_change(value)
-                initialized = True
-
-            try:
-                self._property_table.on(event_name, skip_first_emit_change)
-                self._property_table.on(event_name, self._emit_event)
-                await self._property_table.subscribe(self.name)
-                yield self
-            finally:
-                self._property_table.remove_listener(event_name, skip_first_emit_change)
-                self._property_table.remove_listener(event_name, self._emit_event)
-                await self._property_table.unsubscribe(self.name)
-
-    class ReadableProperty(EventStream[T]):
-        async def get(self) -> T:
-            value = await self._property_table.read(self.name)
-            return self._cast_value(value)
-
-    class WritableProperty(_PropertyBase[T]):
-        async def set(self, value: T) -> None:
-            await self._property_table.write(self.name, value)
-
-    class Property(ReadableProperty[T], WritableProperty[T]): ...
 
     def __init__(self, connection: ClientConnection):
         super().__init__()
@@ -237,7 +104,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
                 return True
         return False
 
-    async def read(self, property_name: str):
+    async def read(self, property_name: str) -> DataType:
         """
         Read the value of a property from the local cache or from the server.
         If the property is not in the local cache, it will be fetched from the server.
@@ -318,27 +185,27 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         self,
         name: str,
         coerce: Callable[[Any], T] | None = None,
-    ) -> RemotePropertyTable.Property[T]:
+    ) -> Property[T]:
         """
         Gets a helper object to manage interfacing with a read-write property.
         """
-        return RemotePropertyTable.Property(name, self, coerce)
+        return Property(name, self, coerce)
 
     def readonly_property(
         self,
         name: str,
         coerce: Callable[[Any], T] | None = None,
-    ) -> RemotePropertyTable.ReadableProperty[T]:
+    ) -> ReadableProperty[T]:
         """
         Gets a helper object to manage interfacing with a read-only property.
         """
-        return RemotePropertyTable.ReadableProperty(name, self, coerce)
+        return ReadableProperty(name, self, coerce)
 
-    def writeonly_property(self, name: str) -> RemotePropertyTable.WritableProperty:
+    def writeonly_property(self, name: str) -> WritableProperty:
         """
         Gets a helper object to manage interfacing with a write-only property.
         """
-        return RemotePropertyTable.WritableProperty(name, self)
+        return WritableProperty(name, self)
 
     def is_subscribed(self, property_name: str) -> bool:
         """
@@ -353,6 +220,172 @@ class RemotePropertyTable(AsyncIOEventEmitter):
             property_name in self._property_watchers
             and self._property_watchers[property_name] > 0
         )
+
+
+class _PropertyBase(Generic[T]):
+    def __init__(
+        self,
+        name: str,
+        property_table: "RemotePropertyTable",
+    ):
+        super().__init__()
+        self.name = name
+        self._property_table = property_table
+
+
+class EventStream(_PropertyBase[T]):
+    """
+    Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.
+    Clients can subscribe to these events using the on() method, and can also await the next event using the get_next() method or wait for a specific value using the wait_for() method.
+    Clients can also check if there are active subscriptions to the property using the is_subscribed() method.
+    """
+
+    EventType = Literal["change", "event"]
+
+    def __init__(
+        self,
+        name: str,
+        property_table: "RemotePropertyTable",
+        coerce: Callable[[DataType], T] | None = None,
+    ):
+        super().__init__(name, property_table)
+        self._emitter = AsyncIOEventEmitter()
+        self._coerce = coerce
+
+    def _cast_value(self, value: DataType) -> T:
+        if self._coerce is not None:
+            try:
+                return self._coerce(value)
+            except Exception as e:
+                raise TypeError(
+                    f"Failed to coerce value '{value}' to type {self._coerce}"
+                ) from e
+        return cast(T, value)
+
+    def _emit_change(self, value: T) -> None:
+        try:
+            value = self._cast_value(value)
+            self._emitter.emit("change", value)
+        except TypeError:
+            LOGGER.error(
+                "Received value of incorrect type for property '%s': expected %s, got %s",
+                self.name,
+                type(value),
+            )
+            return
+
+    def _emit_event(self, value: T) -> None:
+        self._emitter.emit("event", value)
+
+    def on(self, event: EventType, func: Callable[[T], None]) -> None:
+        self._emitter.on(event, func)
+
+    def once(self, event: EventType, func: Callable[[T], None]) -> None:
+        self._emitter.once(event, func)
+
+    def remove_listener(self, event: EventType, func: Callable[[T], None]) -> None:
+        self._emitter.remove_listener(event, func)
+
+    async def get_next(self) -> T:
+        value = await self._property_table.read_next(self.name)
+        return self._cast_value(value)
+
+    def wait_for(self, value: T, timeout: float | None = None) -> ContextWaiter:
+        """
+        Waits until the property changes to the specified value.
+
+        Args:
+            value (T): The value to wait for.
+            timeout (float | None): Optional timeout in seconds.
+        """
+        assert self.is_subscribed(), "Property must be watched to wait for a value."
+        future = asyncio.Future()
+
+        def check_value(new_value: T) -> None:
+            if new_value == value and not future.done():
+                future.set_result(None)
+
+        def on_done(*args, **kwargs) -> None:
+            self.remove_listener("change", check_value)
+
+        future.add_done_callback(on_done)
+
+        self.on("change", check_value)
+        return ContextWaiter(asyncio.wait_for(future, timeout))
+
+    def is_subscribed(self) -> bool:
+        """
+        Checks if there are any active subscriptions to this property.
+
+        Returns:
+            bool: True if there are active subscriptions, False otherwise.
+        """
+        return self._property_table.is_subscribed(self.name)
+
+    @asynccontextmanager
+    async def subscribed(
+        self,
+    ) -> AsyncIterator[Self]:
+
+        event_name = f"property-{self.name}"
+        initialized = False
+
+        def skip_first_emit_change(value: T) -> None:
+            # This shenanigans is necessary to preserve change semantics.
+            # The initial value of the property is sent back immediately upon subscribing as an "event".
+            # We don't want to call that a "change" at this level, so we don't emit that.
+            # The initialized value is of course still available from read() at any time.
+            nonlocal initialized
+            if initialized:
+                self._emit_change(value)
+            initialized = True
+
+        try:
+            self._property_table.on(event_name, skip_first_emit_change)
+            self._property_table.on(event_name, self._emit_event)
+            await self._property_table.subscribe(self.name)
+            yield self
+        finally:
+            self._property_table.remove_listener(event_name, skip_first_emit_change)
+            self._property_table.remove_listener(event_name, self._emit_event)
+            await self._property_table.unsubscribe(self.name)
+
+    @asynccontextmanager
+    async def capture(self, wait_time: float = 0.0):
+        """
+        Context manager that captures output from the server for the duration of the context.
+
+        Example usage:
+            async with client.output("tty").capture() as output:
+                await client.exec('print("Hello, world!")')
+                assert output[-1] == "Hello, world!\n"
+
+        Args:
+            wait_time (float): Optional time to wait after the context block exits to ensure all output is captured.
+        """
+        lines = []
+        self.on("event", lines.append)
+        try:
+            async with self.subscribed():
+                yield lines
+                # Wait for any remaining output to be captured before unsubscribing.
+                await asyncio.sleep(wait_time)
+        finally:
+            self.remove_listener("event", lines.append)
+
+
+class ReadableProperty(EventStream[T]):
+    async def get(self) -> T:
+        value = await self._property_table.read(self.name)
+        return self._cast_value(value)
+
+
+class WritableProperty(_PropertyBase[T]):
+    async def set(self, value: T) -> None:
+        await self._property_table.write(self.name, value)
+
+
+class Property(ReadableProperty[T], WritableProperty[T]): ...
 
 
 class PropertyGroup:
@@ -370,20 +403,27 @@ class PropertyGroup:
         self,
         name: str,
         coerce: Callable[[Any], T] | None = None,
-    ) -> RemotePropertyTable.Property[T]:
+    ) -> Property[T]:
         return self._remote_property_table.property(self._path(name), coerce)
+
+    def _event_stream(
+        self,
+        name: str,
+        coerce: Callable[[Any], T] | None = None,
+    ) -> EventStream[T]:
+        return self._remote_property_table.readonly_property(self._path(name), coerce)
 
     def _readonly_property(
         self,
         name: str,
         coerce: Callable[[Any], T] | None = None,
-    ) -> RemotePropertyTable.ReadableProperty[T]:
+    ) -> ReadableProperty[T]:
         return self._remote_property_table.readonly_property(self._path(name), coerce)
 
     def _writeonly_property(
         self,
         name: str,
-    ) -> RemotePropertyTable.WritableProperty:
+    ) -> WritableProperty:
         return self._remote_property_table.writeonly_property(self._path(name))
 
     async def __aenter__(self) -> Self:
@@ -394,7 +434,7 @@ class PropertyGroup:
                 self._stack.enter_async_context(prop.subscribed())
                 for _, prop in inspect.getmembers(self)
                 # Only subscribe to ReadableProperty instances
-                if isinstance(prop, RemotePropertyTable.ReadableProperty)
+                if isinstance(prop, ReadableProperty)
             ]
         )
         return self

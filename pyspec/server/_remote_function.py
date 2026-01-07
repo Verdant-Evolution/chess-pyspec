@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import ast
 import asyncio
 import logging
-import ast
 from typing import Any, Callable, Coroutine, TypeVar
 
 from pyspec._connection.data import DataType

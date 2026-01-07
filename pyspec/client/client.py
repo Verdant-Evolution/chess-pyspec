@@ -3,20 +3,22 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from typing import Any, Callable, TypeVar
 
-from pyee.asyncio import AsyncIOEventEmitter
-
 from pyspec._connection import ClientConnection
 from pyspec._connection.data import DataType
-from pyspec.client._output import Output
 
 from ._motor import Motor
-from ._remote_property_table import RemotePropertyTable
+from ._remote_property_table import (
+    EventStream,
+    Property,
+    PropertyGroup,
+    RemotePropertyTable,
+)
 from ._status import Status
 
 T = TypeVar("T", bound=DataType)
 
 
-class Client(AsyncIOEventEmitter):
+class Client(PropertyGroup):
     """
     This class represents a client that connects to a PySpec server.
 
@@ -32,6 +34,7 @@ class Client(AsyncIOEventEmitter):
     def __init__(self, host: str, port: int):
         self._connection = ClientConnection(host, port)
         self._remote_property_table = RemotePropertyTable(self._connection)
+        super().__init__("", self._remote_property_table)
 
     async def __aenter__(self):
         await self._connection.__aenter__()
@@ -39,16 +42,6 @@ class Client(AsyncIOEventEmitter):
 
     async def __aexit__(self, exc_type, exc, tb):
         await self._connection.__aexit__(exc_type, exc, tb)
-
-    def _property(
-        self, name: str, coerce: Callable[[Any], T] | None = None
-    ) -> RemotePropertyTable.Property[T]:
-        return self._remote_property_table.property(name, coerce)
-
-    def _readonly_property(
-        self, name: str, coerce: Callable[[Any], T] | None = None
-    ) -> RemotePropertyTable.ReadableProperty[T]:
-        return self._remote_property_table.readonly_property(name, coerce)
 
     def status(self) -> Status:
         """
@@ -76,7 +69,7 @@ class Client(AsyncIOEventEmitter):
 
     def var(
         self, var_name: str, coerce: Callable[[Any], T] | None = None
-    ) -> RemotePropertyTable.Property[T]:
+    ) -> Property[T]:
         """
         The var properties allow values of any variables to be transferred between the server and the client.
         Enter only the variable name; the property will be created as: var/{var_name}
@@ -102,11 +95,11 @@ class Client(AsyncIOEventEmitter):
             coerce (Callable[[Any], T], optional): An optional function to coerce the data to a specific type.
 
         Returns:
-            RemotePropertyTable.Property[T]: The property representing the variable on the server.
+            Property[T]: The property representing the variable on the server.
         """
         return self._property(f"var/{var_name}", coerce)
 
-    def output(self, filename: str) -> Output:
+    def output(self, filename: str) -> EventStream[str]:
         """
         The output property puts copies of the strings written to files or to the screen in events sent to clients.
 
@@ -121,9 +114,9 @@ class Client(AsyncIOEventEmitter):
 
             (The output property was introduced in spec release 5.07.04-1.)
         """
-        return Output(self._readonly_property(f"output/{filename}", str), filename)
+        return self._readonly_property(f"output/{filename}", str)
 
-    def count(self) -> RemotePropertyTable.Property[bool]:
+    def count(self) -> Property[bool]:
         """
         The count property provides a count of the number of commands executed by the server since it was started.
 

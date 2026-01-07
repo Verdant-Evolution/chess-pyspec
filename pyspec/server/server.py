@@ -6,20 +6,20 @@ import logging
 import threading
 from collections import defaultdict
 from contextlib import contextmanager
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable
 
 from pyee.asyncio import AsyncIOEventEmitter
 
 from pyspec._connection.data import DataType
 from pyspec.server._remote_property import Property
+
+from .._connection import ServerConnection
 from ._remote_function import (
     SyncOrAsyncCallable,
     is_remote_function,
     parse_remote_function_string,
     remote_function_name,
 )
-
-from .._connection import ServerConnection
 
 LOGGER = logging.getLogger("pyspec.server")
 

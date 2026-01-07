@@ -1,8 +1,11 @@
 from __future__ import annotations
-from typing import Generic, TypeVar, Literal, Callable, Any
-from pyee.asyncio import AsyncIOEventEmitter
-from pyspec._connection.data import DataType
+
 import logging
+from typing import Any, Callable, Generic, Literal, TypeVar
+
+from pyee.asyncio import AsyncIOEventEmitter
+
+from pyspec._connection.data import DataType
 
 LOGGER = logging.getLogger(__name__)
 

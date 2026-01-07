@@ -1,6 +1,7 @@
+from typing import Literal, Optional, overload
 from pyspec._connection import ClientConnection
 
-from ._remote_property_table import PropertyGroup, RemotePropertyTable
+from ._remote_property_table import PropertyGroup, RemotePropertyTable, WritableProperty
 
 
 class Motor(PropertyGroup):
@@ -119,9 +120,7 @@ class Motor(PropertyGroup):
 
             onto the server command queue. (The last argument adds the current high limit to the set_lm command line.)
         """
-        self.limits: RemotePropertyTable.WritableProperty[str] = (
-            self._writeonly_property("limits")
-        )
+        self._limits: WritableProperty[str] = self._writeonly_property("limits")
         """
         motor/{mne}/limits
             set: Sets both motor limits by pushing
@@ -131,9 +130,7 @@ class Motor(PropertyGroup):
                 onto the server command queue,
                 where data should contain the low and high motor limit values in a string.
         """
-        self.search: RemotePropertyTable.WritableProperty[str] = (
-            self._writeonly_property("search")
-        )
+        self._search: WritableProperty[str] = self._writeonly_property("search")
         """
         motor/{mne}/search
             set: The server starts a home or limit search by pushing a
@@ -148,10 +145,6 @@ class Motor(PropertyGroup):
                 The `how` argument is one of the strings recognized by chg_dial(),
                 namely \"home\", \"home+\", \"home-\", \"lim+\" or \"lim-\".
                 The optional home_pos is the home position in dial units.
-
-                # TODO: It is not clear what it means by sending data with "two arguments" here.
-                # Need to check how that is supposed to be formatted.
-
         """
         self.unusable = self._readonly_property("unusable", bool)
         """
@@ -168,9 +161,7 @@ class Motor(PropertyGroup):
 
         # self.sync_check = self._property("sync_check", str)
 
-        self._start_one: RemotePropertyTable.WritableProperty[float] = (
-            self._writeonly_property("start_one")
-        )
+        self._start_one: WritableProperty[float] = self._writeonly_property("start_one")
         """
         motor/mne/start_one
             set: If preceded by a prestart_all, adds a
@@ -203,3 +194,47 @@ class Motor(PropertyGroup):
             return await self._move(position)
 
         self._client_connection._pending_motions[self.name] = position
+
+    @overload
+    async def search(self, how: Literal["home", "home+", "home-"], home_pos: float): ...
+
+    @overload
+    async def search(self, how: Literal["lim+", "lim-"], home_pos: None = None): ...
+    async def search(
+        self,
+        how: Literal["home", "home+", "home-", "lim+", "lim-"],
+        home_pos: Optional[float] = None,
+    ):
+        """
+        Start a home or limit search.
+
+        Pushes a chg_dial command like:
+            chg_dial(mne, how)\\n
+                or
+            chg_dial(mne, how, home_pos)\\n
+
+        Args:
+            how (str): The type of search to perform. Must be one of "home", "home+", "home-", "lim+" or "lim-".
+            home_pos (float, optional): The home position in dial units.
+        """
+
+        if how.startswith("home"):
+            if home_pos is None:
+                raise ValueError("home_pos must be provided for home searches")
+            return await self._search.set(f"{how} {home_pos}")
+
+        return await self._search.set(how)
+
+    async def set_limits(self, low_limit: float, high_limit: float):
+        """
+        Set both motor limits by pushing
+
+            set_lm mne data\\n
+
+        onto the server command queue, where data should contain the low and high motor limit values in a string.
+
+        Args:
+            low_limit (float): The low limit
+            high_limit (float): The high limit
+        """
+        await self._limits.set(f"{low_limit} {high_limit}")
