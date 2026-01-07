@@ -341,7 +341,9 @@ class ClientConnection(
         While this context is active, motor movements will be held.
         Upon exiting the context, the movements will be initialized simultaneously.
 
-        Usage::
+        Example usage:
+
+        .. code-block:: python
 
             async with client_connection.synchronized_motors():
                 # Motor movement will be held in here.
@@ -355,7 +357,6 @@ class ClientConnection(
             # Outside of the context, all motors have completed their movements.
 
         :param timeout: Maximum time to wait for all motors to complete, in seconds.
-        :yields: None
         :raises RuntimeError: If there are pending motor motions from a previous context.
         """
         assert (

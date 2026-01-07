@@ -7,8 +7,11 @@ from ._remote_property_table import PropertyGroup, RemotePropertyTable, Writable
 class Motor(PropertyGroup):
     """
     The motor properties are used to control the motors.
-    The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server
-    are always transmitted as ASCII strings in the data that follows the packet header.
+    The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.
+
+    :param motor_name: The name of the motor.
+    :param client_connection: The client connection instance.
+    :param remote_property_table: The remote property table instance.
     """
 
     def __init__(
@@ -36,6 +39,8 @@ class Motor(PropertyGroup):
             get: Returns the current motor position in dial units.
             set: Sets the dial position on the server by pushing a
 
+                .. code-block:: none
+                
                     set_dial mne data\\n
 
                 onto the command queue, unless the dial position is already set to that value.
@@ -47,6 +52,8 @@ class Motor(PropertyGroup):
             get: Returns the current user offset in dial units.
             set: Sets the user offset by pushing the
 
+                .. code-block:: none
+                
                     set mne value\\n
 
                 command onto the command queue, unless the offset is already at the value.
@@ -104,6 +111,8 @@ class Motor(PropertyGroup):
             get: Returns the high limit in dial units.
             set: Sets the high limit by pushing
 
+                .. code-block:: none
+                
                     set_lm  mne data user(mne,get_lim(mne,-1))\\n
 
                 onto the server command queue. (The last argument adds the current low limit to the set_lm command line.)
@@ -116,7 +125,9 @@ class Motor(PropertyGroup):
             get: Returns the low limit in dial units.
             set: Sets the low limit by pushing
 
-                set_lm mne data user(mne,get_lim(mne,+1))\\n
+                .. code-block:: none
+                
+                    set_lm mne data user(mne,get_lim(mne,+1))\\n
 
             onto the server command queue. (The last argument adds the current high limit to the set_lm command line.)
         """
@@ -125,6 +136,8 @@ class Motor(PropertyGroup):
         motor/{mne}/limits
             set: Sets both motor limits by pushing
 
+                .. code-block:: none
+                
                     set_lm mne data\\n
 
                 onto the server command queue,
@@ -135,10 +148,14 @@ class Motor(PropertyGroup):
         motor/{mne}/search
             set: The server starts a home or limit search by pushing a
 
+                .. code-block:: none
+                
                     chg_dial(mne, how)\\n
 
                 or a
-
+                
+                .. code-block:: none
+                
                     chg_dial(mne, how, home_pos)\\n
 
                 onto the command queue, depending on whether the data contains one or two arguments.
@@ -166,10 +183,15 @@ class Motor(PropertyGroup):
         motor/mne/start_one
             set: If preceded by a prestart_all, adds a
 
+                    
+                .. code-block:: none
+                
                     A[mne]=data;
 
                 to the buffer that will be pushed onto the server command queue. Otherwise, pushes
 
+                .. code-block:: none
+                
                     {get_angles;A[mne]=data;move_em;}\\n
 
                 onto the command queue in order to start the single motor moving.
@@ -186,8 +208,7 @@ class Motor(PropertyGroup):
 
         If motor synchronization is enabled, the move will be queued until synchronization is executed.
 
-        Args:
-            position (float): The target position to move the motor to.
+        :param position: The target position to move the motor to.
         """
 
         if not self._client_connection._synchronizing_motors:
@@ -209,13 +230,15 @@ class Motor(PropertyGroup):
         Start a home or limit search.
 
         Pushes a chg_dial command like:
-            chg_dial(mne, how)\\n
-                or
-            chg_dial(mne, how, home_pos)\\n
 
-        Args:
-            how (str): The type of search to perform. Must be one of "home", "home+", "home-", "lim+" or "lim-".
-            home_pos (float, optional): The home position in dial units.
+        .. code-block:: none
+
+            chg_dial(mne, how)\n
+                or
+            chg_dial(mne, how, home_pos)\n
+
+        :param how: The type of search to perform. Must be one of "home", "home+", "home-", "lim+" or "lim-".
+        :param home_pos: The home position in dial units (required for home searches).
         """
 
         if how.startswith("home"):
@@ -227,14 +250,15 @@ class Motor(PropertyGroup):
 
     async def set_limits(self, low_limit: float, high_limit: float):
         """
-        Set both motor limits by pushing
+        Set both motor limits by pushing:
 
-            set_lm mne data\\n
+        .. code-block:: none
+
+            set_lm mne data\n
 
         onto the server command queue, where data should contain the low and high motor limit values in a string.
 
-        Args:
-            low_limit (float): The low limit
-            high_limit (float): The high limit
+        :param low_limit: The low limit value.
+        :param high_limit: The high limit value.
         """
         await self._limits.set(f"{low_limit} {high_limit}")

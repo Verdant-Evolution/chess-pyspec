@@ -32,12 +32,18 @@ class ContextWaiter:
     """
     This class allows for awaiting an awaitable either via
 
+    .. code-block:: python
+
         async with ContextWaiter(...):
             ...
 
     or via
 
+    .. code-block:: python
+
         await ContextWaiter(...)
+
+    :param awaitable: The awaitable to wait for.
     """
 
     def __init__(self, awaitable: Awaitable):
@@ -62,22 +68,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
     Class to manage remote properties on a SPEC server.
     Allows reading, writing, and subscribing to property changes.
 
-    Attributes:
-        _property_watchers (dict[str, int]): A dictionary to track the number of watchers
-            for each property.
-        _table (dict[str, DataType]): A local cache of property values.
-        _connection (ClientConnection): The client connection to the SPEC server.
-
-    Public Methods:
-        read(property_name: str) -> DataType: Reads the value of a property.
-        read_next(property_name: str) -> DataType: Waits for the next update of a property and returns its value.
-        write(property_name: str, value: DataType) -> None: Writes a value to a property on the server.
-        subscribe(property_name: str) -> None: Subscribes to updates for a property.
-        unsubscribe(property_name: str) -> None: Unsubscribes from a property.
-        property(name: str, coerce: Callable[[Any], T] | None = None) -> RemotePropertyTable.Property[T]: Gets a helper object to manage interfacing with a read-write property.
-        readonly_property(name: str, coerce: Callable[[Any], T] | None = None) -> RemotePropertyTable.ReadableProperty[T]: Gets a helper object to manage interfacing with a read-only property.
-        writeonly_property(name: str) -> RemotePropertyTable.WritableProperty: Gets a helper object to manage interfacing with a write-only property.
-        is_subscribed(property_name: str) -> bool: Checks if there are any active subscriptions to a property.
+    :param connection: The client connection to the SPEC server.
     """
 
     def __init__(self, connection: ClientConnection):
@@ -111,10 +102,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
 
         The result is only cached if it has been subscribed to.
 
-        Args:
-            property_name (str): The name of the property to read.
-        Returns:
-            DataType: The value of the property.
+        :param property_name: The name of the property to read.
+        :returns: The value of the property.
         """
         if self.is_subscribed(property_name):
             # This only happens when we are subscribed to the property
@@ -132,10 +121,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         Wait for the next update of a property and return its value.
         See read() for more details.
 
-        Args:
-            property_name (str): The name of the property to read.
-        Returns:
-            DataType: The next value of the property.
+        :param property_name: The name of the property to read.
+        :returns: The next value of the property.
         """
         assert self.is_subscribed(
             property_name
@@ -149,10 +136,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Writes a value to a property on the server.
 
-        Args:
-            property_name (str): The name of the property to write to.
-            value (DataType): The value to write to the property.
-
+        :param property_name: The name of the property to write to.
+        :param value: The value to write to the property.
         """
         await self._connection.prop_set(property_name, value)
 
@@ -164,9 +149,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         cached locally and the provided callback to be called
         whenever the property value changes.
 
-        Args:
-            property_name (str): The name of the property to subscribe to.
-            callback (Callable[[K], None] | None): Optional callback to call on updates.
+        :param property_name: The name of the property to subscribe to.
         """
         if self._increment_watcher(property_name):
             await self._connection.prop_watch(property_name)
@@ -175,8 +158,7 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Unsubscribes from a property.
 
-        Args:
-            property_name (str): The name of the property to unsubscribe from.
+        :param property_name: The name of the property to unsubscribe from.
         """
         if self._decrement_watcher(property_name):
             await self._connection.prop_unwatch(property_name)
@@ -188,6 +170,10 @@ class RemotePropertyTable(AsyncIOEventEmitter):
     ) -> Property[T]:
         """
         Gets a helper object to manage interfacing with a read-write property.
+
+        :param name: The property name.
+        :param coerce: Optional function to coerce the data to a specific type.
+        :returns: A Property helper object.
         """
         return Property(name, self, coerce)
 
@@ -198,12 +184,19 @@ class RemotePropertyTable(AsyncIOEventEmitter):
     ) -> ReadableProperty[T]:
         """
         Gets a helper object to manage interfacing with a read-only property.
+
+        :param name: The property name.
+        :param coerce: Optional function to coerce the data to a specific type.
+        :returns: A ReadableProperty helper object.
         """
         return ReadableProperty(name, self, coerce)
 
     def writeonly_property(self, name: str) -> WritableProperty:
         """
         Gets a helper object to manage interfacing with a write-only property.
+
+        :param name: The property name.
+        :returns: A WritableProperty helper object.
         """
         return WritableProperty(name, self)
 
@@ -211,10 +204,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Checks if there are any active subscriptions to a property.
 
-        Args:
-            property_name (str): The name of the property to check.
-        Returns:
-            bool: True if there are active subscriptions, False otherwise.
+        :param property_name: The name of the property to check.
+        :returns: True if there are active subscriptions, False otherwise.
         """
         return (
             property_name in self._property_watchers
@@ -236,8 +227,10 @@ class _PropertyBase(Generic[T]):
 class EventStream(_PropertyBase[T]):
     """
     Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.
-    Clients can subscribe to these events using the on() method, and can also await the next event using the get_next() method or wait for a specific value using the wait_for() method.
-    Clients can also check if there are active subscriptions to the property using the is_subscribed() method.
+
+    :param name: The property name.
+    :param property_table: The remote property table instance.
+    :param coerce: Optional function to coerce the data to a specific type.
     """
 
     EventType = Literal["change", "event"]
@@ -294,9 +287,8 @@ class EventStream(_PropertyBase[T]):
         """
         Waits until the property changes to the specified value.
 
-        Args:
-            value (T): The value to wait for.
-            timeout (float | None): Optional timeout in seconds.
+        :param value: The value to wait for.
+        :param timeout: Optional timeout in seconds.
         """
         assert self.is_subscribed(), "Property must be watched to wait for a value."
         future = asyncio.Future()
@@ -356,12 +348,15 @@ class EventStream(_PropertyBase[T]):
         Context manager that captures output from the server for the duration of the context.
 
         Example usage:
+
+        .. code-block:: python
+
             async with client.output("tty").capture() as output:
                 await client.exec('print("Hello, world!")')
-                assert output[-1] == "Hello, world!\n"
+                assert output[-1] == "Hello, world!\\n"
 
-        Args:
-            wait_time (float): Optional time to wait after the context block exits to ensure all output is captured.
+        :param wait_time: Optional time to wait after the context block exits to ensure all output is captured.
+        :yields: List of output lines captured during the context.
         """
         lines = []
         self.on("event", lines.append)

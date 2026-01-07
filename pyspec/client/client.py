@@ -20,15 +20,12 @@ T = TypeVar("T", bound=DataType)
 
 class Client(PropertyGroup):
     """
-    This class represents a client that connects to a PySpec server.
+    Represents a client that connects to a PySpec server.
 
-    This should be the main entry point for users of the pyspec.client package.
-    The methods of this class allow access to various slices of server functionality,
-    such as motor control, status monitoring, variable access, and command execution.
+    This is the main entry point for users of the pyspec.client package. Methods allow access to motor control, status monitoring, variable access, and command execution.
 
-    Args:
-        host (str): The hostname or IP address of the server.
-        port (int): The port number of the server.
+    :param host: The hostname or IP address of the server.
+    :param port: The port number of the server.
     """
 
     def __init__(self, host: str, port: int):
@@ -45,25 +42,19 @@ class Client(PropertyGroup):
 
     def status(self) -> Status:
         """
-        The status properties reflect changes in the server state that may affect the server's ability
-        to execute client commands or control hardware.
+        The status properties reflect changes in the server state that may affect the server's ability to execute client commands or control hardware.
 
-        Returns:
-            Status: The status property group. See the Status class for details.
+        :returns: The status property group. See the :class:`pyspec.client._status.Status` class for details.
         """
         return Status(self._remote_property_table)
 
     def motor(self, motor_name: str) -> Motor:
         """
         The motor properties are used to control the motors.
-        The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server
-        are always transmitted as ASCII strings in the data that follows the packet header.
+        The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.
 
-        Args:
-            motor_name (str): The name of the motor to control.
-
-        Returns:
-            Motor: The motor property group. See the Motor class for details.
+        :param motor_name: The name of the motor to control.
+        :returns: The motor property group. See the :class:`pyspec.client._motor.Motor` class for details.
         """
         return Motor(motor_name, self._connection, self._remote_property_table)
 
@@ -84,18 +75,14 @@ class Client(PropertyGroup):
                 Sets the value of var_name on the server to the contents of data.
         All data types (numbers, strings, associative arrays and data arrays) are supported.
 
-        For built-in associative arrays (A[], S[] and possibly G[], Q[], Z[], U[] and UB[], depending on geometry),
-        only existing elements can be set.
+        For built-in associative arrays (A[], S[] and possibly G[], Q[], Z[], U[] and UB[], depending on geometry), only existing elements can be set.
 
-        Properties can be created for individual elements of associative arrays by using the syntax
-            var_name = "array_name[element_key]"
+        Properties can be created for individual elements of associative arrays by using the syntax var_name = "array_name[element_key]"
 
-        Args:
-            var_name (str): The name of the variable on the server.
-            coerce (Callable[[Any], T], optional): An optional function to coerce the data to a specific type.
+        :param var_name: The name of the variable on the server.
+        :param coerce: An optional function to coerce the data to a specific type.
 
-        Returns:
-            Property[T]: The property representing the variable on the server.
+        :returns: The property representing the variable on the server.
         """
         return self._property(f"var/{var_name}", coerce)
 
@@ -107,12 +94,14 @@ class Client(PropertyGroup):
 
             on("change")
                 Sent when the server sends output to the file or device given by filename, where filename can be the built-in name "tty" or a file or device name. The data will be a string representing the output.
-            Once a client has registered for output events from a particular file,
-            the server will keep track of the client's request as the file is opened and closed.
-            File names are given relative to the server's current directory and can be relative or absolute path names,
-            just as with the built-in commands that refer to files.
+            Once a client has registered for output events from a particular file, the server will keep track of the client's request as the file is opened and closed.
+            File names are given relative to the server's current directory and can be relative or absolute path names, just as with the built-in commands that refer to files.
 
             (The output property was introduced in spec release 5.07.04-1.)
+
+        :param filename: The file or device name to monitor output for.
+
+        :returns: An event stream for output events.
         """
         return self._readonly_property(f"output/{filename}", str)
 
@@ -127,43 +116,44 @@ class Client(PropertyGroup):
         get
             Data indicates counting (True) or not counting (False).
         set
-            If data is nonzero, the server pushes a
-                count_em data\n
-            onto the command queue.
+            If data is nonzero, the server pushes a "count_em data\\\\n" onto the command queue.
             If data is False, counting is aborted as if a ^C had been typed at the server.
+
+
+        :returns: The property representing the count state.
         """
         return self._property("scaler/.all./count", bool)
 
     async def call(self, function_name: str, *args: str | float | int) -> DataType:
         """
-        Call a remote funciton on the server.
-        Args:
-            function_name (str): The name of the remote function to call.
-            *args (str | float | int): The arguments to pass to the remote function.
-        Returns:
-            DataType: The result of the remote function call.
+        Call a remote function on the server.
+
+        :param function_name: The name of the remote function to call.
+        :param args: The arguments to pass to the remote function.
+        :returns: The result of the remote function call.
         """
         return await self._connection.remote_func(function_name, *args)
 
     async def exec(self, command: str) -> DataType:
         """
         Execute a command on the server.
-        Args:
-            command (str): The command to execute.
-        Returns:
-            DataType: The result of the command execution.
+
+        :param command: The command to execute.
+        :returns: The result of the command execution.
         """
         return await self._connection.remote_cmd(command)
 
     @asynccontextmanager
-    async def synchronized_motors(self):
+    async def synchronized_motors(self, timeout: float | None = None):
         """
         Context manager to enable synchronized motor operations for the client.
 
-        While this context is active, motor movements will be held.
-        Upon exiting the context, the movements will be initialized simultaneously
+        While this context is active, motor movements will be held. Upon exiting the context, the movements will be initialized simultaneously.
 
-        Usage:
+        Example usage:
+
+        .. code-block:: python
+
             async with client.synchronized_motors():
                 # Motor movement will be held in here.
                 motor1.move(position)
@@ -174,6 +164,11 @@ class Client(PropertyGroup):
                 # Motors will start moving simultaneously here.
 
             # Outside of the context, all motors have completed their movements.
+
+
+        :param timeout: Maximum time to wait for all motors to complete, in seconds. If None, wait indefinitely.
+        :yields: None
+        :raises RuntimeError: If there are pending motor motions from a previous context.
         """
-        async with self._connection.synchronized_motors():
+        async with self._connection.synchronized_motors(timeout):
             yield

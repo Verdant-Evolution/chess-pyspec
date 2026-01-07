@@ -47,6 +47,11 @@ class Singleton:
 
 class ServerException(Exception):
     def __init__(self, msg: str, *args: object) -> None:
+        """
+        Exception for server errors.
+
+        :param msg: The error message.
+        """
         super().__init__(msg, *args)
         self.msg = msg
 
@@ -59,6 +64,13 @@ class Server(AsyncIOEventEmitter, Singleton):
     def __init__(
         self, host: str = "localhost", port: int | None = None, test_mode: bool = False
     ):
+        """
+        Initialize the server.
+
+        :param host: The hostname to bind the server to.
+        :param port: The port to bind the server to.
+        :param test_mode: If True, enables test mode (arbitrary code execution allowed).
+        """
         super().__init__()
         self.host = host
         self.port = port
@@ -81,6 +93,7 @@ class Server(AsyncIOEventEmitter, Singleton):
         methods decorated with @remote_function.
 
         This table is used to dispatch remote function calls from clients.
+        :returns: Dictionary mapping function names to callables.
         """
         remote_functions: dict[str, SyncOrAsyncCallable] = {}
         for attr_name, attr in inspect.getmembers(self):
@@ -93,6 +106,7 @@ class Server(AsyncIOEventEmitter, Singleton):
         """
         Registers all Property attributes found on the Server instance.
         This method sets up listeners to broadcast property changes to connected clients.
+        :returns: Dictionary mapping property names to Property objects.
         """
 
         def make_broadcaster(property_name: str) -> Callable[[Any], asyncio.Task]:
@@ -113,14 +127,11 @@ class Server(AsyncIOEventEmitter, Singleton):
     @contextmanager
     def abortable(self, task: asyncio.Task):
         """
-        Context manager to register a task as
-        an abortable task on the server.
+        Context manager to register a task as an abortable task on the server.
 
-        A task registered like this will be interrupted by
-        ABORT commands from clients or by calling the server's abort() method.
+        A task registered like this will be interrupted by ABORT commands from clients or by calling the server's abort() method.
 
-        Args:
-            task (asyncio.Task): The task to register as abortable.
+        :param task: The task to register as abortable.
         """
         try:
             self._abortable_tasks.add(task)
@@ -135,14 +146,9 @@ class Server(AsyncIOEventEmitter, Singleton):
 
         Executes an arbitrary command string in test mode only.
 
-        Args:
-            command (str): The command string to execute.
-
-        Returns:
-            DataType: The result of the executed command.
-
-        Raises:
-            PermissionError: If not in test mode.
+        :param command: The command string to execute.
+        :returns: The result of the executed command.
+        :raises PermissionError: If not in test mode.
         """
         if self._test_mode:
             return eval(command)
@@ -155,11 +161,8 @@ class Server(AsyncIOEventEmitter, Singleton):
         Attempts to execute a function call defined on the server.
         Refers to the table of remote functions built at server initialization.
 
-        Args:
-            function_call (str): The function call string, e.g. "func_name(arg1, arg2)".
-
-        Returns:
-            DataType: The result of the function call.
+        :param function_call: The function call string, e.g. "func_name(arg1, arg2)".
+        :returns: The result of the function call.
         """
 
         name, args = parse_remote_function_string(function_call)
@@ -182,8 +185,10 @@ class Server(AsyncIOEventEmitter, Singleton):
 
     async def broadcast_property(self, property_name: str, value: DataType) -> None:
         """
-        Broadcasts a property value to all connected clients that
-        are subscribed to updates for that property.
+        Broadcasts a property value to all connected clients that are subscribed to updates for that property.
+
+        :param property_name: The name of the property to broadcast.
+        :param value: The value to broadcast.
         """
         listening_clients = self._property_listeners.get(property_name, set())
         await asyncio.gather(
@@ -205,6 +210,9 @@ class Server(AsyncIOEventEmitter, Singleton):
         """
         Handles a new client connection. Sets up event handlers for all of the necessary
         messages that the server needs to handle to implement a "SPEC Server."
+
+        :param client_reader: The stream reader for the client connection.
+        :param client_writer: The stream writer for the client connection.
         """
         host, port = client_writer.get_extra_info("peername")
         logger = LOGGER.getChild(f"{host}:{port}")
@@ -285,12 +293,18 @@ class Server(AsyncIOEventEmitter, Singleton):
                 await connection.serve_forever()
 
     async def __aenter__(self):
+        """
+        Async context manager entry. Starts the server.
+        """
         self._server = await asyncio.start_server(
             self._on_client_connected, self.host, self.port, reuse_port=True
         )
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
+        """
+        Async context manager exit. Shuts down the server and disposes the singleton instance.
+        """
         if self._server:
             self._server.close()
             await self._server.wait_closed()
@@ -300,7 +314,9 @@ class Server(AsyncIOEventEmitter, Singleton):
         self.dispose()
 
     async def serve_forever(self):
-        """Runs the server indefinitely."""
+        """
+        Runs the server indefinitely.
+        """
         if not self._server:
             raise RuntimeError("Server is not running. Use 'async with Server(...)'.")
 

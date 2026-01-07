@@ -15,8 +15,7 @@ T = TypeVar("T", bound=DataType)
 
 class PropertyEventEmitter(Generic[T], AsyncIOEventEmitter):
     """
-    This class extends AsyncIOEventEmitter to provide type-safe
-    event emission and handling for property change events.
+    This class extends AsyncIOEventEmitter to provide type-safe event emission and handling for property change events.
     """
 
     def emit(self, event: str, *args: Any, **kwargs: Any) -> None:  # type: ignore
@@ -31,10 +30,9 @@ class Property(PropertyEventEmitter[T]):
     """
     Defines a property that can be remotely accessed by clients.
 
-    Args:
-        name (str): The name of the property.
-        initial_value (T): The initial value of the property.
-        dtype (type[T], optional): The expected data type of the property. Defaults to object (no validation).
+    :param name: The name of the property.
+    :param initial_value: The initial value of the property.
+    :param dtype: The expected data type of the property. Defaults to object (no validation).
     """
 
     def __init__(
@@ -49,9 +47,19 @@ class Property(PropertyEventEmitter[T]):
         self._dtype = dtype
 
     def get(self) -> T:
+        """
+        Get the current value of the property.
+
+        :returns: The current value of the property.
+        """
         return self._value
 
     def set(self, value: T) -> None:
+        """
+        Set the value of the property and emit a change event.
+
+        :param value: The new value to set.
+        """
         if not isinstance(value, self._dtype):
             raise TypeError(f"Expected data of type {self._dtype}, got {type(value)}")
         self._value = value

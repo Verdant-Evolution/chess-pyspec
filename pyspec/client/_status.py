@@ -3,14 +3,13 @@ from ._remote_property_table import PropertyGroup, RemotePropertyTable
 
 class Status(PropertyGroup):
     """
-    The status properties reflect changes in the server state that may affect the server's ability
-    to execute client commands or control hardware.
+    The status properties reflect changes in the server state that may affect the server's ability to execute client commands or control hardware.
 
-    Attributes:
-        quit (RemotePropertyTable.ReadableProperty[bool]): Whether or not the server is exiting.
-        shell (RemotePropertyTable.ReadableProperty[bool]): Whether or not the server is in a subshell.
-        ready (RemotePropertyTable.ReadableProperty[bool]): Whether or not the server is ready to execute commands.
-        simulate (RemotePropertyTable.ReadableProperty[bool]): Whether or not the server is in simulate mode.
+    :param remote_property_table: The remote property table instance.
+    :ivar quit: Whether or not the server is exiting.
+    :ivar shell: Whether or not the server is in a subshell.
+    :ivar ready: Whether or not the server is ready to execute commands.
+    :ivar simulate: Whether or not the server is in simulate mode.
     """
 
     def __init__(self, remote_property_table: RemotePropertyTable):
