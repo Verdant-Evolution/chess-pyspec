@@ -1,5 +1,5 @@
 import h5py
-from pyspec.css_logger import log
+from .css_logger import log
 import numpy as np
 from typing import TypeVar
 
