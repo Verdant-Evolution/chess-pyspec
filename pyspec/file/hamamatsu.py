@@ -3,7 +3,6 @@ import re
 import sys
 from typing import Optional
 
-from click import group
 import numpy as np
 
 re_comment = re.compile(r"(?P<key>\w+)=\"(?P<value>\w+)\"")
