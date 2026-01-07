@@ -33,6 +33,11 @@ class Type(Enum):
     ARR_ULONG64 = 15
 
     def is_array_type(self) -> bool:
+        """
+        Returns True if the type is an array type.
+
+        :return: True if array type, False otherwise.
+        """
         return self in {
             Type.ARR_DOUBLE,
             Type.ARR_FLOAT,
@@ -50,6 +55,13 @@ class Type(Enum):
     def to_numpy_type(
         self, endianness: Literal["<", ">"] = NATIVE_ENDIANNESS
     ) -> np.dtype:
+        """
+        Returns the numpy dtype corresponding to this SPEC type.
+
+        :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
+        :return: Corresponding numpy dtype.
+        :raises ValueError: If the type is not an array type.
+        """
         if self in ARRAY_TYPE_TO_NUMERIC_DTYPE:
             return with_endianness(
                 ARRAY_TYPE_TO_NUMERIC_DTYPE[self], endianness=endianness
@@ -59,6 +71,13 @@ class Type(Enum):
 
     @staticmethod
     def from_numpy_type(dtype: np.dtype) -> "Type":
+        """
+        Returns the SPEC Type corresponding to a numpy dtype.
+
+        :param dtype: Numpy dtype to convert.
+        :return: Corresponding SPEC Type.
+        :raises ValueError: If the dtype is not supported.
+        """
         if dtype.kind == "U":  # String type
             return Type.ARR_STRING
         if dtype.kind == "S":
@@ -75,18 +94,44 @@ DtypeStr = Literal["float", "int", "uint"]
 
 
 def with_endianness(dtype: np.dtype, endianness: Literal["<", ">"]) -> np.dtype:
+    """
+    Returns a numpy dtype with the specified endianness.
+
+    :param dtype: The base numpy dtype.
+    :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
+    :return: Numpy dtype with specified endianness.
+    """
     return np.dtype(endianness + dtype.str[1:])
 
 
 def is_signed_int(dtype: np.dtype) -> bool:
+    """
+    Returns True if the dtype is a signed integer type.
+
+    :param dtype: Numpy dtype to check.
+    :return: True if signed integer, False otherwise.
+    """
     return np.issubdtype(dtype, np.signedinteger)
 
 
 def is_floating_point(dtype: np.dtype) -> bool:
+    """
+    Returns True if the dtype is a floating point type.
+
+    :param dtype: Numpy dtype to check.
+    :return: True if floating point, False otherwise.
+    """
     return np.issubdtype(dtype, np.floating)
 
 
 def dtype_str(dtype: np.dtype) -> DtypeStr:
+    """
+    Returns a string representing the type of the numpy dtype ('float', 'int', or 'uint').
+
+    :param dtype: Numpy dtype to check.
+    :return: String representing the dtype category.
+    :raises ValueError: If the dtype is not supported.
+    """
     if is_floating_point(dtype):
         return "float"
     elif is_signed_int(dtype):
@@ -150,19 +195,19 @@ def try_cast(value: str) -> AssociativeArrayElement:
 
 class AssociativeArray:
     """
-    This class represents a SPEC associative array, which is a collection of key-value pairs.
+    Represents a SPEC associative array, which is a collection of key-value pairs.
 
     See https://certif.com/spec_manual/ref_2_3_4_1.html for more details on how spec handles them.
 
     Ultimately, the associative array is a mapping from one or two keys to a value.
-    Example usage:
-        ```python
+
+    Example usage::
+
         x = AssociativeArray()
         x["one"] = "now"
         x["three"] = "the"
-        x["three","0"] = "time"
+        x["three", "0"] = "time"
         x["two"] = "is"
-        ```
     """
 
     KEY_SEPARATOR = "\x1c"

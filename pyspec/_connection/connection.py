@@ -20,14 +20,21 @@ T = TypeVar("T", bound=ctypes.Structure)
 
 class Connection(AsyncIOEventEmitter):
     host: str
-    """The host address of the connection."""
+    """
+    The host address of the connection.
+    """
     port: int
-    """The port number of the connection."""
+    """
+    The port number of the connection.
+    """
 
     @dataclass
     class Message:
         """
         Represents a message received from the connection.
+
+        :param header: The message header.
+        :param data: The message data.
         """
 
         header: Header
@@ -43,12 +50,8 @@ class Connection(AsyncIOEventEmitter):
         """
         Initialize a connection to a remote host.
 
-        This version should be used when you want to create a new client
-        connection to a specified host and port.
-
-        Args:
-            host (str): The hostname or IP address of the remote server.
-            port (int): The port number of the remote server.
+        :param host: The hostname or IP address of the remote server.
+        :param port: The port number of the remote server.
         """
 
     @overload
@@ -60,12 +63,11 @@ class Connection(AsyncIOEventEmitter):
     ) -> None:
         """
         Initialize a connection using existing StreamReader and StreamWriter.
-        This version should be used for when the socket connection is already established
+        This version should be used when the socket connection is already established
         and you just want to interface with the sockets using the protocols defined here.
 
-        Args:
-            reader (asyncio.StreamReader): The stream reader for the connection.
-            writer (asyncio.StreamWriter): The stream writer for the connection.
+        :param reader: The stream reader for the connection.
+        :param writer: The stream writer for the connection.
         """
 
     def __init__(
@@ -75,7 +77,11 @@ class Connection(AsyncIOEventEmitter):
         /,
     ) -> None:
         """
-        Initialize a connection to a remote host.
+        Initialize a connection to a remote host or using an existing stream.
+
+        :param host_or_reader: Hostname or StreamReader.
+        :param port_or_writer: Port number or StreamWriter.
+        :raises TypeError: If argument types are invalid.
         """
         super().__init__()
 
@@ -113,30 +119,52 @@ class Connection(AsyncIOEventEmitter):
 
     @property
     def is_connected(self) -> bool:
-        """Returns True if the connection is established and open."""
+        """
+        Returns True if the connection is established and open.
+
+        :return: True if the connection is open, False otherwise.
+        """
         return self._writer is not None and not self._writer.is_closing()
 
     async def __aenter__(self) -> Self:
+        """
+        Enter the async context manager for the connection.
+
+        :return: Self
+        """
         self._listener = asyncio.create_task(self._listen())
         return self
 
     async def __aexit__(self, exc_type, exc, tb) -> None:
+        """
+        Exit the async context manager for the connection.
+        Cancels the listener task if it exists.
+        """
         if self._listener:
             try:
                 self._listener.cancel()
-                await self._listener
             except asyncio.CancelledError:
+                await self._listener
                 pass
 
     async def __send(self, msg: bytes) -> None:
-        """Sends raw data to the connected server."""
+        """
+        Sends raw data to the connected server.
+
+        :param msg: The bytes to send.
+        """
         assert self._writer is not None, "Connection is not established."
         self.logger.debug("Sending message: %s", msg)
         self._writer.write(msg)
         await self._writer.drain()
 
     async def _send(self, header: Header, data: DataType = None) -> None:
-        """Sends a message to the connected server."""
+        """
+        Sends a message to the connected server.
+
+        :param header: The header to send.
+        :param data: The data to send.
+        """
         header_struct, data_bytes = protocol.serialize(
             header, data, self._peer_endianness
         )
@@ -148,7 +176,10 @@ class Connection(AsyncIOEventEmitter):
             await self.__send(data_bytes)
 
     async def _listen(self):
-        """Listens for raw data from the connected server."""
+        """
+        Listens for raw data from the connected server.
+        Emits a 'message' event for each received message.
+        """
         assert self._reader is not None, "Connection is not established."
         async for header, data, endianness in message_stream(self._reader, self.logger):
             if self._peer_endianness is not None:

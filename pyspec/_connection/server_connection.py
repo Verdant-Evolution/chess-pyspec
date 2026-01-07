@@ -14,7 +14,7 @@ from .protocol import Command, Header
 
 class ServerConnectionEventEmitter(AsyncIOEventEmitter):
     """
-    This class defines the typed events emitted by the ServerConnection.
+    Defines the typed events emitted by the ServerConnection.
     """
 
     @overload
@@ -205,6 +205,12 @@ class ServerConnectionEventEmitter(AsyncIOEventEmitter):
 
 class ServerConnection(Connection, ServerConnectionEventEmitter):
     def __init__(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
+        """
+        Initialize a server connection with the given stream reader and writer.
+
+        :param reader: The stream reader for the connection.
+        :param writer: The stream writer for the connection.
+        """
         Connection.__init__(self, reader, writer)
         self.on("message", self._dispatch_typed_message_events)
         self.logger = logging.getLogger("pyspec.server").getChild(
@@ -213,16 +219,10 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
     def _dispatch_typed_message_events(self, msg: ServerConnection.Message) -> None:
         """
-        Match the msg with the appropriate event and emit it.
+        Given a received message, emit the appropriate typed event based on the message command.
         Validates the message data type where possible.
 
-        Args:
-            msg (ServerConnection.Message): The message to dispatch.
-
-        Raises:
-            TypeError: If the message data type is invalid for the command.
-            ValueError: If the command is unknown.
-
+        :param msg: The received message.
         """
 
         match msg.header.command:
@@ -264,16 +264,16 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
     async def prop_send(self, property: str, value) -> None:
         """
-        Sends an event to all clients registered for property.
-        There is nothing to prevent a user-level call of prop_send() from generating events for built-in properties,
-        although that may lead to an unexpected client response.
+        Sends a property value to the client.
+
+        :param property: The property name.
+        :param value: The value to send.
         """
         await self._send(Header(Command.EVENT, name=property), data=value)
 
     async def serve_forever(self) -> None:
         """
-        Start listening for messages from the client indefinitely.
-        This coroutine will run until the connection is closed.
+        Runs the server connection, handling requests until the connection is closed.
         """
         if self._listener is None:
             raise RuntimeError("Connection is not started.")
@@ -281,7 +281,10 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
     async def reply(self, sequence_number: int, data: DataType) -> None:
         """
-        Sends a reply to a remote command or function call.
+        Sends a reply to the client for a given sequence number.
+
+        :param sequence_number: The sequence number to reply to.
+        :param data: The data to send in the reply.
         """
         await self._send(
             Header(Command.REPLY, sequence_number=sequence_number), data=data
@@ -289,7 +292,10 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
     async def reply_error(self, sequence_number: int, error_message: str) -> None:
         """
-        Sends an error reply to a remote command or function call.
+        Sends an error reply to the client for a given sequence number.
+
+        :param sequence_number: The sequence number to reply to.
+        :param error_message: The error message to send.
         """
         await self._send(
             Header(Command.REPLY, sequence_number=sequence_number),
@@ -299,8 +305,9 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
     @asynccontextmanager
     async def catch_reply_exceptions(self, sequence_number: int):
         """
-        Context manager to catch exceptions during command handling and send error replies.
-        Will send an error reply to the client if an exception is raised within the context.
+        Context manager to catch and handle exceptions during reply handling.
+
+        :param sequence_number: The sequence number for the reply.
         """
         try:
             yield
@@ -314,6 +321,8 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
 
     async def hello_reply(self, sequence_number: int) -> None:
         """
-        Sends a HELLO_REPLY to the client in response to a HELLO command.
+        Sends a HELLO_REPLY message to the client for a given sequence number.
+
+        :param sequence_number: The sequence number to reply to.
         """
         await self._send(Header(Command.HELLO_REPLY, sequence_number=sequence_number))

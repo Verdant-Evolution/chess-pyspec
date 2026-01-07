@@ -4,6 +4,8 @@ from enum import Enum
 class Command(Enum):
     """
     Enumeration of commands that can be sent between the client and server.
+
+    This enum defines all possible commands for the SPEC protocol.
     """
 
     ### From Client ###
