@@ -1,9 +1,9 @@
-from __future__ import annotations
+
 
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from typing import Any, Awaitable, Callable, Literal, overload
+from typing import Any, Awaitable, Callable, Literal, overload, Optional
 
 from pyee.asyncio import AsyncIOEventEmitter
 
@@ -185,8 +185,8 @@ class ServerConnectionEventEmitter(AsyncIOEventEmitter):
 
     @overload
     def on(
-        self, event: Literal["message"], func: Callable[[ServerConnection.Message], Any]
-    ) -> Callable[[ServerConnection.Message], Any]:
+        self, event: Literal["message"], func: Callable[["ServerConnection.Message"], Any]
+    ) -> Callable[["ServerConnection.Message"], Any]:
         """
         Register an event listener for the 'message' event.
 
@@ -197,7 +197,7 @@ class ServerConnectionEventEmitter(AsyncIOEventEmitter):
     def emit(self, event: str, *args: Any) -> bool:  # type: ignore[override]
         return super().emit(event, *args)
 
-    def on(self, event: str, func: Callable[..., Any] | None = None):  # type: ignore[override]
+    def on(self, event: str, func: Optional[Callable[..., Any]] = None):  # type: ignore[override]
         if func is None:
             return super().on(event)
         return super().on(event, func)
@@ -218,7 +218,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
             f"{self.host}:{self.port}"
         )
 
-    def _dispatch_typed_message_events(self, msg: ServerConnection.Message) -> None:
+    def _dispatch_typed_message_events(self, msg: "ServerConnection.Message") -> None:
         """
         Given a received message, emit the appropriate typed event based on the message command.
         Validates the message data type where possible.
@@ -227,42 +227,34 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
             msg (ServerConnection.Message): The received message.
         """
 
-        match msg.header.command:
-            case Command.CLOSE:
-                self.emit("close")
-            case Command.ABORT:
-                self.emit("abort")
-            case Command.HELLO:
-                self.emit("hello", msg.header.sequence_number)
-            case Command.CHAN_SEND:
-                self.emit("property-set", msg.header.name, msg.data)
-            case Command.CHAN_READ:
-                self.emit("property-get", msg.header.sequence_number, msg.header.name)
-            case Command.REGISTER:
-                self.emit("property-watch", msg.header.name)
-            case Command.UNREGISTER:
-                self.emit("property-unwatch", msg.header.name)
-            case (
-                Command.CMD
-                | Command.CMD_WITH_RETURN
-                | Command.FUNC
-                | Command.FUNC_WITH_RETURN
-            ):
-                if not isinstance(msg.data, str):
-                    raise TypeError(
-                        f"Expected command data to be str, got {type(msg.data)}"
-                    )
-                match msg.header.command:
-                    case Command.CMD:
-                        self.emit("remote-cmd-no-return", msg.data)
-                    case Command.CMD_WITH_RETURN:
-                        self.emit("remote-cmd", msg.header.sequence_number, msg.data)
-                    case Command.FUNC:
-                        self.emit("remote-func-no-return", msg.data)
-                    case Command.FUNC_WITH_RETURN:
-                        self.emit("remote-func", msg.header.sequence_number, msg.data)
-            case _:
-                raise ValueError(f"Unknown command: {msg.header.command}")
+        cmd = msg.header.command
+        if cmd == Command.CLOSE:
+            self.emit("close")
+        elif cmd == Command.ABORT:
+            self.emit("abort")
+        elif cmd == Command.HELLO:
+            self.emit("hello", msg.header.sequence_number)
+        elif cmd == Command.CHAN_SEND:
+            self.emit("property-set", msg.header.name, msg.data)
+        elif cmd == Command.CHAN_READ:
+            self.emit("property-get", msg.header.sequence_number, msg.header.name)
+        elif cmd == Command.REGISTER:
+            self.emit("property-watch", msg.header.name)
+        elif cmd == Command.UNREGISTER:
+            self.emit("property-unwatch", msg.header.name)
+        elif cmd in (Command.CMD, Command.CMD_WITH_RETURN, Command.FUNC, Command.FUNC_WITH_RETURN):
+            if not isinstance(msg.data, str):
+                raise TypeError(f"Expected command data to be str, got {type(msg.data)}")
+            if cmd == Command.CMD:
+                self.emit("remote-cmd-no-return", msg.data)
+            elif cmd == Command.CMD_WITH_RETURN:
+                self.emit("remote-cmd", msg.header.sequence_number, msg.data)
+            elif cmd == Command.FUNC:
+                self.emit("remote-func-no-return", msg.data)
+            elif cmd == Command.FUNC_WITH_RETURN:
+                self.emit("remote-func", msg.header.sequence_number, msg.data)
+        else:
+            raise ValueError(f"Unknown command: {msg.header.command}")
 
     async def prop_send(self, property: str, value) -> None:
         """

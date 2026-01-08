@@ -1,8 +1,8 @@
-from __future__ import annotations
+
 
 import sys
 from enum import Enum
-from typing import Literal, Union
+from typing import Literal, Union, Dict, Tuple
 from .associative_array import AssociativeArray
 
 import numpy as np
@@ -159,7 +159,7 @@ def dtype_str(dtype: np.dtype) -> DtypeStr:
         raise ValueError(f"Unsupported dtype: {dtype}")
 
 
-NUMERIC_DTYPE_TO_TYPE: dict[tuple[DtypeStr, int], Type] = {
+NUMERIC_DTYPE_TO_TYPE: Dict[Tuple[DtypeStr, int], Type] = {
     ("int", 1): Type.ARR_CHAR,
     ("uint", 1): Type.ARR_UCHAR,
     ("int", 2): Type.ARR_SHORT,
@@ -171,7 +171,7 @@ NUMERIC_DTYPE_TO_TYPE: dict[tuple[DtypeStr, int], Type] = {
     ("uint", 8): Type.ARR_ULONG64,
     ("float", 8): Type.ARR_DOUBLE,
 }
-ARRAY_TYPE_TO_NUMERIC_DTYPE: dict[Type, np.dtype] = {
+ARRAY_TYPE_TO_NUMERIC_DTYPE: Dict[Type, np.dtype] = {
     Type.ARR_FLOAT: np.dtype(np.float32),
     Type.ARR_DOUBLE: np.dtype(np.float64),
     Type.ARR_CHAR: np.dtype(np.int8),

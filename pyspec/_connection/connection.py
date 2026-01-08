@@ -1,13 +1,13 @@
-from __future__ import annotations
+
 
 import asyncio
 import ctypes
 import logging
 from dataclasses import dataclass
-from typing import Literal, TypeVar, overload
+from typing import Literal, TypeVar, overload, Optional, Union
 
 from pyee.asyncio import AsyncIOEventEmitter
-from typing_extensions import Self
+
 
 from . import protocol
 from .protocol import DataType, Header, message_stream
@@ -73,8 +73,8 @@ class Connection(AsyncIOEventEmitter):
 
     def __init__(
         self,
-        host_or_reader: str | asyncio.StreamReader,
-        port_or_writer: int | asyncio.StreamWriter,
+        host_or_reader: Union[str, asyncio.StreamReader],
+        port_or_writer: Union[int, asyncio.StreamWriter],
         /,
     ) -> None:
         """
@@ -107,10 +107,10 @@ class Connection(AsyncIOEventEmitter):
             self._reader = None
             self._writer = None
 
-        self._listener: asyncio.Task | None = None
+        self._listener: Optional[asyncio.Task] = None
         self.logger = LOGGER.getChild(f"{self.host}:{self.port}")
 
-        self._peer_endianness: Literal["<", ">"] | None = None
+        self._peer_endianness: Optional[Literal["<", ">"]] = None
         """
         Keeps track of the endianness of the remote connection.
         Endianness is determined by looking at the magic number in the header of incoming messages.
@@ -130,7 +130,7 @@ class Connection(AsyncIOEventEmitter):
         """
         return self._writer is not None and not self._writer.is_closing()
 
-    async def __aenter__(self) -> Self:
+    async def __aenter__(self) -> "Connection":
         """
         Enter the async context manager for the connection.
 

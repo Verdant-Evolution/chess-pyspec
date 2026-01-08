@@ -415,7 +415,7 @@ async def message_stream(
 def serialize(
     header: Header,
     data: DataType,
-    endianness: Literal["<", ">"] | None = NATIVE_ENDIANNESS,
+    endianness: Literal["<", ">"] = NATIVE_ENDIANNESS,
 ) -> tuple[HeaderStruct, bytes]:
     """
     Serializes a Header and DataType into bytes for sending.
@@ -423,14 +423,12 @@ def serialize(
     Args:
         header (Header): The header to serialize.
         data (DataType): The data to serialize.
-        endianness (Literal['<', '>'] | None): Endianness, '<' for little-endian, '>' for big-endian, or None for native.
+        endianness (Literal['<', '>']): Endianness, '<' for little-endian, '>' for big-endian, or None for native.
     Returns:
         tuple: The serialized header structure and data bytes.
     Raises:
         ValueError: If the data type is not supported for serialization.
     """
-    if endianness is None:
-        endianness = NATIVE_ENDIANNESS
 
     rows, cols = 0, 0
     data_bytes = b""
@@ -513,31 +511,31 @@ def short_str(header: HeaderStruct, data: DataType) -> str:
     """
     cmd = Command(header.command)
     name = header.name.decode("utf-8").rstrip("\x00")
-    match cmd:
-        case Command.HELLO:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.HELLO_REPLY:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.CMD | Command.FUNC:
-            return f"{cmd.name}(`{data}`)"
-        case Command.CMD_WITH_RETURN | Command.FUNC_WITH_RETURN:
-            return f"{cmd.name}(`{data}`, seq={header.sequence_number})"
-        case Command.CHAN_SEND:
-            return f"{cmd.name}(`{name}`, seq={header.sequence_number})"
-        case Command.REGISTER | Command.UNREGISTER:
-            return f"{cmd.name}(`{name}`)"
-        case Command.EVENT:
-            return f"{cmd.name}(`{name}`)"
-        case Command.REPLY:
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case Command.CLOSE | Command.ABORT:
-            return f"{cmd.name}"
-        case Command.RETURN:
-            # This is unused in the current version of SPEC.
-            # So the semantics are not defined.
-            return f"{cmd.name}(seq={header.sequence_number})"
-        case _:
-            return f"{cmd.name}(seq={header.sequence_number})"
+    
+    if cmd == Command.HELLO:
+        return f"{cmd.name}(seq={header.sequence_number})"
+    if cmd == Command.HELLO_REPLY:
+        return f"{cmd.name}(seq={header.sequence_number})"
+    if cmd in (Command.CMD, Command.FUNC):
+        return f"{cmd.name}(`{data}`)"
+    if cmd in (Command.CMD_WITH_RETURN, Command.FUNC_WITH_RETURN):
+        return f"{cmd.name}(`{data}`, seq={header.sequence_number})"
+    if cmd == Command.CHAN_SEND:
+        return f"{cmd.name}(`{name}`, seq={header.sequence_number})"
+    if cmd in (Command.REGISTER, Command.UNREGISTER):
+        return f"{cmd.name}(`{name}`)"
+    if cmd == Command.EVENT:
+        return f"{cmd.name}(`{name}`)"
+    if cmd == Command.REPLY:
+        return f"{cmd.name}(seq={header.sequence_number})"
+    if cmd in (Command.CLOSE, Command.ABORT):
+        return f"{cmd.name}"
+    if cmd == Command.RETURN:
+        # This is unused in the current version of SPEC.
+        # So the semantics are not defined.
+        return f"{cmd.name}(seq={header.sequence_number})"
+    else:
+        return f"{cmd.name}(seq={header.sequence_number})"
 
 
 def long_str(header: HeaderStruct, data: DataType) -> str:

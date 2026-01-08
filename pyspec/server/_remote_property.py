@@ -1,7 +1,7 @@
-from __future__ import annotations
+
 
 import logging
-from typing import Any, Callable, Generic, Literal, TypeVar
+from typing import Any, Callable, Generic, Literal, TypeVar, Type, Union
 
 from pyee.asyncio import AsyncIOEventEmitter
 
@@ -40,7 +40,7 @@ class Property(PropertyEventEmitter[T]):
         self,
         name: str,
         initial_value: T,
-        dtype: type[T] | type[object] = object,
+        dtype: Union[Type[T], Type[object]] = object,
     ):
         super().__init__()
         self.name = name

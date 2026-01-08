@@ -1,12 +1,12 @@
 from contextlib import contextmanager
 from email import contentmanager
-from typing import Any, Callable, Literal, Mapping, Union, Iterable, TypeVar, overload
+from typing import Any, Callable, Literal, Mapping, Union, Iterable, TypeVar, overload, Dict, Tuple, Union, Optional
 from pyee.asyncio import AsyncIOEventEmitter
 import re
 
 AssociativeArrayElement = Union[float, int, str]
 AssociativeArrayKey = Union[
-    AssociativeArrayElement, tuple[AssociativeArrayElement, AssociativeArrayElement]
+    AssociativeArrayElement, Tuple[AssociativeArrayElement, AssociativeArrayElement]
 ]
 
 
@@ -52,7 +52,7 @@ class AssociativeArray:
     KEY_SEPARATOR = "\x1c"
     ITEM_SEPARATOR = "\000"
 
-    data: dict[str, AssociativeArrayElement | None]
+    data: Dict[str, Optional[AssociativeArrayElement]]
 
     def __init__(self) -> None:
         super().__init__()
@@ -70,7 +70,7 @@ class AssociativeArray:
     def __setitem__(
         self,
         key: AssociativeArrayKey,
-        value: AssociativeArrayElement | None,
+        value: Optional[AssociativeArrayElement],
         /,
     ) -> None:
         self.data[self.compose_key(key)] = value
@@ -93,7 +93,7 @@ class AssociativeArray:
         return cls.stringify_key(key)
 
     @staticmethod
-    def stringify_key(key: float | int | str) -> str:
+    def stringify_key(key: Union[float, int, str]) -> str:
         if isinstance(key, (float, int)):
             return f"{key:.5g}"
         return str(key)
@@ -164,7 +164,7 @@ class AssociativeArray:
 KEY_PATTERN = re.compile(r"^[^\[\]]*(?:\[(.*?)\])(?:\[(.*?)\])?$")
 
 
-def get_associative_array_key(prop_name: str) -> tuple[str, str] | None:
+def get_associative_array_key(prop_name: str) -> Optional[Tuple[str, str]]:
     """
     Parse the property name to get the keys indexing into an associative array.
 
@@ -183,7 +183,8 @@ def get_associative_array_key(prop_name: str) -> tuple[str, str] | None:
     if not prop_name.endswith("]"):
         return None
 
-    if (match := KEY_PATTERN.search(prop_name)) is not None:
+    match = KEY_PATTERN.search(prop_name)
+    if match is not None:
         groups = match.groups()
         # The groups from parsing are structured like:
         # ("../x", "key1",  "key2" or None)

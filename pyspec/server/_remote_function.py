@@ -1,17 +1,17 @@
-from __future__ import annotations
+
 
 import ast
 import asyncio
 import logging
-from typing import Any, Callable, Coroutine, TypeVar
+from typing import Any, Callable, Coroutine, TypeVar, Tuple, Union
 
 from pyspec._connection.data import DataType
 
 LOGGER = logging.getLogger("pyspec.server")
 
-SyncOrAsyncCallable = (
-    Callable[..., DataType] | Callable[..., Coroutine[Any, Any, DataType]]
-)
+SyncOrAsyncCallable = Union[
+    Callable[..., DataType], Callable[..., Coroutine[Any, Any, DataType]]
+]
 
 F = TypeVar("F", bound=SyncOrAsyncCallable)
 
@@ -54,7 +54,7 @@ def remote_function_name(function: SyncOrAsyncCallable) -> str:
     return getattr(function, "_remote_function_name", function.__name__)
 
 
-def parse_remote_function_string(function_string: str) -> tuple[str, tuple[str, ...]]:
+def parse_remote_function_string(function_string: str) -> Tuple[str, Tuple[str, ...]]:
     """
     Parse a remote function call string into its name and arguments.
 
@@ -82,7 +82,7 @@ def parse_remote_function_string(function_string: str) -> tuple[str, tuple[str, 
 
 
 def build_remote_function_string(
-    function_name: str, args: tuple[str | float | int, ...]
+    function_name: str, args: Tuple[Union[str, float, int], ...]
 ) -> str:
     """
     Build a remote function call string from its name and arguments.

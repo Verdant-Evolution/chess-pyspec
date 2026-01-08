@@ -1,11 +1,11 @@
-from __future__ import annotations
+
 
 import asyncio
 import re
 import threading
 import weakref
 from contextlib import asynccontextmanager
-from typing import Any, AsyncGenerator, Callable, Literal, overload
+from typing import Any, AsyncGenerator, Callable, Literal, overload, Dict, Optional
 
 import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
@@ -74,14 +74,14 @@ class ClientConnectionEventEmitter(AsyncIOEventEmitter):
 
     @overload
     def emit(
-        self, event: Literal["message"], msg: ClientConnection.Message
+        self, event: Literal["message"], msg: "ClientConnection.Message"
     ) -> bool: ...
     @overload
     def on(
         self,
         event: Literal["message"],
-        func: Callable[[ClientConnection.Message], Any],
-    ) -> Callable[[ClientConnection.Message], Any]:
+        func: Callable[["ClientConnection.Message"], Any],
+    ) -> Callable[["ClientConnection.Message"], Any]:
         """
         Register an event listener for the 'message' event.
 
@@ -110,8 +110,8 @@ class ClientConnectionEventEmitter(AsyncIOEventEmitter):
     def emit(self, event: str, data: DataType) -> bool: ...
     @overload
     def on(
-        self, event: str, func: Callable[[DataType], Any] | None = None
-    ) -> Callable[[DataType], Any] | None:
+        self, event: str, func: Optional[Callable[[DataType], Any]] = None
+    ) -> Optional[Callable[[DataType], Any]]:
         """
         Register an event listener for 'reply-{sequence_number}' events.
 
@@ -122,7 +122,7 @@ class ClientConnectionEventEmitter(AsyncIOEventEmitter):
     def emit(self, event: str, *args: Any) -> bool:  # type: ignore[override]
         return super().emit(event, *args)
 
-    def on(self, event: str, func: Callable[..., Any] | None = None):  # type: ignore[override]
+    def on(self, event: str, func: Optional[Callable[..., Any]] = None):  # type: ignore[override]
         if func is None:
             return super().on(event)
         return super().on(event, func)
@@ -144,7 +144,7 @@ class ClientConnection(
         Connection.__init__(self, host, port)
         self.on("message", self._dispatch_typed_message_events)
         self._synchronizing_motors = False
-        self._pending_motions: dict[str, float] = {}
+        self._pending_motions: Dict[str, float] = {}
 
     async def _dispatch_typed_message_events(self, msg: Connection.Message) -> None:
         """
@@ -165,7 +165,7 @@ class ClientConnection(
                 "Received message with unrecognized command: %s", msg.header.command
             )
 
-    async def __aenter__(self) -> ClientConnection:
+    async def __aenter__(self) -> "ClientConnection":
         self._reader, self._writer = await asyncio.open_connection(self.host, self.port)
         await super().__aenter__()
 
@@ -354,8 +354,8 @@ class ClientConnection(
 
     @asynccontextmanager
     async def synchronized_motors(
-        self, timeout: float | None = None
-    ) -> AsyncGenerator[None]:
+        self, timeout: Optional[float] = None
+    ):
         """
         Context manager to enable synchronized motor operations for the client.
 

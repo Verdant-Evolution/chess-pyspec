@@ -301,8 +301,8 @@ class Server(AsyncIOEventEmitter, Singleton):
             connection.on("hello", on_hello)
 
             logger.info("Connected")
-            while not client_writer.is_closing():
-                await connection.serve_forever()
+
+            await connection.serve_forever()
 
     async def __aenter__(self):
         """
