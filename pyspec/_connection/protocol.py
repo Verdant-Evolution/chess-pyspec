@@ -278,8 +278,10 @@ def _deserialize_data(
         ValueError: If the type is unsupported for deserialization.
         UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
     """
-    assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
-    data_bytes = data_bytes[:-1]
+    if data_bytes:
+        assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
+        data_bytes = data_bytes[:-1]
+
     data_type = Type(header.data_type)
     if data_type == Type.DOUBLE:
         # This is not actually sent by a true SPEC server.
@@ -366,7 +368,6 @@ async def _read_one_message(
     prefix_bytes, version, header_size, apparent_endianness = await _read_prefix(stream)
 
     header_struct = _determine_header_struct(version, header_size, apparent_endianness)
-
     header = header_struct.from_buffer_copy(
         prefix_bytes
         + await stream.readexactly(
@@ -470,8 +471,9 @@ def serialize(
     else:
         raise ValueError(f"Cannot serialize data of type {type(data)}.")
 
-    # TODO: This is a silly copy.
-    data_bytes += b"\x00"
+    if data_bytes:
+        # TODO: This is a silly copy.
+        data_bytes += b"\x00"
 
     # Send as V4 header.
     header_struct = HeaderV4_LE if endianness == "<" else HeaderV4_BE

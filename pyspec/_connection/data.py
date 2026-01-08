@@ -17,6 +17,7 @@ DataType = Union[np.ndarray, str, float, AssociativeArray, ErrorStr, None]
 
 
 class Type(Enum):
+    NONE = 0
     DOUBLE = 1
     STRING = 2
     ERROR = 3
