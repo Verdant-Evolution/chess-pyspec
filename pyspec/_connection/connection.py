@@ -33,8 +33,9 @@ class Connection(AsyncIOEventEmitter):
         """
         Represents a message received from the connection.
 
-        :param header: The message header.
-        :param data: The message data.
+        Args:
+            header (Header): The message header.
+            data (DataType): The message data.
         """
 
         header: Header
@@ -79,9 +80,11 @@ class Connection(AsyncIOEventEmitter):
         """
         Initialize a connection to a remote host or using an existing stream.
 
-        :param host_or_reader: Hostname or StreamReader.
-        :param port_or_writer: Port number or StreamWriter.
-        :raises TypeError: If argument types are invalid.
+        Args:
+            host_or_reader (str | asyncio.StreamReader): Hostname or StreamReader.
+            port_or_writer (int | asyncio.StreamWriter): Port number or StreamWriter.
+        Raises:
+            TypeError: If argument types are invalid.
         """
         super().__init__()
 
@@ -122,7 +125,8 @@ class Connection(AsyncIOEventEmitter):
         """
         Returns True if the connection is established and open.
 
-        :return: True if the connection is open, False otherwise.
+        Returns:
+            bool: True if the connection is open, False otherwise.
         """
         return self._writer is not None and not self._writer.is_closing()
 
@@ -130,7 +134,8 @@ class Connection(AsyncIOEventEmitter):
         """
         Enter the async context manager for the connection.
 
-        :return: Self
+        Returns:
+            Self: The connection instance.
         """
         self._listener = asyncio.create_task(self._listen())
         return self
@@ -181,13 +186,23 @@ class Connection(AsyncIOEventEmitter):
         Emits a 'message' event for each received message.
         """
         assert self._reader is not None, "Connection is not established."
-        async for header, data, endianness in message_stream(self._reader, self.logger):
-            if self._peer_endianness is not None:
-                if self._peer_endianness != endianness:
-                    self.logger.warning(
-                        "Endianness changed mid-connection from %s to %s",
-                        self._peer_endianness,
-                        endianness,
-                    )
-            self._peer_endianness = endianness
-            self.emit("message", Connection.Message(header, data))
+        try:
+            async for header, data, endianness in message_stream(
+                self._reader, self.logger
+            ):
+                if self._peer_endianness is not None:
+                    if self._peer_endianness != endianness:
+                        self.logger.warning(
+                            "Endianness changed mid-connection from %s to %s",
+                            self._peer_endianness,
+                            endianness,
+                        )
+                self._peer_endianness = endianness
+                self.emit("message", Connection.Message(header, data))
+        except asyncio.CancelledError:
+            self.logger.info("Listener task cancelled, stopping listener.")
+        except asyncio.IncompleteReadError:
+            self.logger.info("Connection closed by peer.")
+        except Exception as e:
+            self.logger.exception("Error while listening for messages: %s", e)
+            raise

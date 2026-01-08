@@ -9,9 +9,10 @@ class Motor(PropertyGroup):
     The motor properties are used to control the motors.
     The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.
 
-    :param motor_name: The name of the motor.
-    :param client_connection: The client connection instance.
-    :param remote_property_table: The remote property table instance.
+    Args:
+        motor_name (str): The name of the motor.
+        client_connection (ClientConnection): The client connection instance.
+        remote_property_table (RemotePropertyTable): The remote property table instance.
     """
 
     def __init__(
@@ -208,7 +209,8 @@ class Motor(PropertyGroup):
 
         If motor synchronization is enabled, the move will be queued until synchronization is executed.
 
-        :param position: The target position to move the motor to.
+            Args:
+                position (float): The target position to move the motor to.
         """
 
         if not self._client_connection._synchronizing_motors:
@@ -237,8 +239,9 @@ class Motor(PropertyGroup):
                 or
             chg_dial(mne, how, home_pos)\n
 
-        :param how: The type of search to perform. Must be one of "home", "home+", "home-", "lim+" or "lim-".
-        :param home_pos: The home position in dial units (required for home searches).
+        Args:
+            how (Literal["home", "home+", "home-", "lim+", "lim-"]): The type of search to perform. Must be one of "home", "home+", "home-", "lim+" or "lim-".
+            home_pos (Optional[float]): The home position in dial units (required for home searches).
         """
 
         if how.startswith("home"):
@@ -258,7 +261,8 @@ class Motor(PropertyGroup):
 
         onto the server command queue, where data should contain the low and high motor limit values in a string.
 
-        :param low_limit: The low limit value.
-        :param high_limit: The high limit value.
+        Args:
+            low_limit (float): The low limit value.
+            high_limit (float): The high limit value.
         """
         await self._limits.set(f"{low_limit} {high_limit}")

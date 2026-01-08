@@ -10,6 +10,8 @@ from typing import Any, AsyncGenerator, Callable, Literal, overload
 import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
 
+from pyspec._connection.associative_array import AssociativeArray
+
 from .connection import Connection
 from .data import DataType, ErrorStr
 from .protocol import Command, Header
@@ -30,7 +32,8 @@ def get_next_sequence_number() -> int:
     0 is reserved for messages that do not expect a reply.
     1-4294967295 are valid sequence numbers.
 
-    :return: The next sequence number.
+    Returns:
+        int: The next sequence number.
     """
     global LAST_SEQUENCE_NUMBER
     LAST_SEQUENCE_NUMBER = (LAST_SEQUENCE_NUMBER + 1) % np.iinfo(np.uint32).max
@@ -147,7 +150,8 @@ class ClientConnection(
         """
         Given a received message, emit the appropriate typed event based on the message command.
 
-        :param msg: The received message.
+        Args:
+            msg (Connection.Message): The received message.
         """
         if msg.header.command == Command.EVENT:
             self.emit("property-change", msg.header.name, msg.data)
@@ -184,10 +188,13 @@ class ClientConnection(
         """
         Sends a message to the connected server and waits for a reply.
 
-        :param header: The header to send.
-        :param data: The data to send.
-        :return: The reply data from the server.
-        :raises RemoteException: If the server replies with an error.
+        Args:
+            header (Header): The header to send.
+            data (DataType, optional): The data to send.
+        Returns:
+            DataType: The reply data from the server.
+        Raises:
+            RemoteException: If the server replies with an error.
         """
         sequence_number = get_next_sequence_number()
         header.sequence_number = sequence_number
@@ -211,9 +218,12 @@ class ClientConnection(
         Reads and returns the current value of a property from the remote host.
         Single-valued, associative-array and data-array types can be returned.
 
-        :param prop: The name of the property to get.
-        :return: The value of the property.
-        :raises RemoteException: If the property does not exist on the remote host, or another error occurs.
+        Args:
+            prop (str): The name of the property to get.
+        Returns:
+            DataType: The value of the property.
+        Raises:
+            RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
         return await self._send_with_reply(Header(Command.CHAN_READ, name=prop))
 
@@ -222,9 +232,11 @@ class ClientConnection(
         Sets a property to a value on the remote host.
         Single-valued, associative-array and data-array types can be sent.
 
-        :param prop: The name of the property to set.
-        :param value: The value to set the property to.
-        :raises RemoteException: If the property does not exist on the remote host, or another error occurs.
+        Args:
+            prop (str): The name of the property to set.
+            value (DataType): The value to set the property to.
+        Raises:
+            RemoteException: If the property does not exist on the remote host, or another error occurs.
         """
         await self._send(Header(Command.CHAN_SEND, name=prop), data=value)
 
@@ -250,8 +262,8 @@ class ClientConnection(
         the elements are explicitly assigned values on the server,
         not when the values change by way of built-in code, such as from calcA, getangles or getcounts.
 
-
-        :param prop: The name of the property to watch.
+        Args:
+            prop (str): The name of the property to watch.
         """
         await self._send(Header(Command.REGISTER, name=prop))
 
@@ -260,7 +272,8 @@ class ClientConnection(
         Unregisters a property on the remote host.
         The remote host will no longer send events to the client when the property value changes.
 
-        :param prop: The name of the property to unwatch.
+        Args:
+            prop (str): The name of the property to unwatch.
         """
         await self._send(Header(Command.UNREGISTER, name=prop))
 
@@ -277,7 +290,8 @@ class ClientConnection(
         Puts the spec command on the execution queue of the remote host.
         Does not wait for the command to resolve or return a value.
 
-        :param cmd: The command string to send to the remote host. e.g. "1+1"
+        Args:
+            cmd (str): The command string to send to the remote host. e.g. "1+1"
         """
         await self._send(Header(Command.CMD), data=cmd)
 
@@ -286,8 +300,10 @@ class ClientConnection(
         Puts the spec command on the execution queue of the remote host.
         Waits for the command to resolve and returns the resulting value.
 
-        :param cmd: The command string to send to the remote host. e.g. "1+1"
-        :return: The result of the command execution from the remote host.
+        Args:
+            cmd (str): The command string to send to the remote host. e.g. "1+1"
+        Returns:
+            DataType: The result of the command execution from the remote host.
         """
         return await self._send_with_reply(Header(Command.CMD_WITH_RETURN), data=cmd)
 
@@ -296,8 +312,9 @@ class ClientConnection(
         Calls a function on the remote host with the provided arguments.
         Does not wait for the function to resolve or return a value.
 
-        :param func: The name of the function to call on the remote host.
-        :param args: The arguments to pass to the function. These will all be converted to strings before sending.
+        Args:
+            func (str): The name of the function to call on the remote host.
+            *args: The arguments to pass to the function. These will all be converted to strings before sending.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
         await self._send(Header(Command.FUNC), data=func_string)
@@ -307,9 +324,11 @@ class ClientConnection(
         Calls a function on the remote host with the provided arguments.
         Waits for the command to resolve and returns the resulting value.
 
-        :param func: The name of the function to call on the remote host.
-        :param args: The arguments to pass to the function. These will all be converted to strings before sending.
-        :return: The result of the function execution from the remote host.
+        Args:
+            func (str): The name of the function to call on the remote host.
+            *args: The arguments to pass to the function. These will all be converted to strings before sending.
+        Returns:
+            DataType: The result of the function execution from the remote host.
         """
         func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
         return await self._send_with_reply(
@@ -323,8 +342,10 @@ class ClientConnection(
 
         Waits for the reply up to the specified timeout.
 
-        :param timeout: The maximum time to wait for a reply, in seconds.
-        :return: The message received from the server in response to the HELLO command.
+        Args:
+            timeout (float, optional): The maximum time to wait for a reply, in seconds.
+        Returns:
+            DataType: The message received from the server in response to the HELLO command.
         """
         return await asyncio.wait_for(
             self._send_with_reply(Header(Command.HELLO)),
@@ -356,8 +377,12 @@ class ClientConnection(
 
             # Outside of the context, all motors have completed their movements.
 
-        :param timeout: Maximum time to wait for all motors to complete, in seconds.
-        :raises RuntimeError: If there are pending motor motions from a previous context.
+        Args:
+            timeout (float, optional): Maximum time to wait for all motors to complete, in seconds.
+        Yields:
+            None
+        Raises:
+            RuntimeError: If there are pending motor motions from a previous context.
         """
         assert (
             not self._synchronizing_motors

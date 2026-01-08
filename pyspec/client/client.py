@@ -24,8 +24,9 @@ class Client(PropertyGroup):
 
     This is the main entry point for users of the pyspec.client package. Methods allow access to motor control, status monitoring, variable access, and command execution.
 
-    :param host: The hostname or IP address of the server.
-    :param port: The port number of the server.
+    Args:
+        host (str): The hostname or IP address of the server.
+        port (int): The port number of the server.
     """
 
     def __init__(self, host: str, port: int):
@@ -44,7 +45,8 @@ class Client(PropertyGroup):
         """
         The status properties reflect changes in the server state that may affect the server's ability to execute client commands or control hardware.
 
-        :returns: The status property group. See the :class:`pyspec.client._status.Status` class for details.
+        Returns:
+            Status: The status property group. See the pyspec.client._status.Status class for details.
         """
         return Status(self._remote_property_table)
 
@@ -53,8 +55,10 @@ class Client(PropertyGroup):
         The motor properties are used to control the motors.
         The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.
 
-        :param motor_name: The name of the motor to control.
-        :returns: The motor property group. See the :class:`pyspec.client._motor.Motor` class for details.
+        Args:
+            motor_name (str): The name of the motor to control.
+        Returns:
+            Motor: The motor property group. See the pyspec.client._motor.Motor class for details.
         """
         return Motor(motor_name, self._connection, self._remote_property_table)
 
@@ -66,6 +70,7 @@ class Client(PropertyGroup):
         Enter only the variable name; the property will be created as: var/{var_name}
 
         var/var_name
+        .. code-block:: none
 
             on("change")
                 Sent to clients who have registered when the variable var_name changes value.
@@ -73,16 +78,20 @@ class Client(PropertyGroup):
                 Returns the value of the var_name in the data, if var_name is an existing variable on the server.
             set
                 Sets the value of var_name on the server to the contents of data.
+
+
         All data types (numbers, strings, associative arrays and data arrays) are supported.
 
         For built-in associative arrays (A[], S[] and possibly G[], Q[], Z[], U[] and UB[], depending on geometry), only existing elements can be set.
 
         Properties can be created for individual elements of associative arrays by using the syntax var_name = "array_name[element_key]"
 
-        :param var_name: The name of the variable on the server.
-        :param coerce: An optional function to coerce the data to a specific type.
+        Args:
+            var_name (str): The name of the variable on the server.
+            coerce (Callable[[Any], T], optional): An optional function to coerce the data to a specific type.
 
-        :returns: The property representing the variable on the server.
+        Returns:
+            :class:`pyspec.client._remote_property_table.Property``[T]`: The property representing the variable on the server.
         """
         return self._property(f"var/{var_name}", coerce)
 
@@ -91,6 +100,7 @@ class Client(PropertyGroup):
         The output property puts copies of the strings written to files or to the screen in events sent to clients.
 
         output/filename
+        .. code-block:: none
 
             on("change")
                 Sent when the server sends output to the file or device given by filename, where filename can be the built-in name "tty" or a file or device name. The data will be a string representing the output.
@@ -99,9 +109,11 @@ class Client(PropertyGroup):
 
             (The output property was introduced in spec release 5.07.04-1.)
 
-        :param filename: The file or device name to monitor output for.
+        Args:
+            filename (str): The file or device name to monitor output for.
 
-        :returns: An event stream for output events.
+        Returns:
+            EventStream[str]: An event stream for output events.
         """
         return self._readonly_property(f"output/{filename}", str)
 
@@ -110,17 +122,19 @@ class Client(PropertyGroup):
         The count property provides a count of the number of commands executed by the server since it was started.
 
         scaler/.all./count
+        .. code-block:: none
 
-        on("change")
-            Sent when counting starts (data is True) and when counting stops (data is False).
-        get
-            Data indicates counting (True) or not counting (False).
-        set
-            If data is nonzero, the server pushes a "count_em data\\\\n" onto the command queue.
-            If data is False, counting is aborted as if a ^C had been typed at the server.
+            on("change")
+                Sent when counting starts (data is True) and when counting stops (data is False).
+            get
+                Data indicates counting (True) or not counting (False).
+            set
+                If data is nonzero, the server pushes a "count_em data\\\\n" onto the command queue.
+                If data is False, counting is aborted as if a ^C had been typed at the server.
 
 
-        :returns: The property representing the count state.
+        Returns:
+            :class:`pyspec.client._remote_property_table.Property``[bool]`: The property representing the count state.
         """
         return self._property("scaler/.all./count", bool)
 
@@ -128,9 +142,11 @@ class Client(PropertyGroup):
         """
         Call a remote function on the server.
 
-        :param function_name: The name of the remote function to call.
-        :param args: The arguments to pass to the remote function.
-        :returns: The result of the remote function call.
+        Args:
+            function_name (str): The name of the remote function to call.
+            *args (str | float | int): The arguments to pass to the remote function.
+        Returns:
+            DataType: The result of the remote function call.
         """
         return await self._connection.remote_func(function_name, *args)
 
@@ -138,8 +154,10 @@ class Client(PropertyGroup):
         """
         Execute a command on the server.
 
-        :param command: The command to execute.
-        :returns: The result of the command execution.
+        Args:
+            command (str): The command to execute.
+        Returns:
+            DataType: The result of the command execution.
         """
         return await self._connection.remote_cmd(command)
 
@@ -165,10 +183,12 @@ class Client(PropertyGroup):
 
             # Outside of the context, all motors have completed their movements.
 
-
-        :param timeout: Maximum time to wait for all motors to complete, in seconds. If None, wait indefinitely.
-        :yields: None
-        :raises RuntimeError: If there are pending motor motions from a previous context.
+        Args:
+            timeout (float, optional): Maximum time to wait for all motors to complete, in seconds. If None, wait indefinitely.
+        Yields:
+            None
+        Raises:
+            RuntimeError: If there are pending motor motions from a previous context.
         """
         async with self._connection.synchronized_motors(timeout):
             yield

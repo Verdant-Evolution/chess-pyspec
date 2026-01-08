@@ -30,9 +30,10 @@ class Property(PropertyEventEmitter[T]):
     """
     Defines a property that can be remotely accessed by clients.
 
-    :param name: The name of the property.
-    :param initial_value: The initial value of the property.
-    :param dtype: The expected data type of the property. Defaults to object (no validation).
+    Args:
+        name (str): The name of the property.
+        initial_value (T): The initial value of the property.
+        dtype (type[T] | type[object], optional): The expected data type of the property. Defaults to object (no validation).
     """
 
     def __init__(
@@ -50,7 +51,8 @@ class Property(PropertyEventEmitter[T]):
         """
         Get the current value of the property.
 
-        :returns: The current value of the property.
+        Returns:
+            T: The current value of the property.
         """
         return self._value
 

@@ -19,8 +19,11 @@ F = TypeVar("F", bound=SyncOrAsyncCallable)
 def mark_remote_function(function: F) -> F:
     """
     Decorator to mark a function as remotely callable.
-    :param function: The function to mark as remote.
-    :returns: The same function, marked as remote.
+
+    Args:
+        function (F): The function to mark as remote.
+    Returns:
+        F: The same function, marked as remote.
     """
     setattr(function, "_is_remote_function", True)
     setattr(function, "_remote_function_name", function.__name__)
@@ -30,8 +33,11 @@ def mark_remote_function(function: F) -> F:
 def is_remote_function(function: SyncOrAsyncCallable) -> bool:
     """
     Check if a function is marked as remotely callable.
-    :param function: The function to check.
-    :returns: True if the function is marked as remote, False otherwise.
+
+    Args:
+        function (SyncOrAsyncCallable): The function to check.
+    Returns:
+        bool: True if the function is marked as remote, False otherwise.
     """
     return getattr(function, "_is_remote_function", False)
 
@@ -39,8 +45,11 @@ def is_remote_function(function: SyncOrAsyncCallable) -> bool:
 def remote_function_name(function: SyncOrAsyncCallable) -> str:
     """
     Get the remote function name for a function.
-    :param function: The function to get the name for.
-    :returns: The remote function name.
+
+    Args:
+        function (SyncOrAsyncCallable): The function to get the name for.
+    Returns:
+        str: The remote function name.
     """
     return getattr(function, "_remote_function_name", function.__name__)
 
@@ -48,8 +57,11 @@ def remote_function_name(function: SyncOrAsyncCallable) -> str:
 def parse_remote_function_string(function_string: str) -> tuple[str, tuple[str, ...]]:
     """
     Parse a remote function call string into its name and arguments.
-    :param function_string: The function call string to parse.
-    :returns: Tuple of function name and arguments.
+
+    Args:
+        function_string (str): The function call string to parse.
+    Returns:
+        tuple: Tuple of function name and arguments.
     """
     function_string = function_string.strip()
     if "(" not in function_string or not function_string.endswith(")"):
@@ -74,9 +86,12 @@ def build_remote_function_string(
 ) -> str:
     """
     Build a remote function call string from its name and arguments.
-    :param function_name: The function name.
-    :param args: The arguments to include in the call string.
-    :returns: The remote function call string.
+
+    Args:
+        function_name (str): The function name.
+        args (tuple): The arguments to include in the call string.
+    Returns:
+        str: The remote function call string.
     """
     args_str = ", ".join(repr(arg) for arg in args)
     return f"{function_name}({args_str})"

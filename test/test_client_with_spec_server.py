@@ -4,6 +4,9 @@ import pyspec
 from pyspec import Client
 import asyncio
 
+from pyspec._connection.associative_array import AssociativeArray
+from pyspec.client import Property
+
 SERVER_PORT: int = int(os.environ.get("SPEC_SERVER_PORT", -1))
 pytestmark = pytest.mark.skipif(
     SERVER_PORT == -1,
@@ -134,3 +137,35 @@ async def test_sync_motors():
             # event doesn't actually get updated. So these tests might fail in with SIMULATION mode on.
             assert pytest.approx(xrfx_target, rel=1e-3) == await xrfx.position.get()
             assert pytest.approx(xrfz_target, rel=1e-3) == await xrfz.position.get()
+
+
+@pytest.mark.asyncio
+async def test_associative_array_index():
+    async with Client("localhost", SERVER_PORT) as client:
+        x = client.var("x[1]")
+        await x.set("one")
+        assert await x.get() == "one"
+        await x.set("two")
+        assert await x.get() == "two"
+
+
+@pytest.mark.asyncio
+async def test_associative_array_multi_index():
+    async with Client("localhost", SERVER_PORT) as client:
+        x = client.var("x[1][2]")
+        await x.set("one two")
+        assert await x.get() == "one two"
+        await x.set("three four")
+        assert await x.get() == "three four"
+
+
+@pytest.mark.asyncio
+async def test_associative_array():
+    async with Client("localhost", SERVER_PORT) as client:
+        x: Property[AssociativeArray] = client.var("x")
+        xv = await x.get()
+        assert isinstance(xv, AssociativeArray)
+
+        xv[1, 2] = "three four"
+        await x.set(xv)
+        assert (await x.get())[1, 2] == "three four"

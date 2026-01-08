@@ -42,17 +42,18 @@ import struct
 import time
 from dataclasses import dataclass
 from typing import Literal, TypeVar, Union
+from .flag import Flag
 
 import numpy as np
 
 from .command import Command
+from .associative_array import AssociativeArray, try_cast
 from .data import (
     NATIVE_ENDIANNESS,
     AssociativeArray,
     DataType,
     ErrorStr,
     Type,
-    try_cast,
     with_endianness,
 )
 
@@ -66,12 +67,10 @@ def log_once(logger: logging.Logger, level: int, msg: str):
     """
     Logs a message only once.
 
-    :param logger: Logger instance to use.
-    :type logger: logging.Logger
-    :param level: Logging level.
-    :type level: int
-    :param msg: Message to log.
-    :type msg: str
+    Args:
+        logger (logging.Logger): Logger instance to use.
+        level (int): Logging level.
+        msg (str): Message to log.
     """
     if not hasattr(log_once, "_logged_messages"):
         setattr(log_once, "_logged_messages", set())
@@ -94,8 +93,10 @@ def _encode_numpy_string_array(arr: np.ndarray) -> bytes:
     Encode a numpy array of strings into bytes, with each string NULL-terminated.
     Numpy stores them as fixed-length, but SPEC expects NULL-terminated strings.
 
-    :param arr: Numpy array of strings to encode.
-    :return: Encoded bytes with NULL-terminated strings.
+    Args:
+        arr (np.ndarray): Numpy array of strings to encode.
+    Returns:
+        bytes: Encoded bytes with NULL-terminated strings.
     """
     byte_strings = [str(s).encode("utf-8") + b"\x00" for s in arr.flat]
     return b"".join(byte_strings)
@@ -106,10 +107,10 @@ def _decode_to_numpy_string_array(data_bytes: bytes) -> np.ndarray:
     Decode bytes into a numpy array of strings, splitting on NULL bytes.
     Needs special handling since strings are not fixed-length.
 
-    Returns a numpy array of strings with dtype '|U{max_length}', where max_length is the length of the longest string.
-
-    :param data_bytes: Bytes to decode.
-    :return: Numpy array of decoded strings.
+    Args:
+        data_bytes (bytes): Bytes to decode.
+    Returns:
+        np.ndarray: Numpy array of decoded strings with dtype '|U{max_length}', where max_length is the length of the longest string.
     """
     strings = [string.decode("utf-8") for string in data_bytes.split(b"\x00") if string]
     max_length = max(map(len, strings))
@@ -224,11 +225,14 @@ def _determine_header_struct(
     """
     Attempts to determine the appropriate Header structure based on version number, header size, and apparent endianness.
 
-    :param version: Header version number.
-    :param header_size: Size of the header in bytes.
-    :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
-    :return: Header structure class.
-    :raises RuntimeError: If a suitable header structure cannot be determined.
+    Args:
+        version (int): Header version number.
+        header_size (int): Size of the header in bytes.
+        endianness (Literal['<', '>']): Endianness, '<' for little-endian, '>' for big-endian.
+    Returns:
+        type[HeaderStruct]: Header structure class.
+    Raises:
+        RuntimeError: If a suitable header structure cannot be determined.
     """
 
     header_struct = HEADER_STRUCT_MAP.get((version, endianness), None)
@@ -264,16 +268,18 @@ def _deserialize_data(
     Deserialize the given bytes into data.
     Uses the type, rows, and cols attributes to determine how to deserialize.
 
-    :param header: Header structure containing type and shape information.
-    :param data_bytes: Bytes to deserialize.
-    :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
-    :return: Deserialized data.
-    :raises ValueError: If the type is unsupported for deserialization.
-    :raises UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
+    Args:
+        header (HeaderStruct): Header structure containing type and shape information.
+        data_bytes (bytes): Bytes to deserialize.
+        endianness (Literal['<', '>']): Endianness, '<' for little-endian, '>' for big-endian.
+    Returns:
+        DataType: Deserialized data.
+    Raises:
+        ValueError: If the type is unsupported for deserialization.
+        UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
     """
     assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
     data_bytes = data_bytes[:-1]
-
     data_type = Type(header.data_type)
     if data_type == Type.DOUBLE:
         # This is not actually sent by a true SPEC server.
@@ -288,7 +294,8 @@ def _deserialize_data(
         value = try_cast(data_string)
         return value
     elif data_type == Type.ASSOC:
-        return AssociativeArray.deserialize(data_bytes)
+        deleted = header.version >= 4 and (header.flags & Flag.DELETED.value) != 0
+        return AssociativeArray.deserialize(data_bytes, deleted)
     elif data_type == Type.ERROR:
         return ErrorStr(data_bytes.decode("utf-8"))
     elif data_type.is_array_type():
@@ -313,9 +320,12 @@ async def _read_prefix(
     """
     Reads the header prefix from the stream.
 
-    :param stream: The stream to read from.
-    :return: The raw prefix bytes, version, size, and endianness.
-    :raises RuntimeError: If the magic number is invalid.
+    Args:
+        stream (asyncio.StreamReader): The stream to read from.
+    Returns:
+        tuple: The raw prefix bytes, version, size, and endianness.
+    Raises:
+        RuntimeError: If the magic number is invalid.
     """
 
     # Warning. We parse the size field as an unsigned int here, since in V4 it was changed to unsigned.
@@ -345,10 +355,13 @@ async def _read_one_message(
     """
     Attempts to read a single message (header + data) from the stream.
 
-    :param stream: The stream to read from.
-    :param logger: Logger for logging messages.
-    :return: The header, deserialized data, and endianness.
-    :raises RuntimeError: If the magic number is invalid.
+    Args:
+        stream (asyncio.StreamReader): The stream to read from.
+        logger (logging.Logger): Logger for logging messages.
+    Returns:
+        tuple: The header, deserialized data, and endianness.
+    Raises:
+        RuntimeError: If the magic number is invalid.
     """
     prefix_bytes, version, header_size, apparent_endianness = await _read_prefix(stream)
 
@@ -386,9 +399,11 @@ async def message_stream(
     """
     Converts a StreamReader into an async generator of (Header, DataType) tuples.
 
-    :param stream: The stream to read from.
-    :param logger: Logger for logging messages.
-    :yields: The header, deserialized data, and endianness.
+    Args:
+        stream (asyncio.StreamReader): The stream to read from.
+        logger (logging.Logger): Logger for logging messages.
+    Yields:
+        tuple: The header, deserialized data, and endianness.
     """
     while True:
         try:
@@ -405,11 +420,14 @@ def serialize(
     """
     Serializes a Header and DataType into bytes for sending.
 
-    :param header: The header to serialize.
-    :param data: The data to serialize.
-    :param endianness: Endianness, '<' for little-endian, '>' for big-endian, or None for native.
-    :return: The serialized header structure and data bytes.
-    :raises ValueError: If the data type is not supported for serialization.
+    Args:
+        header (Header): The header to serialize.
+        data (DataType): The data to serialize.
+        endianness (Literal['<', '>'] | None): Endianness, '<' for little-endian, '>' for big-endian, or None for native.
+    Returns:
+        tuple: The serialized header structure and data bytes.
+    Raises:
+        ValueError: If the data type is not supported for serialization.
     """
     if endianness is None:
         endianness = NATIVE_ENDIANNESS
@@ -487,9 +505,11 @@ def short_str(header: HeaderStruct, data: DataType) -> str:
     Focuses on the command and key parameters.
     Useful for frequent logging compared to ``long_str``.
 
-    :param header: The header to represent.
-    :param data: The data to represent.
-    :return: Short string representation.
+    Args:
+        header (HeaderStruct): The header to represent.
+        data (DataType): The data to represent.
+    Returns:
+        str: Short string representation.
     """
     cmd = Command(header.command)
     name = header.name.decode("utf-8").rstrip("\x00")
@@ -525,9 +545,11 @@ def long_str(header: HeaderStruct, data: DataType) -> str:
     Construct a long string representation of the header and data.
     Contains all of the information in the V2 header.
 
-    :param header: The header to represent.
-    :param data: The data to represent.
-    :return: Long string representation.
+    Args:
+        header (HeaderStruct): The header to represent.
+        data (DataType): The data to represent.
+    Returns:
+        str: Long string representation.
     """
     cmd = Command(header.command)
     _type = Type(header.data_type)

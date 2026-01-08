@@ -21,6 +21,12 @@ from pyee.asyncio import AsyncIOEventEmitter
 from typing_extensions import Self
 
 from pyspec._connection import ClientConnection
+from pyspec._connection.associative_array import (
+    AssociativeArray,
+    get_associative_array_key,
+    pack_associative_array_element,
+    unpack_associative_array_element,
+)
 from pyspec._connection.data import DataType
 
 T = TypeVar("T", bound=DataType)
@@ -43,7 +49,8 @@ class ContextWaiter:
 
         await ContextWaiter(...)
 
-    :param awaitable: The awaitable to wait for.
+    Args:
+        awaitable (Awaitable): The awaitable to wait for.
     """
 
     def __init__(self, awaitable: Awaitable):
@@ -68,7 +75,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
     Class to manage remote properties on a SPEC server.
     Allows reading, writing, and subscribing to property changes.
 
-    :param connection: The client connection to the SPEC server.
+    Args:
+        connection (ClientConnection): The client connection to the SPEC server.
     """
 
     def __init__(self, connection: ClientConnection):
@@ -78,8 +86,22 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         self._connection = connection
         self._connection.on("property-change", self._on_property_update)
 
+    def _update_cache(self, property_name: str, value: DataType) -> None:
+        # If we got an update from one associative array to another, we want to merge the updates.
+        # We will only get incremental updates as they come.
+
+        if (
+            (existing := self._table.get(property_name, None)) is not None
+            and isinstance(existing, AssociativeArray)
+            and isinstance(value, AssociativeArray)
+        ):
+            existing.update(value)
+        else:
+            self._table[property_name] = value
+
     def _on_property_update(self, property_name: str, value: DataType) -> None:
-        self._table[property_name] = value
+        value = unpack_associative_array_element(property_name, value)
+        self._update_cache(property_name, value)
         LOGGER.info("Dispatching property update for '%s'", property_name)
         self.emit(f"property-{property_name}", value)
 
@@ -95,6 +117,11 @@ class RemotePropertyTable(AsyncIOEventEmitter):
                 return True
         return False
 
+    async def _read(self, property_name: str) -> DataType:
+        value = await self._connection.prop_get(property_name)
+        value = unpack_associative_array_element(property_name, value)
+        return value
+
     async def read(self, property_name: str) -> DataType:
         """
         Read the value of a property from the local cache or from the server.
@@ -102,27 +129,29 @@ class RemotePropertyTable(AsyncIOEventEmitter):
 
         The result is only cached if it has been subscribed to.
 
-        :param property_name: The name of the property to read.
-        :returns: The value of the property.
+        Args:
+            property_name (str): The name of the property to read.
+        Returns:
+            DataType: The value of the property.
         """
         if self.is_subscribed(property_name):
             # This only happens when we are subscribed to the property
             # but there hasn't been a change since we subscribed.
             if property_name not in self._table:
-                self._table[property_name] = await self._connection.prop_get(
-                    property_name
-                )
+                self._update_cache(property_name, await self._read(property_name))
             return self._table[property_name]
 
-        return await self._connection.prop_get(property_name)
+        return await self._read(property_name)
 
     async def read_next(self, property_name: str) -> DataType:
         """
         Wait for the next update of a property and return its value.
         See read() for more details.
 
-        :param property_name: The name of the property to read.
-        :returns: The next value of the property.
+        Args:
+            property_name (str): The name of the property to read.
+        Returns:
+            DataType: The next value of the property.
         """
         assert self.is_subscribed(
             property_name
@@ -136,9 +165,12 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Writes a value to a property on the server.
 
-        :param property_name: The name of the property to write to.
-        :param value: The value to write to the property.
+        Args:
+            property_name (str): The name of the property to write to.
+            value (DataType): The value to write to the property.
         """
+        self._update_cache(property_name, value)
+        value = pack_associative_array_element(property_name, value)
         await self._connection.prop_set(property_name, value)
 
     async def subscribe(self, property_name: str) -> None:
@@ -149,7 +181,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         cached locally and the provided callback to be called
         whenever the property value changes.
 
-        :param property_name: The name of the property to subscribe to.
+        Args:
+            property_name (str): The name of the property to subscribe to.
         """
         if self._increment_watcher(property_name):
             await self._connection.prop_watch(property_name)
@@ -158,7 +191,8 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Unsubscribes from a property.
 
-        :param property_name: The name of the property to unsubscribe from.
+        Args:
+            property_name (str): The name of the property to unsubscribe from.
         """
         if self._decrement_watcher(property_name):
             await self._connection.prop_unwatch(property_name)
@@ -171,11 +205,29 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Gets a helper object to manage interfacing with a read-write property.
 
-        :param name: The property name.
-        :param coerce: Optional function to coerce the data to a specific type.
-        :returns: A Property helper object.
+        Args:
+            name (str): The property name.
+            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.
+        Returns:
+            Property[T]: A Property helper object.
         """
         return Property(name, self, coerce)
+
+    def event_stream(
+        self,
+        name: str,
+        coerce: Callable[[Any], T] | None = None,
+    ) -> EventStream[T]:
+        """
+        Gets a helper object to manage interfacing with an event stream property.
+
+        Args:
+            name (str): The property name.
+            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.
+        Returns:
+            EventStream[T]: An EventStream helper object.
+        """
+        return EventStream(name, self, coerce)
 
     def readonly_property(
         self,
@@ -185,9 +237,11 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Gets a helper object to manage interfacing with a read-only property.
 
-        :param name: The property name.
-        :param coerce: Optional function to coerce the data to a specific type.
-        :returns: A ReadableProperty helper object.
+        Args:
+            name (str): The property name.
+            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.
+        Returns:
+            ReadableProperty[T]: A ReadableProperty helper object.
         """
         return ReadableProperty(name, self, coerce)
 
@@ -195,8 +249,10 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Gets a helper object to manage interfacing with a write-only property.
 
-        :param name: The property name.
-        :returns: A WritableProperty helper object.
+        Args:
+            name (str): The property name.
+        Returns:
+            WritableProperty: A WritableProperty helper object.
         """
         return WritableProperty(name, self)
 
@@ -204,8 +260,10 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         """
         Checks if there are any active subscriptions to a property.
 
-        :param property_name: The name of the property to check.
-        :returns: True if there are active subscriptions, False otherwise.
+        Args:
+            property_name (str): The name of the property to check.
+        Returns:
+            bool: True if there are active subscriptions, False otherwise.
         """
         return (
             property_name in self._property_watchers
@@ -228,9 +286,10 @@ class EventStream(_PropertyBase[T]):
     """
     Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.
 
-    :param name: The property name.
-    :param property_table: The remote property table instance.
-    :param coerce: Optional function to coerce the data to a specific type.
+    Args:
+        name (str): The property name.
+        property_table (RemotePropertyTable): The remote property table instance.
+        coerce (Callable[[DataType], T], optional): Optional function to coerce the data to a specific type.
     """
 
     EventType = Literal["change", "event"]
@@ -270,13 +329,15 @@ class EventStream(_PropertyBase[T]):
     def _emit_event(self, value: T) -> None:
         self._emitter.emit("event", value)
 
-    def on(self, event: EventType, func: Callable[[T], None]) -> None:
+    def on(self, event: EventStream.EventType, func: Callable[[T], None]) -> None:
         self._emitter.on(event, func)
 
-    def once(self, event: EventType, func: Callable[[T], None]) -> None:
+    def once(self, event: EventStream.EventType, func: Callable[[T], None]) -> None:
         self._emitter.once(event, func)
 
-    def remove_listener(self, event: EventType, func: Callable[[T], None]) -> None:
+    def remove_listener(
+        self, event: EventStream.EventType, func: Callable[[T], None]
+    ) -> None:
         self._emitter.remove_listener(event, func)
 
     async def get_next(self) -> T:
@@ -287,8 +348,9 @@ class EventStream(_PropertyBase[T]):
         """
         Waits until the property changes to the specified value.
 
-        :param value: The value to wait for.
-        :param timeout: Optional timeout in seconds.
+        Args:
+            value (T): The value to wait for.
+            timeout (float, optional): Optional timeout in seconds.
         """
         assert self.is_subscribed(), "Property must be watched to wait for a value."
         future = asyncio.Future()
@@ -318,6 +380,11 @@ class EventStream(_PropertyBase[T]):
     async def subscribed(
         self,
     ) -> AsyncIterator[Self]:
+        """
+        Context manager that subscribes to the property for the duration of the context.
+
+        WARNING: Data arrays will not send events. You must use get() to receive the data array values.
+        """
 
         event_name = f"property-{self.name}"
         initialized = False
@@ -355,8 +422,10 @@ class EventStream(_PropertyBase[T]):
                 await client.exec('print("Hello, world!")')
                 assert output[-1] == "Hello, world!\\n"
 
-        :param wait_time: Optional time to wait after the context block exits to ensure all output is captured.
-        :yields: List of output lines captured during the context.
+        Args:
+            wait_time (float, optional): Optional time to wait after the context block exits to ensure all output is captured.
+        Yields:
+            list: List of output lines captured during the context.
         """
         lines = []
         self.on("event", lines.append)

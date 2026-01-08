@@ -5,11 +5,14 @@ class Status(PropertyGroup):
     """
     The status properties reflect changes in the server state that may affect the server's ability to execute client commands or control hardware.
 
-    :param remote_property_table: The remote property table instance.
-    :ivar quit: Whether or not the server is exiting.
-    :ivar shell: Whether or not the server is in a subshell.
-    :ivar ready: Whether or not the server is ready to execute commands.
-    :ivar simulate: Whether or not the server is in simulate mode.
+    Args:
+        remote_property_table (RemotePropertyTable): The remote property table instance.
+
+    Attributes:
+        quit (bool): Whether or not the server is exiting.
+        shell (bool): Whether or not the server is in a subshell.
+        ready (bool): Whether or not the server is ready to execute commands.
+        simulate (bool): Whether or not the server is in simulate mode.
     """
 
     def __init__(self, remote_property_table: RemotePropertyTable):
@@ -19,6 +22,8 @@ class Status(PropertyGroup):
         self.quit = self._readonly_property("quit", bool)
         """
         status/quit
+        .. code-block:: none
+
             on("change"): Sent when the server exits.
             get: Always read back as zero.
         """
@@ -26,6 +31,8 @@ class Status(PropertyGroup):
         self.shell = self._readonly_property("shell", bool)
         """
         status/shell
+        .. code-block:: none
+
             on("change"): Sent when the server enters a subshell (True) or returns from a subshell (False).
             get: True if server command thread is in a subshell, otherwise False.
 
@@ -36,14 +43,19 @@ class Status(PropertyGroup):
         self.ready = self._readonly_property("ready", bool)
         """
         status/ready
+        .. code-block:: none
+
             on("change"): Sent when the server is waiting for input at the interactive prompt (True)
-                            and after a return has been typed at the interactive prompt (False).
-                            The server is available to execute commands from clients when it is ready.
+                          and after a return has been typed at the interactive prompt (False).
+                          The server is available to execute commands from clients when it is ready.
             get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.
+        
         """
         self.simulate = self._readonly_property("simulate", bool)
         """
         status/simulate
+        .. code-block:: none
+        
             on("change"): Sent when the server enters (True) or leaves (False) simulate mode.
             get: True if server is in simulate mode, otherwise False.
         Note, when in simulate mode, the server will not send commands to hardware devices.

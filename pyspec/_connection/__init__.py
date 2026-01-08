@@ -1,6 +1,6 @@
 from .client_connection import ClientConnection
 from .server_connection import ServerConnection
-from .data import AssociativeArray, AssociativeArrayElement
+from .associative_array import AssociativeArrayElement, AssociativeArray
 
 __all__ = [
     "ClientConnection",

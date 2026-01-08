@@ -208,8 +208,9 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Initialize a server connection with the given stream reader and writer.
 
-        :param reader: The stream reader for the connection.
-        :param writer: The stream writer for the connection.
+        Args:
+            reader (asyncio.StreamReader): The stream reader for the connection.
+            writer (asyncio.StreamWriter): The stream writer for the connection.
         """
         Connection.__init__(self, reader, writer)
         self.on("message", self._dispatch_typed_message_events)
@@ -222,7 +223,8 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         Given a received message, emit the appropriate typed event based on the message command.
         Validates the message data type where possible.
 
-        :param msg: The received message.
+        Args:
+            msg (ServerConnection.Message): The received message.
         """
 
         match msg.header.command:
@@ -266,8 +268,9 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Sends a property value to the client.
 
-        :param property: The property name.
-        :param value: The value to send.
+        Args:
+            property (str): The property name.
+            value: The value to send.
         """
         await self._send(Header(Command.EVENT, name=property), data=value)
 
@@ -283,8 +286,9 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Sends a reply to the client for a given sequence number.
 
-        :param sequence_number: The sequence number to reply to.
-        :param data: The data to send in the reply.
+        Args:
+            sequence_number (int): The sequence number to reply to.
+            data (DataType): The data to send in the reply.
         """
         await self._send(
             Header(Command.REPLY, sequence_number=sequence_number), data=data
@@ -294,8 +298,9 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Sends an error reply to the client for a given sequence number.
 
-        :param sequence_number: The sequence number to reply to.
-        :param error_message: The error message to send.
+        Args:
+            sequence_number (int): The sequence number to reply to.
+            error_message (str): The error message to send.
         """
         await self._send(
             Header(Command.REPLY, sequence_number=sequence_number),
@@ -307,7 +312,8 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Context manager to catch and handle exceptions during reply handling.
 
-        :param sequence_number: The sequence number for the reply.
+        Args:
+            sequence_number (int): The sequence number for the reply.
         """
         try:
             yield
@@ -323,6 +329,7 @@ class ServerConnection(Connection, ServerConnectionEventEmitter):
         """
         Sends a HELLO_REPLY message to the client for a given sequence number.
 
-        :param sequence_number: The sequence number to reply to.
+        Args:
+            sequence_number (int): The sequence number to reply to.
         """
         await self._send(Header(Command.HELLO_REPLY, sequence_number=sequence_number))

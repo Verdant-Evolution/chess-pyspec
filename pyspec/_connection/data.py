@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import sys
 from enum import Enum
-from typing import Iterable, Literal, TypeVar, Union
+from typing import Literal, Union
+from .associative_array import AssociativeArray
 
 import numpy as np
 
@@ -12,7 +13,7 @@ NATIVE_ENDIANNESS = "<" if sys.byteorder == "little" else ">"
 class ErrorStr(str): ...
 
 
-DataType = Union[np.ndarray, str, float, "AssociativeArray", ErrorStr, None]
+DataType = Union[np.ndarray, str, float, AssociativeArray, ErrorStr, None]
 
 
 class Type(Enum):
@@ -36,7 +37,8 @@ class Type(Enum):
         """
         Returns True if the type is an array type.
 
-        :return: True if array type, False otherwise.
+        Returns:
+            bool: True if array type, False otherwise.
         """
         return self in {
             Type.ARR_DOUBLE,
@@ -58,9 +60,12 @@ class Type(Enum):
         """
         Returns the numpy dtype corresponding to this SPEC type.
 
-        :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
-        :return: Corresponding numpy dtype.
-        :raises ValueError: If the type is not an array type.
+        Args:
+            endianness (Literal['<', '>']): Endianness, '<' for little-endian, '>' for big-endian.
+        Returns:
+            np.dtype: Corresponding numpy dtype.
+        Raises:
+            ValueError: If the type is not an array type.
         """
         if self in ARRAY_TYPE_TO_NUMERIC_DTYPE:
             return with_endianness(
@@ -74,9 +79,12 @@ class Type(Enum):
         """
         Returns the SPEC Type corresponding to a numpy dtype.
 
-        :param dtype: Numpy dtype to convert.
-        :return: Corresponding SPEC Type.
-        :raises ValueError: If the dtype is not supported.
+        Args:
+            dtype (np.dtype): Numpy dtype to convert.
+        Returns:
+            Type: Corresponding SPEC Type.
+        Raises:
+            ValueError: If the dtype is not supported.
         """
         if dtype.kind == "U":  # String type
             return Type.ARR_STRING
@@ -97,9 +105,11 @@ def with_endianness(dtype: np.dtype, endianness: Literal["<", ">"]) -> np.dtype:
     """
     Returns a numpy dtype with the specified endianness.
 
-    :param dtype: The base numpy dtype.
-    :param endianness: Endianness, '<' for little-endian, '>' for big-endian.
-    :return: Numpy dtype with specified endianness.
+    Args:
+        dtype (np.dtype): The base numpy dtype.
+        endianness (Literal['<', '>']): Endianness, '<' for little-endian, '>' for big-endian.
+    Returns:
+        np.dtype: Numpy dtype with specified endianness.
     """
     return np.dtype(endianness + dtype.str[1:])
 
@@ -108,8 +118,10 @@ def is_signed_int(dtype: np.dtype) -> bool:
     """
     Returns True if the dtype is a signed integer type.
 
-    :param dtype: Numpy dtype to check.
-    :return: True if signed integer, False otherwise.
+    Args:
+        dtype (np.dtype): Numpy dtype to check.
+    Returns:
+        bool: True if signed integer, False otherwise.
     """
     return np.issubdtype(dtype, np.signedinteger)
 
@@ -118,8 +130,10 @@ def is_floating_point(dtype: np.dtype) -> bool:
     """
     Returns True if the dtype is a floating point type.
 
-    :param dtype: Numpy dtype to check.
-    :return: True if floating point, False otherwise.
+    Args:
+        dtype (np.dtype): Numpy dtype to check.
+    Returns:
+        bool: True if floating point, False otherwise.
     """
     return np.issubdtype(dtype, np.floating)
 
@@ -128,9 +142,12 @@ def dtype_str(dtype: np.dtype) -> DtypeStr:
     """
     Returns a string representing the type of the numpy dtype ('float', 'int', or 'uint').
 
-    :param dtype: Numpy dtype to check.
-    :return: String representing the dtype category.
-    :raises ValueError: If the dtype is not supported.
+    Args:
+        dtype (np.dtype): Numpy dtype to check.
+    Returns:
+        DtypeStr: String representing the dtype category.
+    Raises:
+        ValueError: If the dtype is not supported.
     """
     if is_floating_point(dtype):
         return "float"
@@ -166,116 +183,3 @@ ARRAY_TYPE_TO_NUMERIC_DTYPE: dict[Type, np.dtype] = {
     Type.ARR_LONG64: np.dtype(np.int64),
     Type.ARR_ULONG64: np.dtype(np.uint64),
 }
-
-
-AssociativeArrayElement = Union[float, int, str]
-AssociativeArrayKey = Union[
-    AssociativeArrayElement, tuple[AssociativeArrayElement, AssociativeArrayElement]
-]
-
-
-T = TypeVar("T")
-
-
-def by_two(iterable: Iterable[T]) -> Iterable[tuple[T, T]]:
-    """Yield successive pairs from an iterable."""
-    a = iter(iterable)
-    return zip(a, a)
-
-
-def try_cast(value: str) -> AssociativeArrayElement:
-    try:
-        v = float(value)
-        if v.is_integer():
-            return int(v)
-        return v
-    except ValueError:
-        return value
-
-
-class AssociativeArray:
-    """
-    Represents a SPEC associative array, which is a collection of key-value pairs.
-
-    See https://certif.com/spec_manual/ref_2_3_4_1.html for more details on how spec handles them.
-
-    Ultimately, the associative array is a mapping from one or two keys to a value.
-
-    Example usage::
-
-        x = AssociativeArray()
-        x["one"] = "now"
-        x["three"] = "the"
-        x["three", "0"] = "time"
-        x["two"] = "is"
-    """
-
-    KEY_SEPARATOR = "\x1c"
-    ITEM_SEPARATOR = "\000"
-
-    data: dict[str, AssociativeArrayElement]
-
-    def __init__(self) -> None:
-        self.data = {}
-
-    def __getitem__(
-        self,
-        key: AssociativeArrayKey,
-    ) -> AssociativeArrayElement:
-        return self.data[self.compose_key(key)]
-
-    def __setitem__(
-        self,
-        key: AssociativeArrayKey,
-        value: AssociativeArrayElement,
-        /,
-    ) -> None:
-        self.data[self.compose_key(key)] = value
-
-    def __delitem__(
-        self,
-        key: AssociativeArrayKey,
-    ) -> None:
-        del self.data[self.compose_key(key)]
-
-    @classmethod
-    def compose_key(cls, key: AssociativeArrayKey) -> str:
-        if isinstance(key, tuple):
-            key1, key2 = key
-        else:
-            key1 = key
-            key2 = ""
-        return f"{key1}{cls.KEY_SEPARATOR}{key2}"
-
-    def serialize(self) -> bytes:
-        key_value_list = []
-        for key, value in self.data.items():
-            key_value_list.append(key)
-            key_value_list.append(value)
-
-        return (
-            self.ITEM_SEPARATOR.join(str(item) for item in key_value_list)
-            + self.ITEM_SEPARATOR
-        ).encode("utf-8")
-
-    @classmethod
-    def deserialize(cls, data: bytes) -> "AssociativeArray":
-        instance = cls()
-        data_str = data.decode("utf-8")
-        for key, value in by_two(data_str.split(cls.ITEM_SEPARATOR)):
-            instance.data[key] = try_cast(value)
-        return instance
-
-    def __str__(self) -> str:
-        items = list(self.data.items())
-        if len(items) > 5:
-            display_items = items[:5]
-            display_str = "{" + ", ".join(
-                f"{key}: {value}" for key, value in display_items
-            )
-            display_str += ", ... }"
-        else:
-            display_str = (
-                "{" + ", ".join(f"{key}: {value}" for key, value in items) + "}"
-            )
-        return display_str
