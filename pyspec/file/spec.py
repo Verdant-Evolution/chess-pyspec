@@ -45,7 +45,7 @@ Description
 ****************
    This module offers an interface to files with data in the spec
    file format. The format specificiation can be consulted online
-   at the _`certif.com` website.
+   at the certif.com website.
 
    A spec file normally consists of a series of header blocks and scan blocks.
    Data comes after scan blocks. Sometimes comment lines can be also

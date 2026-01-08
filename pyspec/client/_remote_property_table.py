@@ -341,12 +341,31 @@ class EventStream(_PropertyBase[T]):
         self._emitter.remove_listener(event, func)
 
     async def get_next(self) -> T:
+        """
+        Waits for the next change event and then returns the value
+
+        Returns:
+            T: The value of the property after the next time it changes.
+        """
         value = await self._property_table.read_next(self.name)
         return self._cast_value(value)
 
-    def wait_for(self, value: T, timeout: float | None = None) -> ContextWaiter:
+    def wait_for(self, value: T, *, timeout: float | None = None) -> ContextWaiter:
         """
         Waits until the property changes to the specified value.
+
+        Usage:
+        .. code-block:: python
+
+            async with test_var.wait_for(123, timeout=10):
+                # Do something...
+
+            # Wait for the property to change to 123 before continuing
+
+        .. code-block:: python
+
+            # Just wait until the property changes
+            await test_var.wait_for(123, timeout=10)
 
         Args:
             value (T): The value to wait for.

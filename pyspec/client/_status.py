@@ -48,8 +48,8 @@ class Status(PropertyGroup):
             on("change"): Sent when the server is waiting for input at the interactive prompt (True)
                           and after a return has been typed at the interactive prompt (False).
                           The server is available to execute commands from clients when it is ready.
+                          
             get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.
-        
         """
         self.simulate = self._readonly_property("simulate", bool)
         """
@@ -58,5 +58,6 @@ class Status(PropertyGroup):
         
             on("change"): Sent when the server enters (True) or leaves (False) simulate mode.
             get: True if server is in simulate mode, otherwise False.
+
         Note, when in simulate mode, the server will not send commands to hardware devices.
         """

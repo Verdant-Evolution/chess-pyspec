@@ -102,8 +102,9 @@ class Client(PropertyGroup):
         output/filename
         .. code-block:: none
 
-            on("change")
+            on("change"):
                 Sent when the server sends output to the file or device given by filename, where filename can be the built-in name "tty" or a file or device name. The data will be a string representing the output.
+
             Once a client has registered for output events from a particular file, the server will keep track of the client's request as the file is opened and closed.
             File names are given relative to the server's current directory and can be relative or absolute path names, just as with the built-in commands that refer to files.
 
@@ -162,7 +163,7 @@ class Client(PropertyGroup):
         return await self._connection.remote_cmd(command)
 
     @asynccontextmanager
-    async def synchronized_motors(self, timeout: float | None = None):
+    async def synchronized_motors(self, *, timeout: float | None = None):
         """
         Context manager to enable synchronized motor operations for the client.
 
@@ -190,5 +191,8 @@ class Client(PropertyGroup):
         Raises:
             RuntimeError: If there are pending motor motions from a previous context.
         """
-        async with self._connection.synchronized_motors(timeout):
+        async with self._connection.synchronized_motors(timeout=timeout):
             yield
+
+
+__all__ = ["Client"]

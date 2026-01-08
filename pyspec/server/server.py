@@ -228,6 +228,7 @@ class Server(AsyncIOEventEmitter, Singleton):
         """
         host, port = client_writer.get_extra_info("peername")
         logger = LOGGER.getChild(f"{host}:{port}")
+        connection = ServerConnection(client_reader, client_writer)
 
         def on_close():
             client_writer.close()
@@ -287,7 +288,7 @@ class Server(AsyncIOEventEmitter, Singleton):
             logger.info("Unsubscribed from property: %s", property_name)
             self._property_listeners[property_name].discard(connection)
 
-        async with ServerConnection(client_reader, client_writer) as connection:
+        async with connection:
             connection.on("close", on_close)
             connection.on("abort", on_abort)
             connection.on("remote-cmd-no-return", on_cmd_no_return)

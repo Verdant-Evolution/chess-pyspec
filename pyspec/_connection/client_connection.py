@@ -1,5 +1,3 @@
-
-
 import asyncio
 import re
 import threading
@@ -335,7 +333,7 @@ class ClientConnection(
             Header(Command.FUNC_WITH_RETURN), data=func_string
         )
 
-    async def hello(self, timeout: float = 5.0):
+    async def hello(self, *, timeout: float = 5.0):
         """
         Sends a HELLO command to the remote host.
         The remote host should respond with a HELLO_REPLY message.
@@ -353,9 +351,7 @@ class ClientConnection(
         )
 
     @asynccontextmanager
-    async def synchronized_motors(
-        self, timeout: Optional[float] = None
-    ):
+    async def synchronized_motors(self, *, timeout: Optional[float] = None):
         """
         Context manager to enable synchronized motor operations for the client.
 
