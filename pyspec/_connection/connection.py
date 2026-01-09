@@ -1,5 +1,3 @@
-
-
 import asyncio
 import ctypes
 import logging
@@ -150,7 +148,6 @@ class Connection(AsyncIOEventEmitter):
                 self._listener.cancel()
             except asyncio.CancelledError:
                 await self._listener
-                pass
 
     async def __send(self, msg: bytes) -> None:
         """

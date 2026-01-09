@@ -416,7 +416,7 @@ async def message_stream(
 def serialize(
     header: Header,
     data: DataType,
-    endianness: Literal["<", ">"] = NATIVE_ENDIANNESS,
+    endianness: Union[Literal["<", ">"], None] = NATIVE_ENDIANNESS,
 ) -> tuple[HeaderStruct, bytes]:
     """
     Serializes a Header and DataType into bytes for sending.
@@ -430,6 +430,8 @@ def serialize(
     Raises:
         ValueError: If the data type is not supported for serialization.
     """
+    if endianness is None:
+        endianness = NATIVE_ENDIANNESS
 
     rows, cols = 0, 0
     data_bytes = b""
@@ -513,7 +515,7 @@ def short_str(header: HeaderStruct, data: DataType) -> str:
     """
     cmd = Command(header.command)
     name = header.name.decode("utf-8").rstrip("\x00")
-    
+
     if cmd == Command.HELLO:
         return f"{cmd.name}(seq={header.sequence_number})"
     if cmd == Command.HELLO_REPLY:

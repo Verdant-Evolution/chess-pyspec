@@ -22,6 +22,7 @@ class Status(PropertyGroup):
         self.quit = self._readonly_property("quit", bool)
         """
         status/quit
+        
         .. code-block:: none
 
             on("change"): Sent when the server exits.
@@ -31,6 +32,7 @@ class Status(PropertyGroup):
         self.shell = self._readonly_property("shell", bool)
         """
         status/shell
+
         .. code-block:: none
 
             on("change"): Sent when the server enters a subshell (True) or returns from a subshell (False).
@@ -43,6 +45,7 @@ class Status(PropertyGroup):
         self.ready = self._readonly_property("ready", bool)
         """
         status/ready
+
         .. code-block:: none
 
             on("change"): Sent when the server is waiting for input at the interactive prompt (True)
@@ -54,6 +57,7 @@ class Status(PropertyGroup):
         self.simulate = self._readonly_property("simulate", bool)
         """
         status/simulate
+
         .. code-block:: none
         
             on("change"): Sent when the server enters (True) or leaves (False) simulate mode.

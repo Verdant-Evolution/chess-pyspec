@@ -70,6 +70,7 @@ class Client(PropertyGroup):
         Enter only the variable name; the property will be created as: var/{var_name}
 
         var/var_name
+
         .. code-block:: none
 
             on("change")
@@ -100,6 +101,7 @@ class Client(PropertyGroup):
         The output property puts copies of the strings written to files or to the screen in events sent to clients.
 
         output/filename
+
         .. code-block:: none
 
             on("change"):
@@ -175,8 +177,8 @@ class Client(PropertyGroup):
 
             async with client.synchronized_motors():
                 # Motor movement will be held in here.
-                motor1.move(position)
-                motor2.move(position)
+                await motor1.move(position)
+                await motor2.move(position)
 
                 # Motors will not start moving yet.
                 await asyncio.sleep(1)  # Simulate other operations
