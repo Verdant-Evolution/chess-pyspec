@@ -294,6 +294,8 @@ class EventStream(_PropertyBase[T]):
 
     EventType = Literal["change", "event"]
 
+    _subscriber_depth = 0
+
     def __init__(
         self,
         name: str,
@@ -419,13 +421,17 @@ class EventStream(_PropertyBase[T]):
             initialized = True
 
         try:
-            self._property_table.on(event_name, skip_first_emit_change)
-            self._property_table.on(event_name, self._emit_event)
+            if self._subscriber_depth == 0:
+                self._property_table.on(event_name, skip_first_emit_change)
+                self._property_table.on(event_name, self._emit_event)
+            self._subscriber_depth += 1
             await self._property_table.subscribe(self.name)
             yield self
         finally:
-            self._property_table.remove_listener(event_name, skip_first_emit_change)
-            self._property_table.remove_listener(event_name, self._emit_event)
+            self._subscriber_depth -= 1
+            if self._subscriber_depth == 0:
+                self._property_table.remove_listener(event_name, skip_first_emit_change)
+                self._property_table.remove_listener(event_name, self._emit_event)
             await self._property_table.unsubscribe(self.name)
 
     @asynccontextmanager
