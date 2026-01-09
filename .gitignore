@@ -2,6 +2,7 @@
 __pycache__/
 *.py[oc]
 build/
+_build/
 dist/
 wheels/
 *.egg-info
@@ -19,3 +20,8 @@ wheels/
 htmlcov/
 
 .VSCodeCounter
+
+
+node_modules/
+package-lock.json
+package.json

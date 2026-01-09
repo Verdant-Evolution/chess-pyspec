@@ -61,3 +61,6 @@ class Status(PropertyGroup):
 
         Note, when in simulate mode, the server will not send commands to hardware devices.
         """
+
+    async def to_str(self) -> str:
+        return f"Status(quit={await self.quit.get()}, shell={await self.shell.get()}, ready={await self.ready.get()}, simulate={await self.simulate.get()})"

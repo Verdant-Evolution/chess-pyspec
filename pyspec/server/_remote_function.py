@@ -1,5 +1,3 @@
-
-
 import ast
 import asyncio
 import logging
@@ -102,6 +100,13 @@ def remote_function(function: F) -> F:
     # Since the client will only give you strs.
     """
     Decorator to mark a function as remotely callable.
+
+    Note: All inputs to the function will be received as strings.
+
+    Args:
+        function (F): The function to mark as remote.
+    Returns:
+        F: The same function, marked as remote.
     """
     mark_remote_function(function)
     if not asyncio.iscoroutinefunction(function):
