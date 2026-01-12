@@ -1,3 +1,7 @@
+# Test status badge
+
+![Test](https://github.com/<OWNER>/<REPO>/actions/workflows/test.yml/badge.svg)
+
 # PySpec
 
 PySpec is a Python implementation of the [SPEC server and client protocol](https://certif.com/spec_help/server.html), providing tools for remote control, data acquisition, and automation in scientific instrumentation environments. It enables Python-based clients to interact with a SPEC server, control motors, read/write variables, and execute commands or functions remotely.
