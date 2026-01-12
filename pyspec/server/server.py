@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import asyncio
 import inspect
 import logging
@@ -63,7 +64,10 @@ class ServerException(Exception):
 class Server(AsyncIOEventEmitter, Singleton):
 
     def __init__(
-        self, host: str = "localhost", port: int | None = None, test_mode: bool = False
+        self,
+        host: str = "localhost",
+        port: int | None = None,
+        allow_remote_code_execution: bool = False,
     ):
         """
         Initialize the server.
@@ -71,7 +75,7 @@ class Server(AsyncIOEventEmitter, Singleton):
         Args:
             host (str, optional): The hostname to bind the server to.
             port (int | None, optional): The port to bind the server to.
-            test_mode (bool, optional): If True, enables test mode (arbitrary code execution allowed).
+            allow_remote_code_execution (bool, optional): If True, enables test mode (arbitrary code execution allowed).
         """
         super().__init__()
         self.host = host
@@ -82,11 +86,11 @@ class Server(AsyncIOEventEmitter, Singleton):
         self._remote_functions = self._build_remote_function_table()
         self._remote_properties = self._register_properties()
 
-        self._test_mode = test_mode
+        self._allow_remote_code_execution = allow_remote_code_execution
 
-        if self._test_mode:
+        if self._allow_remote_code_execution:
             LOGGER.warning(
-                "Server is running in TEST MODE. Arbitrary code execution is allowed."
+                "Server is running in ALLOW_REMOTE_CODE_EXECUTION mode. Arbitrary code execution is allowed."
             )
 
     def _build_remote_function_table(self):
@@ -158,11 +162,17 @@ class Server(AsyncIOEventEmitter, Singleton):
         Raises:
             PermissionError: If not in test mode.
         """
-        if self._test_mode:
+        if self._allow_remote_code_execution:
             return eval(command)
         else:
-            LOGGER.warning("Attempted to execute command in non-test mode: %s", command)
-            raise PermissionError("Command execution is only allowed in test mode.")
+            try:
+                return ast.literal_eval(command)
+            except Exception:
+                LOGGER.warning(
+                    "Attempted to execute non-literal command in non-test mode: %s",
+                    command,
+                )
+                raise PermissionError("Command execution is only allowed in test mode.")
 
     async def execute_function(self, function_call: str) -> DataType:
         """

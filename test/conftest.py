@@ -37,7 +37,9 @@ class Server(PyspecServer):
 
 # Helper to run server in a separate process
 async def run_server(test_mode=True):
-    async with Server(host=HOST, port=PORT, test_mode=test_mode) as server:
+    async with Server(
+        host=HOST, port=PORT, allow_remote_code_execution=test_mode
+    ) as server:
         # Set a ticker task so we can watch a property
         asyncio.create_task(server.tick())
         await server.serve_forever()
