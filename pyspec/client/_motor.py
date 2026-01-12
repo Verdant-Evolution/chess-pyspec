@@ -205,8 +205,8 @@ class Motor(PropertyGroup):
 
         If motor synchronization is enabled, the move will be queued until synchronization is executed.
 
-            Args:
-                position (float): The target position to move the motor to.
+        Args:
+            position (float): The target position to move the motor to.
         """
 
         if self._client_connection._synchronizing_motors:
@@ -225,8 +225,9 @@ class Motor(PropertyGroup):
 
         This is a convenience method that combines move() with waiting for the motor to start moving, which can be useful
         if you want to ensure that the motor is moving before moving on to other tasks.
-            Args:
-                position (float): The target position to move the motor to.
+
+        Args:
+            position (float): The target position to move the motor to.
         """
         async with self.moving.wait_for(True):
             return asyncio.create_task(self.move(position))
@@ -237,8 +238,8 @@ class Motor(PropertyGroup):
 
         This is used for motor synchronization, where multiple moves are queued and then executed together when synchronization is executed.
 
-            Args:
-                position (float): The target position to move the motor to.
+        Args:
+            position (float): The target position to move the motor to.
         """
         if not self._client_connection._synchronizing_motors:
             raise RuntimeError("Cannot prepare move when not synchronizing motors")
