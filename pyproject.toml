@@ -5,14 +5,12 @@ description = "Python SPEC modules and tools"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.9"
-build-backend = "setuptools.build_meta"
 authors = [{ name = "Kevin Welsh", email = "kevin.welsh@verdantevolution.com" }]
 dependencies = ["cython>=3.2.3", "h5py>=3.0.0", "numpy", "pyee>=13.0.0"]
-optional-dependencies = { dev = [
-    "sphinx",
-    "sphinx-autodoc-typehints",
-    "sphinx-rtd-theme"
-], test = ["pytest-asyncio", "pytest-cov", "pytest-timeout"] }
+
+[project.optional-dependencies]
+dev = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["pytest-asyncio", "pytest-cov", "pytest-timeout"]
 
 [tool.setuptools]
 packages = ["pyspec", "pyspec.shared_memory", "pyspec._connection"]
@@ -27,6 +25,7 @@ ext-modules = [
 "pyspec.shared_memory" = ["*.h"]
 
 [build-system]
+build-backend = "setuptools.build_meta"
 requires = ["setuptools>=80.9.0", "wheel", "cython"]
 
 [tool.coverage.report]
