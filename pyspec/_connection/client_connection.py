@@ -201,7 +201,12 @@ class ClientConnection(
         self.once(f"reply-{sequence_number}", response.set_result)
         await self._send(header, data)
 
-        msg_data: DataType = await response
+        try:
+            msg_data: DataType = await response
+        except KeyboardInterrupt:
+            await self.abort()
+            raise
+
         if isinstance(msg_data, ErrorStr):
             self.logger.error(
                 "Received ERROR reply for sequence number %d",
