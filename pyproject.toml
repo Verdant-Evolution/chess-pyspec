@@ -41,9 +41,6 @@ ext-modules = [
 build-backend = "setuptools.build_meta"
 requires = ["setuptools>=80.9.0", "wheel", "cython"]
 
-[dependency-groups]
-dev = ["cibuildwheel>=2.23.3", "twine>=6.2.0"]
-
 [tool.coverage.report]
 omit = ["pyspec/shared_memory/**", "pyspec/file/**"]
 
