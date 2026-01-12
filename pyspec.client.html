@@ -746,12 +746,11 @@ get: True if a motor-fault condition has been activated.</p>
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.move" title="Link to this definition">¶</a></dt>
 <dd><p>Move the motor to the specified position.</p>
 <p>If motor synchronization is enabled, the move will be queued until synchronization is executed.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py attribute">
@@ -796,12 +795,11 @@ set: Sets the user offset on the server.</p>
 <span class="sig-name descname"><span class="pre">prepare_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.prepare_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.prepare_move" title="Link to this definition">¶</a></dt>
 <dd><p>Prepare a move to the specified position without starting it.</p>
 <p>This is used for motor synchronization, where multiple moves are queued and then executed together when synchronization is executed.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -858,12 +856,11 @@ get: Returns the current sign-of-user*dial parameter.</p>
 This will wait for the motor to start moving, and then return a task that can be awaited to wait for the move to complete.</p>
 <p>This is a convenience method that combines move() with waiting for the motor to start moving, which can be useful
 if you want to ensure that the motor is moving before moving on to other tasks.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py attribute">
