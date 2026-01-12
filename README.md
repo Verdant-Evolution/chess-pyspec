@@ -1,6 +1,6 @@
 # Test status badge
 
-![Test](https://github.com/<OWNER>/<REPO>/actions/workflows/test.yml/badge.svg)
+![Test](https://github.com/Verdant-Evolution/chess-pyspec/actions/workflows/test.yml/badge.svg)
 
 # PySpec
 
