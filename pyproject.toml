@@ -49,3 +49,9 @@ omit = ["pyspec/shared_memory/**", "pyspec/file/**"]
 
 [tool.coverage.run]
 patch = ["subprocess"]
+
+[tool.cibuildwheel]
+# Disable pypi builds
+skip = "pp*"
+# Build with UV
+build-frontend = "build[uv]"
