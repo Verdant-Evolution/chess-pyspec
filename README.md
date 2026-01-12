@@ -11,17 +11,18 @@ PySpec is a Python implementation of the [SPEC server and client protocol](https
 -   **Async client-server architecture** for high-performance remote control
 -   **Remote property and function access** (read/write variables, call functions)
 -   **Motor control** and status monitoring
--   **Output streaming** from server to client
 -   **Associative array and data array support**
--   **Test mode** for safe experimentation
 
 ## Installation
 
 PySpec requires Python 3.9+ and depends on `cython`, `h5py`, `numpy`, and `pyee`.
 
 ```bash
-pip install .
+pip install chess-pyspec
+
 # or for development
+git clone https://github.com/Verdant-Evolution/chess-pyspec
+cd chess-pyspec
 pip install -e .[dev]
 ```
 
