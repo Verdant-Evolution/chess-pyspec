@@ -22,9 +22,11 @@ jobs:
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.9"
 
             - name: Install cibuildwheel
-              run: python -m pip install cibuildwheel==3.3.1
+              run: python -m pip install cibuildwheel
 
             - name: Build wheels
               run: python -m cibuildwheel --output-dir wheelhouse
@@ -43,7 +45,7 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v5
               with:
-                  python-version: "3.x"
+                  python-version: "3.9"
 
             - name: Install build tool
               run: python -m pip install --upgrade build
