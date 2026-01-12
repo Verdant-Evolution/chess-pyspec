@@ -123,15 +123,21 @@ async def test_sync_motors():
         xrfz_target = 325
 
         async with xrfx, xrfz:
+            with pytest.raises(
+                RuntimeError, match="Cannot prepare move when not synchronizing motors"
+            ):
+                xrfx.prepare_move(xrfx_target)
+                xrfz.prepare_move(xrfz_target)
+
             async with client.synchronized_motors():
-                xrfx_current = await xrfx.position.get()
-                xrfz_current = await xrfz.position.get()
+                with pytest.raises(
+                    RuntimeError, match="Cannot start move when synchronizing motors"
+                ):
+                    await xrfx.move(xrfx_target)
+                    await xrfz.move(xrfz_target)
 
-                await xrfx.move(xrfx_target)
-                await xrfz.move(xrfz_target)
-
-                assert await xrfx.position.get() != xrfx_target
-                assert await xrfz.position.get() != xrfz_target
+                xrfx.prepare_move(xrfx_target)
+                xrfz.prepare_move(xrfz_target)
 
             # Note: There appears to be a bug in server mode simulation where the motor position
             # event doesn't actually get updated. So these tests might fail in with SIMULATION mode on.
