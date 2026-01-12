@@ -45,8 +45,8 @@ Features
 --------
 
 - **Domain Interfaces**: Access server domains via :py:meth:`status <pyspec.client.Client.status>`, :py:meth:`motor <pyspec.client.Client.motor>`, :py:meth:`count <pyspec.client.Client.count>`, and :py:meth:`output <pyspec.client.Client.output>`.
-- **Remote Function Calls**: Use `client.call` to invoke server-side functions with arguments.
-- **Raw Command Execution**: Use `client.exec` to send complex or multi-line commands to the server.
+- **Remote Function Calls**: Use :py:meth:`client.call(function_name, *args) <pyspec.client.Client.call>` to invoke server-side functions with arguments.
+- **Raw Command Execution**: Use :py:meth:`client.exec(command) <pyspec.client.Client.exec>` to send complex or multi-line commands to the server.
 - **Property Access**: Get, set, and subscribe to properties using Pythonic interfaces.
 - **Associative Arrays**: Access and manipulate SPEC associative arrays as Python dictionaries.
 - **Event-Driven Programming**: Subscribe to property changes and handle updates asynchronously.
@@ -118,6 +118,7 @@ Working with Variables and Associative Arrays
 One of the most common direct interface with properties is when accessing SPEC variables stored under **var/...** on the server. These can be accessed by name through the `client.var` interface. Variables in SPEC will implement the full read-write-subscribe interface.
 
 
+
 Example:
 
 .. code-block:: none
@@ -165,7 +166,7 @@ Writing associative array values back to the server is batched by default, so to
     await a.set(associative_array)  
 
 .. note::
-   SPEC transforms all associative array keys into strings. Keys like "1" and "1.00000001" will map to the same key.
+   SPEC transforms all associative array keys into strings. Keys like `1` and `1.00000001` will map to the same key.
 
 Event-Based Programming
 ----------------------
@@ -196,3 +197,46 @@ To record all changes in a list:
     async with x.capture() as changes:
         await asyncio.sleep(10)
     # 'changes' is now a list of all values x took during those 10 seconds.
+
+
+
+Moving Motors
+--------------
+
+The client provides a high-level interface for moving motors on the server. You can access motors through the :py:meth:`client.motor <pyspec.client.Client.motor>` interface and call the :py:meth:`move <pyspec.client.Motor.move>` method to move them to a specified position. The client also supports motor synchronization, allowing you to prepare multiple motor moves and execute them together.
+
+
+Moving individual motors:
+
+.. code-block:: python
+
+    motor_x = client.motor('x')
+    await motor_x.move(10)  # Move motor x to position 10
+
+
+
+Doing something else while the motor is moving:
+
+.. code-block:: python
+
+    motor_x = client.motor('x')
+    move_task = motor_x.start_move(10)
+    # Do other things here while the motor is moving...
+    await move_task  # Wait for the move to complete
+
+
+Synchronizing multiple motors:
+
+.. code-block:: python
+
+    motor_x = client.motor('x')
+    motor_y = client.motor('y')
+
+    async with client.synchronized_motors():
+        motor_x.prepare_move(10)  # Prepare move for motor x
+        motor_y.prepare_move(20)  # Prepare move for motor y
+
+        # Trying to run Motor.move in this context will fail
+        # await motor_x.move(10)
+    # Motion starts when we leave the context.
+    # Both motors will now execute their moves together.

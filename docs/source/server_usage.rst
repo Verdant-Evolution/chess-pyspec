@@ -89,7 +89,7 @@ API Reference
 Notes
 -----
 
-- Always use caution with ``test_mode=True`` as it allows arbitrary code execution.
+- Always use caution with ``allow_remote_code_execution=True`` as it allows arbitrary code execution. If disabled (default) only literal values through `ast.literal_eval <https://docs.python.org/3/library/ast.html#ast.literal_eval>`_ can be evaluated from client inputs, which is much safer for production use.
 - The server uses asyncio for concurrency and can handle multiple clients.
 
 
