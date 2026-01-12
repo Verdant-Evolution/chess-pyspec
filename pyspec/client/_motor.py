@@ -1,5 +1,6 @@
 from typing import Literal, Optional, overload
 from pyspec._connection import ClientConnection
+import asyncio
 
 from ._remote_property_table import PropertyGroup, RemotePropertyTable, WritableProperty
 
@@ -216,6 +217,19 @@ class Motor(PropertyGroup):
         # Start the tracking before we send the move to avoid race conditions.
         async with self.moving.subscribed(), self.moving.wait_for(False):
             await self._start_one.set(position)
+
+    async def start_move(self, position: float):
+        """
+        Starts a move to the specified position.
+        This will wait for the motor to start moving, and then return a task that can be awaited to wait for the move to complete.
+
+        This is a convenience method that combines move() with waiting for the motor to start moving, which can be useful
+        if you want to ensure that the motor is moving before moving on to other tasks.
+            Args:
+                position (float): The target position to move the motor to.
+        """
+        async with self.moving.wait_for(True):
+            return asyncio.create_task(self.move(position))
 
     def prepare_move(self, position: float):
         """
