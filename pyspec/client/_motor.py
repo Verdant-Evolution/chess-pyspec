@@ -198,11 +198,6 @@ class Motor(PropertyGroup):
                 onto the command queue in order to start the single motor moving.
         """
 
-    async def _move(self, position: float):
-        # Start the tracking before we send the move to avoid race conditions.
-        async with self.moving.wait_for(False):
-            await self._start_one.set(position)
-
     async def move(self, position: float):
         """
         Move the motor to the specified position.
@@ -213,8 +208,26 @@ class Motor(PropertyGroup):
                 position (float): The target position to move the motor to.
         """
 
+        if self._client_connection._synchronizing_motors:
+            raise RuntimeError(
+                "Cannot start move when synchronizing motors. Use enqueue_move instead."
+            )
+
+        # Start the tracking before we send the move to avoid race conditions.
+        async with self.moving.subscribed(), self.moving.wait_for(False):
+            await self._start_one.set(position)
+
+    def prepare_move(self, position: float):
+        """
+        Prepare a move to the specified position without starting it.
+
+        This is used for motor synchronization, where multiple moves are queued and then executed together when synchronization is executed.
+
+            Args:
+                position (float): The target position to move the motor to.
+        """
         if not self._client_connection._synchronizing_motors:
-            return await self._move(position)
+            raise RuntimeError("Cannot prepare move when not synchronizing motors")
 
         self._client_connection._pending_motions[self.name] = position
 
