@@ -13,7 +13,14 @@ dev = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
 test = ["pytest-asyncio", "pytest-cov", "pytest-timeout"]
 
 [tool.setuptools]
-packages = ["pyspec", "pyspec.shared_memory", "pyspec._connection"]
+packages = [
+    "pyspec",
+    "pyspec.shared_memory",
+    "pyspec._connection",
+    "pyspec.file",
+    "pyspec.server",
+    "pyspec.client"
+]
 ext-modules = [
     { name = "pyspec.shared_memory.shared_memory", sources = [
         "pyspec/shared_memory/datashm_py.c",
