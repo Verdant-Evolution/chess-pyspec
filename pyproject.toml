@@ -9,7 +9,12 @@ authors = [{ name = "Kevin Welsh", email = "kevin.welsh@verdantevolution.com" }]
 dependencies = ["cython>=3.2.3", "h5py>=3.0.0", "numpy", "pyee>=13.0.0"]
 
 [project.optional-dependencies]
-dev = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+dev = [
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-rtd-theme",
+    "python-docs-theme"
+]
 test = ["pytest-asyncio", "pytest-cov", "pytest-timeout"]
 
 [tool.setuptools]

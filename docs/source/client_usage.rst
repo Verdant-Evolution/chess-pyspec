@@ -140,6 +140,7 @@ Example:
 Associative arrays are handled similarly:
 
 .. code-block:: spec
+
     69.SPEC_sim> a["key"] = "Value at key"
     a["key"] = "Value at key"
 
@@ -169,7 +170,7 @@ Writing associative array values back to the server is batched by default, so to
    SPEC transforms all associative array keys into strings. Keys like `1` and `1.00000001` will map to the same key.
 
 Event-Based Programming
-----------------------
+------------------------
 
 You can subscribe to property changes and handle updates asynchronously:
 
