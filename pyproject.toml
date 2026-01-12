@@ -40,6 +40,3 @@ omit = ["pyspec/shared_memory/**", "pyspec/file/**"]
 
 [tool.coverage.run]
 patch = ["subprocess"]
-
-[tool.pytest]
-timeout = 2
