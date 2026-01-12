@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspec._connection.client_connection &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../../../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /><link rel="stylesheet" href="../../../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../../../_static/py.svg" />
+            <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../../../_static/menu.js"></script>
+            <script type="text/javascript" src="../../../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../../../_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../../../_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../../../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec._connection.client_connection</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspec._connection.client_connection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">AsyncGenerator</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">overload</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyee.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.associative_array</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssociativeArray</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Connection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">ErrorStr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Header</span>
+
+<span class="n">LAST_SEQUENCE_NUMBER</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="RemoteException">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemoteException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RemoteException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised when an error occurs on the remote server.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_next_sequence_number</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loops through a uint32 sequence number for messages.</span>
+
+<span class="sd">    0 is reserved for messages that do not expect a reply.</span>
+<span class="sd">    1-4294967295 are valid sequence numbers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The next sequence number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">LAST_SEQUENCE_NUMBER</span>
+    <span class="n">LAST_SEQUENCE_NUMBER</span> <span class="o">=</span> <span class="p">(</span><span class="n">LAST_SEQUENCE_NUMBER</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+    <span class="k">if</span> <span class="n">LAST_SEQUENCE_NUMBER</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_next_sequence_number</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">LAST_SEQUENCE_NUMBER</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">IndexedSingleton</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Metaclass for creating indexed singleton classes.</span>
+
+<span class="sd">    Each unique combination of __init__ arguments will result in a single instance of the class.</span>
+<span class="sd">    A weak reference to each instance is stored to allow for garbage collection when no longer in use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_instances</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">ref</span><span class="p">()</span> <span class="k">if</span> <span class="n">ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+                <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ClientConnectionEventEmitter</span><span class="p">(</span><span class="n">AsyncIOEventEmitter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines the typed events emitted by the ClientConnection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">],</span> <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;ClientConnection.Message&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">],</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;ClientConnection.Message&quot;</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;ClientConnection.Message&quot;</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register an event listener for the &#39;message&#39; event.</span>
+
+<span class="sd">        A &#39;message&#39; event is emitted whenever a new message is received from the server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;property-change&quot;</span><span class="p">],</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;property-change&quot;</span><span class="p">],</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register an event listener for the &#39;property-change&#39; event.</span>
+
+<span class="sd">        A &#39;property-change&#39; event is emitted whenever a property value changes on the server.</span>
+<span class="sd">        &#39;property-change&#39; events are only emitted for properties that are subscribed to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="c1"># This is for reply-{sequence_number} events</span>
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">DataType</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">DataType</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register an event listener for &#39;reply-{sequence_number}&#39; events.</span>
+
+<span class="sd">        A &#39;reply-{sequence_number}&#39; event is emitted when a reply is received from the server</span>
+<span class="sd">        corresponding to a command previously sent by the client with that sequence number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ClientConnection</span><span class="p">(</span>
+    <span class="n">Connection</span><span class="p">,</span>
+    <span class="n">ClientConnectionEventEmitter</span><span class="p">,</span>
+    <span class="n">IndexedSingleton</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a connection to a remote Spec server.</span>
+
+<span class="sd">    Provides methods to interact with the server, including reading and writing properties,</span>
+<span class="sd">    executing commands and functions, and handling events.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Connection</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch_typed_message_events</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_synchronizing_motors</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pending_motions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_dispatch_typed_message_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Connection</span><span class="o">.</span><span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a received message, emit the appropriate typed event based on the message command.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            msg (Connection.Message): The received message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="n">Command</span><span class="o">.</span><span class="n">EVENT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;property-change&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="n">Command</span><span class="o">.</span><span class="n">REPLY</span>
+            <span class="ow">or</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="n">Command</span><span class="o">.</span><span class="n">HELLO_REPLY</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reply-</span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Received message with unrecognized command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">command</span>
+            <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ClientConnection&quot;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+        <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__aenter__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Connected&quot;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CLOSE</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">wait_closed</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_send_with_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Header</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends a message to the connected server and waits for a reply.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            header (Header): The header to send.</span>
+<span class="sd">            data (DataType, optional): The data to send.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The reply data from the server.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            RemoteException: If the server replies with an error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sequence_number</span> <span class="o">=</span> <span class="n">get_next_sequence_number</span><span class="p">()</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">sequence_number</span> <span class="o">=</span> <span class="n">sequence_number</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reply-</span><span class="si">{</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">set_result</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg_data</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+            <span class="k">raise</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg_data</span><span class="p">,</span> <span class="n">ErrorStr</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Received ERROR reply for sequence number </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">sequence_number</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">error_message</span> <span class="o">=</span> <span class="n">msg_data</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg_data</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;Unknown error&quot;</span>
+            <span class="k">raise</span> <span class="n">RemoteException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error from server: </span><span class="si">{</span><span class="n">error_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">msg_data</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads and returns the current value of a property from the remote host.</span>
+<span class="sd">        Single-valued, associative-array and data-array types can be returned.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prop (str): The name of the property to get.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The value of the property.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            RemoteException: If the property does not exist on the remote host, or another error occurs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CHAN_READ</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">prop</span><span class="p">))</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets a property to a value on the remote host.</span>
+<span class="sd">        Single-valued, associative-array and data-array types can be sent.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prop (str): The name of the property to set.</span>
+<span class="sd">            value (DataType): The value to set the property to.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            RemoteException: If the property does not exist on the remote host, or another error occurs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CHAN_SEND</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">prop</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a property on the remote host for watching.</span>
+<span class="sd">        When the property value changes, the remote host will send an event to the client.</span>
+<span class="sd">        Consider:</span>
+<span class="sd">            prop_watch(&quot;var/TEMP&quot;)</span>
+<span class="sd">        If a variable named TEMP exists on the local client, then the value of the local client&#39;s instance</span>
+<span class="sd">        will track changes to the value of the same variable on the remote host.</span>
+
+<span class="sd">        The variable must exist on the server before the client requests it be watched.</span>
+<span class="sd">        If the variable goes out of existence on the server, but is subsequently recreated as the same type of global variable,</span>
+<span class="sd">        the watched status will be reinstated (as of spec release 5.05.05-1).</span>
+
+<span class="sd">        If the variable doesn&#39;t exist on the client or goes out of existence, the client will continue to receive events,</span>
+<span class="sd">        and if the variable is recreated on the client, its value will track the values sent with the events (as of spec release 5.05.05-1).</span>
+
+<span class="sd">        Regular global variables, associative arrays and associative array elements can be watched.</span>
+<span class="sd">        Data arrays cannot be watched.</span>
+<span class="sd">        The built-in motor and scaler arrays A[] and S[] can be watched, but events will only be generated when</span>
+<span class="sd">        the elements are explicitly assigned values on the server,</span>
+<span class="sd">        not when the values change by way of built-in code, such as from calcA, getangles or getcounts.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prop (str): The name of the property to watch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">REGISTER</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">prop</span><span class="p">))</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_unwatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unregisters a property on the remote host.</span>
+<span class="sd">        The remote host will no longer send events to the client when the property value changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prop (str): The name of the property to unwatch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">UNREGISTER</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">prop</span><span class="p">))</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aborts the current command on the remote host.</span>
+<span class="sd">        This has the same effect on the remote host as a ^C from the keyboard.</span>
+<span class="sd">        Any pending commands in the server queue from the client will be removed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">ABORT</span><span class="p">))</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_cmd_no_return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Puts the spec command on the execution queue of the remote host.</span>
+<span class="sd">        Does not wait for the command to resolve or return a value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cmd (str): The command string to send to the remote host. e.g. &quot;1+1&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Puts the spec command on the execution queue of the remote host.</span>
+<span class="sd">        Waits for the command to resolve and returns the resulting value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cmd (str): The command string to send to the remote host. e.g. &quot;1+1&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The result of the command execution from the remote host.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD_WITH_RETURN</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_func_no_return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calls a function on the remote host with the provided arguments.</span>
+<span class="sd">        Does not wait for the function to resolve or return a value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func (str): The name of the function to call on the remote host.</span>
+<span class="sd">            *args: The arguments to pass to the function. These will all be converted to strings before sending.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">func_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">FUNC</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">func_string</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calls a function on the remote host with the provided arguments.</span>
+<span class="sd">        Waits for the command to resolve and returns the resulting value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func (str): The name of the function to call on the remote host.</span>
+<span class="sd">            *args: The arguments to pass to the function. These will all be converted to strings before sending.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The result of the function execution from the remote host.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">func_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span>
+            <span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">FUNC_WITH_RETURN</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">func_string</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends a HELLO command to the remote host.</span>
+<span class="sd">        The remote host should respond with a HELLO_REPLY message.</span>
+
+<span class="sd">        Waits for the reply up to the specified timeout.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timeout (float, optional): The maximum time to wait for a reply, in seconds.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The message received from the server in response to the HELLO command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">HELLO</span><span class="p">)),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@asynccontextmanager</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">synchronized_motors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Context manager to enable synchronized motor operations for the client.</span>
+
+<span class="sd">        While this context is active, motor movements will be held.</span>
+<span class="sd">        Upon exiting the context, the movements will be initialized simultaneously.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            async with client_connection.synchronized_motors():</span>
+<span class="sd">                # Motor movement will be held in here.</span>
+<span class="sd">                motor1.move(position)</span>
+<span class="sd">                motor2.move(position)</span>
+
+<span class="sd">                # Motors will not start moving yet.</span>
+<span class="sd">                await asyncio.sleep(1)  # Simulate other operations</span>
+<span class="sd">                # Motors will start moving simultaneously here.</span>
+
+<span class="sd">            # Outside of the context, all motors have completed their movements.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timeout (float, optional): Maximum time to wait for all motors to complete, in seconds.</span>
+<span class="sd">        Yields:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: If there are pending motor motions from a previous context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synchronizing_motors</span>
+        <span class="p">),</span> <span class="s2">&quot;Concurrent synchronized_motors contexts are not allowed.&quot;</span>
+
+        <span class="n">move_done_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;motor/(.+)/move_done&quot;</span><span class="p">)</span>
+
+        <span class="n">waiting_for</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">motor_move_done_check</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">match</span> <span class="o">:=</span> <span class="n">move_done_pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">motor_name</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Here we are comparing the value of the move_done property to 0,</span>
+            <span class="c1"># which is the value it should be set to when a move is completed.</span>
+            <span class="k">if</span> <span class="n">motor_name</span> <span class="ow">in</span> <span class="n">waiting_for</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;move_done received for `</span><span class="si">%s</span><span class="s2">` during synchronized motion.&quot;</span><span class="p">,</span>
+                    <span class="n">motor_name</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">waiting_for</span><span class="p">[</span><span class="n">motor_name</span><span class="p">]</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">motion_started</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pending_motions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;There are pending motor motions from a previous synchronized_motors context.&quot;</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_synchronizing_motors</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Give control back to user.</span>
+            <span class="k">yield</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-change&quot;</span><span class="p">,</span> <span class="n">motor_move_done_check</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mne</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pending_motions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">waiting_for</span><span class="p">[</span><span class="n">mne</span><span class="p">]</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+
+                <span class="c1"># Start the prestart message</span>
+                <span class="n">motion_started</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_set</span><span class="p">(</span><span class="s2">&quot;motor/../prestart_all&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="c1"># Append the individual motor commands</span>
+                <span class="k">for</span> <span class="n">mne</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pending_motions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Starting synchronized move for `</span><span class="si">%s</span><span class="s2">` to position </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+                        <span class="n">mne</span><span class="p">,</span>
+                        <span class="n">position</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_set</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;motor/</span><span class="si">{</span><span class="n">mne</span><span class="si">}</span><span class="s2">/start_one&quot;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+
+                <span class="c1"># Start all the motors simultaneously</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_set</span><span class="p">(</span><span class="s2">&quot;motor/../start_all&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="c1"># Wait for them to be done</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">waiting_for</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">&quot;property-change&quot;</span><span class="p">,</span> <span class="n">motor_move_done_check</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error during synchronized motor operations: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">motion_started</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_set</span><span class="p">(</span><span class="s2">&quot;motor/../abort_all&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_synchronizing_motors</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pending_motions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec._connection.client_connection</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

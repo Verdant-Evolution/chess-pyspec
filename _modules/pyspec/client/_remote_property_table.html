@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspec.client._remote_property_table &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../../../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /><link rel="stylesheet" href="../../../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../../../_static/py.svg" />
+            <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../../../_static/menu.js"></script>
+            <script type="text/javascript" src="../../../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../../../_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../../../_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../../../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.client._remote_property_table</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspec.client._remote_property_table</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncExitStack</span><span class="p">,</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">AsyncIterator</span><span class="p">,</span>
+    <span class="n">Awaitable</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Generic</span><span class="p">,</span>
+    <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyee.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.associative_array</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AssociativeArray</span><span class="p">,</span>
+    <span class="n">get_associative_array_key</span><span class="p">,</span>
+    <span class="n">pack_associative_array_element</span><span class="p">,</span>
+    <span class="n">unpack_associative_array_element</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">DataType</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;K&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">DataType</span><span class="p">)</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ContextWaiter">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.ContextWaiter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContextWaiter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class allows for awaiting an awaitable either via</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        async with ContextWaiter(...):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    or via</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        await ContextWaiter(...)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        awaitable (Awaitable): The awaitable to wait for.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">awaitable</span><span class="p">:</span> <span class="n">Awaitable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_awaitable</span> <span class="o">=</span> <span class="n">awaitable</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_awaitable</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__await__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">enter_exit</span><span class="p">():</span>
+            <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="n">enter_exit</span><span class="p">()</span><span class="o">.</span><span class="fm">__await__</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="RemotePropertyTable">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RemotePropertyTable</span><span class="p">(</span><span class="n">AsyncIOEventEmitter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to manage remote properties on a SPEC server.</span>
+<span class="sd">    Allows reading, writing, and subscribing to property changes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        connection (ClientConnection): The client connection to the SPEC server.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="n">ClientConnection</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">connection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-change&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_property_update</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If we got an update from one associative array to another, we want to merge the updates.</span>
+        <span class="c1"># We will only get incremental updates as they come.</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">existing</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">existing</span><span class="p">,</span> <span class="n">AssociativeArray</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">AssociativeArray</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">existing</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_property_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">unpack_associative_array_element</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_cache</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Dispatching property update for &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;property-</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_increment_watcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decrement_watcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">property_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">prop_get</span><span class="p">(</span><span class="n">property_name</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">unpack_associative_array_element</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="RemotePropertyTable.read">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.read">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the value of a property from the local cache or from the server.</span>
+<span class="sd">        If the property is not in the local cache, it will be fetched from the server.</span>
+
+<span class="sd">        The result is only cached if it has been subscribed to.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to read.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The value of the property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span><span class="n">property_name</span><span class="p">):</span>
+            <span class="c1"># This only happens when we are subscribed to the property</span>
+            <span class="c1"># but there hasn&#39;t been a change since we subscribed.</span>
+            <span class="k">if</span> <span class="n">property_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_cache</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">(</span><span class="n">property_name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">(</span><span class="n">property_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.read_next">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.read_next">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wait for the next update of a property and return its value.</span>
+<span class="sd">        See read() for more details.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to read.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataType: The next value of the property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span>
+            <span class="n">property_name</span>
+        <span class="p">),</span> <span class="s2">&quot;Property must be watched to read next value.&quot;</span>
+
+        <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;property-</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">future</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.write">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.write">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a value to a property on the server.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to write to.</span>
+<span class="sd">            value (DataType): The value to write to the property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_cache</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pack_associative_array_element</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">prop_set</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.subscribe">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.subscribe">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subscribe to updates for a property.</span>
+
+<span class="sd">        Subscribing to a property will cause the property values to be</span>
+<span class="sd">        cached locally and the provided callback to be called</span>
+<span class="sd">        whenever the property value changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to subscribe to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_increment_watcher</span><span class="p">(</span><span class="n">property_name</span><span class="p">):</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">prop_watch</span><span class="p">(</span><span class="n">property_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.unsubscribe">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.unsubscribe">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unsubscribes from a property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to unsubscribe from.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decrement_watcher</span><span class="p">(</span><span class="n">property_name</span><span class="p">):</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">prop_unwatch</span><span class="p">(</span><span class="n">property_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.property">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.property">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Property</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a helper object to manage interfacing with a read-write property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The property name.</span>
+<span class="sd">            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Property[T]: A Property helper object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">coerce</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.event_stream">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.event_stream">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventStream</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a helper object to manage interfacing with an event stream property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The property name.</span>
+<span class="sd">            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            EventStream[T]: An EventStream helper object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">EventStream</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">coerce</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.readonly_property">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.readonly_property">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">readonly_property</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReadableProperty</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a helper object to manage interfacing with a read-only property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The property name.</span>
+<span class="sd">            coerce (Callable[[Any], T], optional): Optional function to coerce the data to a specific type.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ReadableProperty[T]: A ReadableProperty helper object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ReadableProperty</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">coerce</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.writeonly_property">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.writeonly_property">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writeonly_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WritableProperty</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a helper object to manage interfacing with a write-only property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The property name.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            WritableProperty: A WritableProperty helper object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">WritableProperty</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemotePropertyTable.is_subscribed">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.RemotePropertyTable.is_subscribed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_subscribed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if there are any active subscriptions to a property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name (str): The name of the property to check.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if there are active subscriptions, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">property_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_watchers</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_PropertyBase</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">property_table</span><span class="p">:</span> <span class="s2">&quot;RemotePropertyTable&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span> <span class="o">=</span> <span class="n">property_table</span>
+
+
+<div class="viewcode-block" id="EventStream">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EventStream</span><span class="p">(</span><span class="n">_PropertyBase</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): The property name.</span>
+<span class="sd">        property_table (RemotePropertyTable): The remote property table instance.</span>
+<span class="sd">        coerce (Callable[[DataType], T], optional): Optional function to coerce the data to a specific type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EventType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="s2">&quot;event&quot;</span><span class="p">]</span>
+
+    <span class="n">_subscriber_depth</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">property_table</span><span class="p">:</span> <span class="s2">&quot;RemotePropertyTable&quot;</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">DataType</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">property_table</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coerce</span> <span class="o">=</span> <span class="n">coerce</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cast_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coerce</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coerce</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Failed to coerce value &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39; to type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_coerce</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_emit_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Received value of incorrect type for property &#39;</span><span class="si">%s</span><span class="s2">&#39;: expected </span><span class="si">%s</span><span class="s2">, got </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_emit_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EventStream.on">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.on">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EventStream</span><span class="o">.</span><span class="n">EventType</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.once">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.once">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">once</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EventStream</span><span class="o">.</span><span class="n">EventType</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.remove_listener">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.remove_listener">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_listener</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EventStream</span><span class="o">.</span><span class="n">EventType</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.get_next">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.get_next">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_next</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Waits for the next change event and then returns the value</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            T: The value of the property after the next time it changes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">read_next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.wait_for">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.wait_for">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextWaiter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Waits until the property changes to the specified value.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            async with test_var.wait_for(123, timeout=10):</span>
+<span class="sd">                # Do something...</span>
+
+<span class="sd">            # Wait for the property to change to 123 before continuing</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Just wait until the property changes</span>
+<span class="sd">            await test_var.wait_for(123, timeout=10)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (T): The value to wait for.</span>
+<span class="sd">            timeout (float, optional): Optional timeout in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(),</span> <span class="s2">&quot;Property must be watched to wait for a value.&quot;</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">check_value</span><span class="p">(</span><span class="n">new_value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">value</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">future</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
+                <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_done</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
+
+        <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">on_done</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="EventStream.is_subscribed">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.is_subscribed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_subscribed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if there are any active subscriptions to this property.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if there are active subscriptions, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.subscribed">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.subscribed">[docs]</a>
+    <span class="nd">@asynccontextmanager</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">subscribed</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Context manager that subscribes to the property for the duration of the context.</span>
+
+<span class="sd">        WARNING: Data arrays will not send events. You must use get() to receive the data array values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">event_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;property-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">skip_first_emit_change</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># This shenanigans is necessary to preserve change semantics.</span>
+            <span class="c1"># The initial value of the property is sent back immediately upon subscribing as an &quot;event&quot;.</span>
+            <span class="c1"># We don&#39;t want to call that a &quot;change&quot; at this level, so we don&#39;t emit that.</span>
+            <span class="c1"># The initialized value is of course still available from read() at any time.</span>
+            <span class="k">nonlocal</span> <span class="n">initialized</span>
+            <span class="k">if</span> <span class="n">initialized</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_emit_change</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subscriber_depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">skip_first_emit_change</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emit_event</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscriber_depth</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="bp">self</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscriber_depth</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subscriber_depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">skip_first_emit_change</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emit_event</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.capture">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.capture">[docs]</a>
+    <span class="nd">@asynccontextmanager</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">capture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wait_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Context manager that captures output from the server for the duration of the context.</span>
+
+<span class="sd">        Example usage:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            async with client.output(&quot;tty&quot;).capture() as output:</span>
+<span class="sd">                await client.exec(&#39;print(&quot;Hello, world!&quot;)&#39;)</span>
+<span class="sd">                assert output[-1] == &quot;Hello, world!\\n&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wait_time (float, optional): Optional time to wait after the context block exits to ensure all output is captured.</span>
+<span class="sd">        Yields:</span>
+<span class="sd">            list: List of output lines captured during the context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
+                <span class="k">yield</span> <span class="n">lines</span>
+                <span class="c1"># Wait for any remaining output to be captured before unsubscribing.</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReadableProperty">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.ReadableProperty">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadableProperty</span><span class="p">(</span><span class="n">EventStream</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="ReadableProperty.get">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.ReadableProperty.get">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="WritableProperty">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.WritableProperty">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WritableProperty</span><span class="p">(</span><span class="n">_PropertyBase</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="WritableProperty.set">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.WritableProperty.set">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Property">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.Property">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Property</span><span class="p">(</span><span class="n">ReadableProperty</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">WritableProperty</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span> <span class="o">...</span></div>
+
+
+
+<div class="viewcode-block" id="PropertyGroup">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.PropertyGroup">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PropertyGroup</span><span class="p">:</span>
+
+    <span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">:</span> <span class="n">RemotePropertyTable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prefix</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span> <span class="o">=</span> <span class="n">remote_property_table</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prefix</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_property</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Property</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">coerce</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_event_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventStream</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">readonly_property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">coerce</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_readonly_property</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReadableProperty</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">readonly_property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">coerce</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_writeonly_property</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WritableProperty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">writeonly_property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="fm">__aenter__</span><span class="p">()</span>
+        <span class="c1"># Attempt to subscribe to all at the same time.</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">enter_async_context</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">subscribed</span><span class="p">())</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="c1"># Only subscribe to ReadableProperty instances</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">ReadableProperty</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.client._remote_property_table</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

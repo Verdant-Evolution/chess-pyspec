@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyspec.client package &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyspec.server package" href="pyspec.server.html" />
+    <link rel="prev" title="PySpec package" href="index.html" /><link rel="stylesheet" href="_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="_static/py.svg" />
+            <script type="text/javascript" src="_static/copybutton.js"></script>
+            <script type="text/javascript" src="_static/menu.js"></script>
+            <script type="text/javascript" src="_static/search-focus.js"></script>
+            <script type="text/javascript" src="_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.client package</a><ul>
+<li><a class="reference internal" href="#pyspec.client.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.Client.call"><code class="docutils literal notranslate"><span class="pre">Client.call()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.count"><code class="docutils literal notranslate"><span class="pre">Client.count()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.exec"><code class="docutils literal notranslate"><span class="pre">Client.exec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.motor"><code class="docutils literal notranslate"><span class="pre">Client.motor()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.output"><code class="docutils literal notranslate"><span class="pre">Client.output()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.status"><code class="docutils literal notranslate"><span class="pre">Client.status()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.synchronized_motors"><code class="docutils literal notranslate"><span class="pre">Client.synchronized_motors()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.var"><code class="docutils literal notranslate"><span class="pre">Client.var()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.EventStream"><code class="docutils literal notranslate"><span class="pre">EventStream</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.EventStream.EventType"><code class="docutils literal notranslate"><span class="pre">EventStream.EventType</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.capture"><code class="docutils literal notranslate"><span class="pre">EventStream.capture()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.get_next"><code class="docutils literal notranslate"><span class="pre">EventStream.get_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.is_subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.on"><code class="docutils literal notranslate"><span class="pre">EventStream.on()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.once"><code class="docutils literal notranslate"><span class="pre">EventStream.once()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.remove_listener"><code class="docutils literal notranslate"><span class="pre">EventStream.remove_listener()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.wait_for"><code class="docutils literal notranslate"><span class="pre">EventStream.wait_for()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.ReadableProperty"><code class="docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.ReadableProperty.get"><code class="docutils literal notranslate"><span class="pre">ReadableProperty.get()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.RemoteException"><code class="docutils literal notranslate"><span class="pre">RemoteException</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.WritableProperty"><code class="docutils literal notranslate"><span class="pre">WritableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.WritableProperty.set"><code class="docutils literal notranslate"><span class="pre">WritableProperty.set()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor"><code class="docutils literal notranslate"><span class="pre">Motor</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.dial_position"><code class="docutils literal notranslate"><span class="pre">Motor.dial_position</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.emergency_stop"><code class="docutils literal notranslate"><span class="pre">Motor.emergency_stop</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.high_lim_hit"><code class="docutils literal notranslate"><span class="pre">Motor.high_lim_hit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.high_limit"><code class="docutils literal notranslate"><span class="pre">Motor.high_limit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.low_lim_hit"><code class="docutils literal notranslate"><span class="pre">Motor.low_lim_hit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.low_limit"><code class="docutils literal notranslate"><span class="pre">Motor.low_limit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.motor_fault"><code class="docutils literal notranslate"><span class="pre">Motor.motor_fault</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.move"><code class="docutils literal notranslate"><span class="pre">Motor.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.moving"><code class="docutils literal notranslate"><span class="pre">Motor.moving</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.offset"><code class="docutils literal notranslate"><span class="pre">Motor.offset</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.position"><code class="docutils literal notranslate"><span class="pre">Motor.position</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.prepare_move"><code class="docutils literal notranslate"><span class="pre">Motor.prepare_move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.search"><code class="docutils literal notranslate"><span class="pre">Motor.search()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.set_limits"><code class="docutils literal notranslate"><span class="pre">Motor.set_limits()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.sign"><code class="docutils literal notranslate"><span class="pre">Motor.sign</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.start_move"><code class="docutils literal notranslate"><span class="pre">Motor.start_move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.step_size"><code class="docutils literal notranslate"><span class="pre">Motor.step_size</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.unusable"><code class="docutils literal notranslate"><span class="pre">Motor.unusable</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._status.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._status.Status.quit"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.shell"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.ready"><code class="docutils literal notranslate"><span class="pre">Status.ready</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.simulate"><code class="docutils literal notranslate"><span class="pre">Status.simulate</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Status.ready</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">Status.simulate</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.to_str"><code class="docutils literal notranslate"><span class="pre">Status.to_str()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ContextWaiter"><code class="docutils literal notranslate"><span class="pre">ContextWaiter</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream"><code class="docutils literal notranslate"><span class="pre">EventStream</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.EventType"><code class="docutils literal notranslate"><span class="pre">EventStream.EventType</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.capture"><code class="docutils literal notranslate"><span class="pre">EventStream.capture()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.get_next"><code class="docutils literal notranslate"><span class="pre">EventStream.get_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.is_subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.on"><code class="docutils literal notranslate"><span class="pre">EventStream.on()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.once"><code class="docutils literal notranslate"><span class="pre">EventStream.once()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.remove_listener"><code class="docutils literal notranslate"><span class="pre">EventStream.remove_listener()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.wait_for"><code class="docutils literal notranslate"><span class="pre">EventStream.wait_for()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.PropertyGroup"><code class="docutils literal notranslate"><span class="pre">PropertyGroup</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty"><code class="docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty.get"><code class="docutils literal notranslate"><span class="pre">ReadableProperty.get()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.event_stream"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.event_stream()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.is_subscribed"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.read"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.read()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.read_next"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.read_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.readonly_property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.readonly_property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.subscribe"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.subscribe()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.unsubscribe"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.unsubscribe()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.write"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.write()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.writeonly_property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.writeonly_property()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty"><code class="docutils literal notranslate"><span class="pre">WritableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty.set"><code class="docutils literal notranslate"><span class="pre">WritableProperty.set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">PySpec package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pyspec.server.html"
+                          title="next chapter">pyspec.server package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyspec.client.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyspec.server.html" title="pyspec.server package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PySpec package"
+             accesskey="P">previous</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.client package</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-pyspec.client">
+<span id="pyspec-client-package"></span><h1>pyspec.client package<a class="headerlink" href="#module-pyspec.client" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client.Client">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">Client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.PropertyGroup" title="pyspec.client._remote_property_table.PropertyGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyGroup</span></code></a></p>
+<p>Represents a client that connects to a PySpec server.</p>
+<p>This is the main entry point for users of the pyspec.client package. Methods allow access to motor control, status monitoring, variable access, and command execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>str</em>) – The hostname or IP address of the server.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – The port number of the server.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.call">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.call" title="Link to this definition">¶</a></dt>
+<dd><p>Call a remote function on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function_name</strong> (<em>str</em>) – The name of the remote function to call.</p></li>
+<li><p><strong>*args</strong> (<em>str</em><em> | </em><em>float</em><em> | </em><em>int</em>) – The arguments to pass to the remote function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the remote function call.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.count">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.count" title="Link to this definition">¶</a></dt>
+<dd><p>The count property provides a count of the number of commands executed by the server since it was started.</p>
+<p>scaler/.all./count
+.. code-block:: none</p>
+<blockquote>
+<div><dl class="simple">
+<dt>on(“change”)</dt><dd><p>Sent when counting starts (data is True) and when counting stops (data is False).</p>
+</dd>
+<dt>get</dt><dd><p>Data indicates counting (True) or not counting (False).</p>
+</dd>
+<dt>set</dt><dd><p>If data is nonzero, the server pushes a “count_em data\n” onto the command queue.
+If data is False, counting is aborted as if a ^C had been typed at the server.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The property representing the count state.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspec.client._remote_property_table.Property``[bool]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.exec">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.exec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.exec" title="Link to this definition">¶</a></dt>
+<dd><p>Execute a command on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>command</strong> (<em>str</em>) – The command to execute.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the command execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.motor">
+<span class="sig-name descname"><span class="pre">motor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">motor_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.motor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.motor" title="Link to this definition">¶</a></dt>
+<dd><p>The motor properties are used to control the motors.
+The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>motor_name</strong> (<em>str</em>) – The name of the motor to control.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The motor property group. See the pyspec.client._motor.Motor class for details.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client._motor.Motor" title="pyspec.client._motor.Motor">Motor</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.output">
+<span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.output" title="Link to this definition">¶</a></dt>
+<dd><p>The output property puts copies of the strings written to files or to the screen in events sent to clients.</p>
+<p>output/filename</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;):
+    Sent when the server sends output to the file or device given by filename, where filename can be the built-in name &quot;tty&quot; or a file or device name. The data will be a string representing the output.
+
+Once a client has registered for output events from a particular file, the server will keep track of the client&#39;s request as the file is opened and closed.
+File names are given relative to the server&#39;s current directory and can be relative or absolute path names, just as with the built-in commands that refer to files.
+
+(The output property was introduced in spec release 5.07.04-1.)
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The file or device name to monitor output for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An event stream for output events.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client.EventStream" title="pyspec.client.EventStream">EventStream</a>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.status" title="Link to this definition">¶</a></dt>
+<dd><p>The status properties reflect changes in the server state that may affect the server’s ability to execute client commands or control hardware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The status property group. See the pyspec.client._status.Status class for details.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyspec.client._status.Status" title="pyspec.client._status.Status">Status</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.synchronized_motors">
+<span class="sig-name descname"><span class="pre">synchronized_motors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.synchronized_motors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.synchronized_motors" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager to enable synchronized motor operations for the client.</p>
+<p>While this context is active, motor movements will be held. Upon exiting the context, the movements will be initialized simultaneously.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">synchronized_motors</span><span class="p">():</span>
+    <span class="c1"># Motor movement will be held in here.</span>
+    <span class="k">await</span> <span class="n">motor1</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">motor2</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+    <span class="c1"># Motors will not start moving yet.</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Simulate other operations</span>
+    <span class="c1"># Motors will start moving simultaneously here.</span>
+
+<span class="c1"># Outside of the context, all motors have completed their movements.</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum time to wait for all motors to complete, in seconds. If None, wait indefinitely.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If there are pending motor motions from a previous context.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.Client.var">
+<span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.var" title="Link to this definition">¶</a></dt>
+<dd><p>The var properties allow values of any variables to be transferred between the server and the client.
+Enter only the variable name; the property will be created as: var/{var_name}</p>
+<p>var/var_name</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;)
+    Sent to clients who have registered when the variable var_name changes value.
+get
+    Returns the value of the var_name in the data, if var_name is an existing variable on the server.
+set
+    Sets the value of var_name on the server to the contents of data.
+</pre></div>
+</div>
+<p>All data types (numbers, strings, associative arrays and data arrays) are supported.</p>
+<p>For built-in associative arrays (A[], S[] and possibly G[], Q[], Z[], U[] and UB[], depending on geometry), only existing elements can be set.</p>
+<p>Properties can be created for individual elements of associative arrays by using the syntax var_name = “array_name[element_key]”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_name</strong> (<em>str</em>) – The name of the variable on the server.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – An optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The property representing the variable on the server.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspec.client._remote_property_table.Property``[T]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client.EventStream">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">EventStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PropertyBase</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The property name.</p></li>
+<li><p><strong>property_table</strong> (<a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable" title="pyspec.client._remote_property_table.RemotePropertyTable"><em>RemotePropertyTable</em></a>) – The remote property table instance.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>DataType</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – Optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.EventType">
+<span class="sig-name descname"><span class="pre">EventType</span></span><a class="headerlink" href="#pyspec.client.EventStream.EventType" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘change’, ‘event’]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.capture">
+<span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.capture" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager that captures output from the server for the duration of the context.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;print(&quot;Hello, world!&quot;)&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>wait_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Optional time to wait after the context block exits to ensure all output is captured.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>list</em> – List of output lines captured during the context.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.get_next">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.get_next"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.get_next" title="Link to this definition">¶</a></dt>
+<dd><p>Waits for the next change event and then returns the value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The value of the property after the next time it changes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.is_subscribed">
+<span class="sig-name descname"><span class="pre">is_subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.is_subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.is_subscribed" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if there are any active subscriptions to this property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if there are active subscriptions, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.on">
+<span class="sig-name descname"><span class="pre">on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.on"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.on" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.once">
+<span class="sig-name descname"><span class="pre">once</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.once"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.once" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.remove_listener">
+<span class="sig-name descname"><span class="pre">remove_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.remove_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.remove_listener" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.subscribed">
+<span class="sig-name descname"><span class="pre">subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.subscribed" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager that subscribes to the property for the duration of the context.</p>
+<p>WARNING: Data arrays will not send events. You must use get() to receive the data array values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.EventStream.wait_for">
+<span class="sig-name descname"><span class="pre">wait_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.wait_for"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.wait_for" title="Link to this definition">¶</a></dt>
+<dd><p>Waits until the property changes to the specified value.</p>
+<p>Usage:
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>async with test_var.wait_for(123, timeout=10):</dt><dd><p># Do something…</p>
+</dd>
+</dl>
+<p># Wait for the property to change to 123 before continuing</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Just wait until the property changes</span>
+<span class="k">await</span> <span class="n">test_var</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>T</em>) – The value to wait for.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Optional timeout in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pyspec.client._remote_property_table.ContextWaiter" title="pyspec.client._remote_property_table.ContextWaiter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextWaiter</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client.Property">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">Property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#Property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Property" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty" title="pyspec.client._remote_property_table.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>], <a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty" title="pyspec.client._remote_property_table.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client.ReadableProperty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">ReadableProperty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#ReadableProperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.ReadableProperty" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.EventStream" title="pyspec.client._remote_property_table.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.ReadableProperty.get">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#ReadableProperty.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.ReadableProperty.get" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">T</span></code>, bound= <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AssociativeArray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ErrorStr</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>])</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyspec.client.RemoteException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">RemoteException</span></span><a class="reference internal" href="_modules/pyspec/_connection/client_connection.html#RemoteException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.RemoteException" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when an error occurs on the remote server.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client.WritableProperty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client.</span></span><span class="sig-name descname"><span class="pre">WritableProperty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#WritableProperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.WritableProperty" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PropertyBase</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client.WritableProperty.set">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#WritableProperty.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.WritableProperty.set" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pyspec.client._motor">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._motor.</span></span><span class="sig-name descname"><span class="pre">Motor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">motor_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_property_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.PropertyGroup" title="pyspec.client._remote_property_table.PropertyGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyGroup</span></code></a></p>
+<p>The motor properties are used to control the motors.
+The parameters for the commands that are sent from the client and the values in the replies and events that are sent from the server are always transmitted as ASCII strings in the data that follows the packet header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>motor_name</strong> (<em>str</em>) – The name of the motor.</p></li>
+<li><p><strong>client_connection</strong> (<em>ClientConnection</em>) – The client connection instance.</p></li>
+<li><p><strong>remote_property_table</strong> (<a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable" title="pyspec.client._remote_property_table.RemotePropertyTable"><em>RemotePropertyTable</em></a>) – The remote property table instance.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.dial_position">
+<span class="sig-name descname"><span class="pre">dial_position</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.dial_position" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/dial_position
+on(“change”): Sent when the dial position changes.
+get: Returns the current motor position in dial units.
+set: Sets the dial position on the server by pushing a</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set_dial mne data\n
+</pre></div>
+</div>
+<p>onto the command queue, unless the dial position is already set to that value.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.emergency_stop">
+<span class="sig-name descname"><span class="pre">emergency_stop</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.emergency_stop" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/emergency_stop
+on(“change”): Sent when a motor controller indicates a hardware emergency stop.
+get: True if an emergency-stop switch or condition has been activated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.high_lim_hit">
+<span class="sig-name descname"><span class="pre">high_lim_hit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.high_lim_hit" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/high_lim_hit
+on(“change”): Sent when the high-limit switch has been hit.
+get: True if the high-limit switch has been hit.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.high_limit">
+<span class="sig-name descname"><span class="pre">high_limit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.high_limit" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/high_limit
+on(“change”): Sent when the value of the high limit position changes.
+get: Returns the high limit in dial units.
+set: Sets the high limit by pushing</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set_lm  mne data user(mne,get_lim(mne,-1))\n
+</pre></div>
+</div>
+<p>onto the server command queue. (The last argument adds the current low limit to the set_lm command line.)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.low_lim_hit">
+<span class="sig-name descname"><span class="pre">low_lim_hit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.low_lim_hit" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/low_lim_hit
+on(“change”): Sent when the low-limit switch has been hit.
+get: True if the low-limit switch has been hit.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.low_limit">
+<span class="sig-name descname"><span class="pre">low_limit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.low_limit" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/low_limit
+on(“change”): Sent when the value of the low limit position changes.
+get: Returns the low limit in dial units.
+set: Sets the low limit by pushing</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set_lm mne data user(mne,get_lim(mne,+1))\n
+</pre></div>
+</div>
+</div></blockquote>
+<p>onto the server command queue. (The last argument adds the current high limit to the set_lm command line.)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.motor_fault">
+<span class="sig-name descname"><span class="pre">motor_fault</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.motor_fault" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/motor_fault
+on(“change”): Sent when a motor controller indicates a hardware motor fault.
+get: True if a motor-fault condition has been activated.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.move">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.move" title="Link to this definition">¶</a></dt>
+<dd><p>Move the motor to the specified position.</p>
+<p>If motor synchronization is enabled, the move will be queued until synchronization is executed.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.moving">
+<span class="sig-name descname"><span class="pre">moving</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.moving" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>motor/{mne}/move_done</dt><dd><p>on(“change”): Sent when moving starts (True) and stops (False).
+get: True if the motor is busy, otherwise False.</p>
+</dd>
+</dl>
+<p>Note: This does seem a little backwards from the name of the SPEC prop.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.offset" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/offset
+on(“change”): Sent when the offset changes.
+get: Returns the current user offset in dial units.
+set: Sets the user offset by pushing the</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set mne value\n
+</pre></div>
+</div>
+<p>command onto the command queue, unless the offset is already at the value.
+The data should contain the offset value in motor units (degrees, mm, etc.).
+The server will calculate <cite>value</cite> for the argument in <cite>set</cite> appropriately.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.position" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/position
+on(“change”): Sent when the dial position or user offset changes.
+get: Returns the current motor position in user units.
+set: Sets the user offset on the server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.prepare_move">
+<span class="sig-name descname"><span class="pre">prepare_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.prepare_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.prepare_move" title="Link to this definition">¶</a></dt>
+<dd><p>Prepare a move to the specified position without starting it.</p>
+<p>This is used for motor synchronization, where multiple moves are queued and then executed together when synchronization is executed.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.search">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">how</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">home_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.search" title="Link to this definition">¶</a></dt>
+<dd><p>Start a home or limit search.</p>
+<p>Pushes a chg_dial command like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>chg_dial(mne, how)
+
+    or
+chg_dial(mne, how, home_pos)
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>how</strong> (<em>Literal</em><em>[</em><em>&quot;home&quot;</em><em>, </em><em>&quot;home+&quot;</em><em>, </em><em>&quot;home-&quot;</em><em>, </em><em>&quot;lim+&quot;</em><em>, </em><em>&quot;lim-&quot;</em><em>]</em>) – The type of search to perform. Must be one of “home”, “home+”, “home-”, “lim+” or “lim-“.</p></li>
+<li><p><strong>home_pos</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The home position in dial units (required for home searches).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.set_limits">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low_limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_limit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.set_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.set_limits" title="Link to this definition">¶</a></dt>
+<dd><p>Set both motor limits by pushing:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set_lm mne data
+</pre></div>
+</div>
+<p>onto the server command queue, where data should contain the low and high motor limit values in a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>low_limit</strong> (<em>float</em>) – The low limit value.</p></li>
+<li><p><strong>high_limit</strong> (<em>float</em>) – The high limit value.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.sign" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/sign
+on(“change”): Sent when the sign-of-user*dial parameter changes.
+get: Returns the current sign-of-user*dial parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.start_move">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.start_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.start_move" title="Link to this definition">¶</a></dt>
+<dd><p>Starts a move to the specified position.
+This will wait for the motor to start moving, and then return a task that can be awaited to wait for the move to complete.</p>
+<p>This is a convenience method that combines move() with waiting for the motor to start moving, which can be useful
+if you want to ensure that the motor is moving before moving on to other tasks.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.step_size">
+<span class="sig-name descname"><span class="pre">step_size</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.step_size" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/step_size
+on(“change”): Sent when the steps-per-unit parameter changes.
+get: Returns the current steps-per-unit parameter.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._motor.Motor.unusable">
+<span class="sig-name descname"><span class="pre">unusable</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.unusable" title="Link to this definition">¶</a></dt>
+<dd><p>motor/{mne}/unusable
+on(“change”): Sent when a “disable” option to motor_par() has changed the enabled/disabled state of a motor on the server.
+get: True if the motor is unusable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pyspec.client._status">
+<dt class="sig sig-object py" id="pyspec.client._status.Status">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._status.</span></span><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_property_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_status.html#Status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._status.Status" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.PropertyGroup" title="pyspec.client._remote_property_table.PropertyGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyGroup</span></code></a></p>
+<p>The status properties reflect changes in the server state that may affect the server’s ability to execute client commands or control hardware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>remote_property_table</strong> (<a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable" title="pyspec.client._remote_property_table.RemotePropertyTable"><em>RemotePropertyTable</em></a>) – The remote property table instance.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._status.Status.quit">
+<span class="sig-name descname"><span class="pre">quit</span></span><a class="headerlink" href="#pyspec.client._status.Status.quit" title="Link to this definition">¶</a></dt>
+<dd><p>Whether or not the server is exiting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._status.Status.shell">
+<span class="sig-name descname"><span class="pre">shell</span></span><a class="headerlink" href="#pyspec.client._status.Status.shell" title="Link to this definition">¶</a></dt>
+<dd><p>Whether or not the server is in a subshell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._status.Status.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><a class="headerlink" href="#pyspec.client._status.Status.ready" title="Link to this definition">¶</a></dt>
+<dd><p>Whether or not the server is ready to execute commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._status.Status.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><a class="headerlink" href="#pyspec.client._status.Status.simulate" title="Link to this definition">¶</a></dt>
+<dd><p>Whether or not the server is in simulate mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">quit</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>status/quit</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server exits.
+get: Always read back as zero.
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">ready</span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd><p>status/ready</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server is waiting for input at the interactive prompt (True)
+              and after a return has been typed at the interactive prompt (False).
+              The server is available to execute commands from clients when it is ready.
+
+get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">shell</span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd><p>status/shell</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).
+get: True if server command thread is in a subshell, otherwise False.
+</pre></div>
+</div>
+<p>Starting with spec release 6.06.01, when entering a subshell,
+the server does not process commands from clients for the first one second of the subshell.
+Prior to spec release 6.06.01, the server did not process commands when in a subshell at all.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">simulate</span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd><p>status/simulate</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server enters (True) or leaves (False) simulate mode.
+get: True if server is in simulate mode, otherwise False.
+</pre></div>
+</div>
+<p>Note, when in simulate mode, the server will not send commands to hardware devices.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._status.Status.to_str">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_str</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_status.html#Status.to_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._status.Status.to_str" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pyspec.client._remote_property_table">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.ContextWaiter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">ContextWaiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">awaitable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#ContextWaiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.ContextWaiter" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class allows for awaiting an awaitable either via</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>or via</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>awaitable</strong> (<em>Awaitable</em>) – The awaitable to wait for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">EventStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PropertyBase</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Represents a stream of events for a property. Events are sent from the server whenever the property value changes or when the server wants to send data to clients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The property name.</p></li>
+<li><p><strong>property_table</strong> (<a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable" title="pyspec.client._remote_property_table.RemotePropertyTable"><em>RemotePropertyTable</em></a>) – The remote property table instance.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>DataType</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – Optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.EventType">
+<span class="sig-name descname"><span class="pre">EventType</span></span><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.EventType" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘change’, ‘event’]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.capture">
+<span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.capture" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager that captures output from the server for the duration of the context.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;print(&quot;Hello, world!&quot;)&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>wait_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Optional time to wait after the context block exits to ensure all output is captured.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>list</em> – List of output lines captured during the context.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.get_next">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.get_next"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.get_next" title="Link to this definition">¶</a></dt>
+<dd><p>Waits for the next change event and then returns the value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The value of the property after the next time it changes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.is_subscribed">
+<span class="sig-name descname"><span class="pre">is_subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.is_subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.is_subscribed" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if there are any active subscriptions to this property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if there are active subscriptions, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.on">
+<span class="sig-name descname"><span class="pre">on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.on"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.on" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.once">
+<span class="sig-name descname"><span class="pre">once</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.once"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.once" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.remove_listener">
+<span class="sig-name descname"><span class="pre">remove_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.remove_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.remove_listener" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.subscribed">
+<span class="sig-name descname"><span class="pre">subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.subscribed" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager that subscribes to the property for the duration of the context.</p>
+<p>WARNING: Data arrays will not send events. You must use get() to receive the data array values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.wait_for">
+<span class="sig-name descname"><span class="pre">wait_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.wait_for"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.wait_for" title="Link to this definition">¶</a></dt>
+<dd><p>Waits until the property changes to the specified value.</p>
+<p>Usage:
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>async with test_var.wait_for(123, timeout=10):</dt><dd><p># Do something…</p>
+</dd>
+</dl>
+<p># Wait for the property to change to 123 before continuing</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Just wait until the property changes</span>
+<span class="k">await</span> <span class="n">test_var</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>T</em>) – The value to wait for.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Optional timeout in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pyspec.client._remote_property_table.ContextWaiter" title="pyspec.client._remote_property_table.ContextWaiter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextWaiter</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.Property">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">Property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#Property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.Property" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty" title="pyspec.client._remote_property_table.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>], <a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty" title="pyspec.client._remote_property_table.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.PropertyGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">PropertyGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_property_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#PropertyGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.PropertyGroup" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.ReadableProperty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">ReadableProperty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#ReadableProperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.ReadableProperty" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.client._remote_property_table.EventStream" title="pyspec.client._remote_property_table.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.ReadableProperty.get">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#ReadableProperty.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.ReadableProperty.get" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">T</span></code>, bound= <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AssociativeArray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ErrorStr</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>])</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">RemotePropertyTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIOEventEmitter</span></code></p>
+<p>Class to manage remote properties on a SPEC server.
+Allows reading, writing, and subscribing to property changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>connection</strong> (<em>ClientConnection</em>) – The client connection to the SPEC server.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.event_stream">
+<span class="sig-name descname"><span class="pre">event_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.event_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.event_stream" title="Link to this definition">¶</a></dt>
+<dd><p>Gets a helper object to manage interfacing with an event stream property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The property name.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – Optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An EventStream helper object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream" title="pyspec.client._remote_property_table.EventStream">EventStream</a>[T]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.is_subscribed">
+<span class="sig-name descname"><span class="pre">is_subscribed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.is_subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.is_subscribed" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if there are any active subscriptions to a property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property_name</strong> (<em>str</em>) – The name of the property to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if there are active subscriptions, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.property">
+<span class="sig-name descname"><span class="pre">property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.property" title="Link to this definition">¶</a></dt>
+<dd><p>Gets a helper object to manage interfacing with a read-write property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The property name.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – Optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Property helper object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client._remote_property_table.Property" title="pyspec.client._remote_property_table.Property">Property</a>[T]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.read">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.read" title="Link to this definition">¶</a></dt>
+<dd><p>Read the value of a property from the local cache or from the server.
+If the property is not in the local cache, it will be fetched from the server.</p>
+<p>The result is only cached if it has been subscribed to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property_name</strong> (<em>str</em>) – The name of the property to read.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of the property.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.read_next">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_next</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.read_next"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.read_next" title="Link to this definition">¶</a></dt>
+<dd><p>Wait for the next update of a property and return its value.
+See read() for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property_name</strong> (<em>str</em>) – The name of the property to read.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The next value of the property.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.readonly_property">
+<span class="sig-name descname"><span class="pre">readonly_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coerce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.readonly_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.readonly_property" title="Link to this definition">¶</a></dt>
+<dd><p>Gets a helper object to manage interfacing with a read-only property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The property name.</p></li>
+<li><p><strong>coerce</strong> (<em>Callable</em><em>[</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>T</em><em>]</em><em>, </em><em>optional</em>) – Optional function to coerce the data to a specific type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A ReadableProperty helper object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty" title="pyspec.client._remote_property_table.ReadableProperty">ReadableProperty</a>[T]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.subscribe">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.subscribe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.subscribe" title="Link to this definition">¶</a></dt>
+<dd><p>Subscribe to updates for a property.</p>
+<p>Subscribing to a property will cause the property values to be
+cached locally and the provided callback to be called
+whenever the property value changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property_name</strong> (<em>str</em>) – The name of the property to subscribe to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.unsubscribe">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.unsubscribe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.unsubscribe" title="Link to this definition">¶</a></dt>
+<dd><p>Unsubscribes from a property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property_name</strong> (<em>str</em>) – The name of the property to unsubscribe from.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.write">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.write" title="Link to this definition">¶</a></dt>
+<dd><p>Writes a value to a property on the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property_name</strong> (<em>str</em>) – The name of the property to write to.</p></li>
+<li><p><strong>value</strong> (<em>DataType</em>) – The value to write to the property.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.RemotePropertyTable.writeonly_property">
+<span class="sig-name descname"><span class="pre">writeonly_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#RemotePropertyTable.writeonly_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.RemotePropertyTable.writeonly_property" title="Link to this definition">¶</a></dt>
+<dd><p>Gets a helper object to manage interfacing with a write-only property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The property name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A WritableProperty helper object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty" title="pyspec.client._remote_property_table.WritableProperty">WritableProperty</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.WritableProperty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.client._remote_property_table.</span></span><span class="sig-name descname"><span class="pre">WritableProperty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#WritableProperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.WritableProperty" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PropertyBase</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.client._remote_property_table.WritableProperty.set">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#WritableProperty.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.WritableProperty.set" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.client package</a><ul>
+<li><a class="reference internal" href="#pyspec.client.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.Client.call"><code class="docutils literal notranslate"><span class="pre">Client.call()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.count"><code class="docutils literal notranslate"><span class="pre">Client.count()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.exec"><code class="docutils literal notranslate"><span class="pre">Client.exec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.motor"><code class="docutils literal notranslate"><span class="pre">Client.motor()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.output"><code class="docutils literal notranslate"><span class="pre">Client.output()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.status"><code class="docutils literal notranslate"><span class="pre">Client.status()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.synchronized_motors"><code class="docutils literal notranslate"><span class="pre">Client.synchronized_motors()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.Client.var"><code class="docutils literal notranslate"><span class="pre">Client.var()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.EventStream"><code class="docutils literal notranslate"><span class="pre">EventStream</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.EventStream.EventType"><code class="docutils literal notranslate"><span class="pre">EventStream.EventType</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.capture"><code class="docutils literal notranslate"><span class="pre">EventStream.capture()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.get_next"><code class="docutils literal notranslate"><span class="pre">EventStream.get_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.is_subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.on"><code class="docutils literal notranslate"><span class="pre">EventStream.on()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.once"><code class="docutils literal notranslate"><span class="pre">EventStream.once()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.remove_listener"><code class="docutils literal notranslate"><span class="pre">EventStream.remove_listener()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.EventStream.wait_for"><code class="docutils literal notranslate"><span class="pre">EventStream.wait_for()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.ReadableProperty"><code class="docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.ReadableProperty.get"><code class="docutils literal notranslate"><span class="pre">ReadableProperty.get()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client.RemoteException"><code class="docutils literal notranslate"><span class="pre">RemoteException</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client.WritableProperty"><code class="docutils literal notranslate"><span class="pre">WritableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client.WritableProperty.set"><code class="docutils literal notranslate"><span class="pre">WritableProperty.set()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor"><code class="docutils literal notranslate"><span class="pre">Motor</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.dial_position"><code class="docutils literal notranslate"><span class="pre">Motor.dial_position</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.emergency_stop"><code class="docutils literal notranslate"><span class="pre">Motor.emergency_stop</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.high_lim_hit"><code class="docutils literal notranslate"><span class="pre">Motor.high_lim_hit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.high_limit"><code class="docutils literal notranslate"><span class="pre">Motor.high_limit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.low_lim_hit"><code class="docutils literal notranslate"><span class="pre">Motor.low_lim_hit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.low_limit"><code class="docutils literal notranslate"><span class="pre">Motor.low_limit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.motor_fault"><code class="docutils literal notranslate"><span class="pre">Motor.motor_fault</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.move"><code class="docutils literal notranslate"><span class="pre">Motor.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.moving"><code class="docutils literal notranslate"><span class="pre">Motor.moving</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.offset"><code class="docutils literal notranslate"><span class="pre">Motor.offset</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.position"><code class="docutils literal notranslate"><span class="pre">Motor.position</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.prepare_move"><code class="docutils literal notranslate"><span class="pre">Motor.prepare_move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.search"><code class="docutils literal notranslate"><span class="pre">Motor.search()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.set_limits"><code class="docutils literal notranslate"><span class="pre">Motor.set_limits()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.sign"><code class="docutils literal notranslate"><span class="pre">Motor.sign</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.start_move"><code class="docutils literal notranslate"><span class="pre">Motor.start_move()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.step_size"><code class="docutils literal notranslate"><span class="pre">Motor.step_size</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.Motor.unusable"><code class="docutils literal notranslate"><span class="pre">Motor.unusable</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._status.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._status.Status.quit"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.shell"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.ready"><code class="docutils literal notranslate"><span class="pre">Status.ready</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.simulate"><code class="docutils literal notranslate"><span class="pre">Status.simulate</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Status.ready</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">Status.simulate</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._status.Status.to_str"><code class="docutils literal notranslate"><span class="pre">Status.to_str()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ContextWaiter"><code class="docutils literal notranslate"><span class="pre">ContextWaiter</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream"><code class="docutils literal notranslate"><span class="pre">EventStream</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.EventType"><code class="docutils literal notranslate"><span class="pre">EventStream.EventType</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.capture"><code class="docutils literal notranslate"><span class="pre">EventStream.capture()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.get_next"><code class="docutils literal notranslate"><span class="pre">EventStream.get_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.is_subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.on"><code class="docutils literal notranslate"><span class="pre">EventStream.on()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.once"><code class="docutils literal notranslate"><span class="pre">EventStream.once()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.remove_listener"><code class="docutils literal notranslate"><span class="pre">EventStream.remove_listener()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.subscribed"><code class="docutils literal notranslate"><span class="pre">EventStream.subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.EventStream.wait_for"><code class="docutils literal notranslate"><span class="pre">EventStream.wait_for()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.PropertyGroup"><code class="docutils literal notranslate"><span class="pre">PropertyGroup</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty"><code class="docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.ReadableProperty.get"><code class="docutils literal notranslate"><span class="pre">ReadableProperty.get()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.event_stream"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.event_stream()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.is_subscribed"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.is_subscribed()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.read"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.read()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.read_next"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.read_next()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.readonly_property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.readonly_property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.subscribe"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.subscribe()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.unsubscribe"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.unsubscribe()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.write"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.write()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.RemotePropertyTable.writeonly_property"><code class="docutils literal notranslate"><span class="pre">RemotePropertyTable.writeonly_property()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty"><code class="docutils literal notranslate"><span class="pre">WritableProperty</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.client._remote_property_table.WritableProperty.set"><code class="docutils literal notranslate"><span class="pre">WritableProperty.set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">PySpec package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pyspec.server.html"
+                          title="next chapter">pyspec.server package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyspec.client.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyspec.server.html" title="pyspec.server package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PySpec package"
+             >previous</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.client package</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

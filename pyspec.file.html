@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyspec.file package &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyspec.server package" href="pyspec.server.html" /><link rel="stylesheet" href="_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="_static/py.svg" />
+            <script type="text/javascript" src="_static/copybutton.js"></script>
+            <script type="text/javascript" src="_static/menu.js"></script>
+            <script type="text/javascript" src="_static/search-focus.js"></script>
+            <script type="text/javascript" src="_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.file package</a><ul>
+<li><a class="reference internal" href="#module-pyspec.file.h5datasets">pyspec.file.h5datasets module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler"><code class="docutils literal notranslate"><span class="pre">h5crawler</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_2d"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_2d()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_key"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_key()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_wrapper"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_wrapper()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler_error"><code class="docutils literal notranslate"><span class="pre">h5crawler_error</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.hamamatsu">pyspec.file.hamamatsu module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage"><code class="docutils literal notranslate"><span class="pre">ItexImage</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.data"><code class="docutils literal notranslate"><span class="pre">ItexImage.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.from_buffer"><code class="docutils literal notranslate"><span class="pre">ItexImage.from_buffer()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.from_file"><code class="docutils literal notranslate"><span class="pre">ItexImage.from_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.get_roisum"><code class="docutils literal notranslate"><span class="pre">ItexImage.get_roisum()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.parse_comments"><code class="docutils literal notranslate"><span class="pre">ItexImage.parse_comments()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.hdf5">pyspec.file.hdf5 module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader"><code class="docutils literal notranslate"><span class="pre">H5Reader</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader.get_image"><code class="docutils literal notranslate"><span class="pre">H5Reader.get_image()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader.get_nb_images"><code class="docutils literal notranslate"><span class="pre">H5Reader.get_nb_images()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer"><code class="docutils literal notranslate"><span class="pre">H5Writer</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.create"><code class="docutils literal notranslate"><span class="pre">H5Writer.create()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.create_datafile"><code class="docutils literal notranslate"><span class="pre">H5Writer.create_datafile()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.save_img"><code class="docutils literal notranslate"><span class="pre">H5Writer.save_img()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.save_metadata"><code class="docutils literal notranslate"><span class="pre">H5Writer.save_metadata()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.choose_filename"><code class="docutils literal notranslate"><span class="pre">choose_filename()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.spec">pyspec.file.spec module</a><ul>
+<li><a class="reference internal" href="#filespec">filespec</a><ul>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock"><code class="docutils literal notranslate"><span class="pre">FileBlock</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addColumnsLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addColumnsLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCommentLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCommentLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCounterLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCounterLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCounterMneLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCounterMneLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addDateLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addDateLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addEpochLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addEpochLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addExtraLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addExtraLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addFileLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addFileLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addGeoLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addGeoLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorMneLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorMneLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorPositionLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorPositionLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addQLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addQLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addSLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addSLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addTimeLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addTimeLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addUserLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addUserLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.date"><code class="docutils literal notranslate"><span class="pre">FileBlock.date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.end"><code class="docutils literal notranslate"><span class="pre">FileBlock.end()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.finalizeParsing"><code class="docutils literal notranslate"><span class="pre">FileBlock.finalizeParsing()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getDate"><code class="docutils literal notranslate"><span class="pre">FileBlock.getDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getSpec"><code class="docutils literal notranslate"><span class="pre">FileBlock.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getUser"><code class="docutils literal notranslate"><span class="pre">FileBlock.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getUserSpec"><code class="docutils literal notranslate"><span class="pre">FileBlock.getUserSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.parse"><code class="docutils literal notranslate"><span class="pre">FileBlock.parse()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.resetParsedData"><code class="docutils literal notranslate"><span class="pre">FileBlock.resetParsedData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.respecuser"><code class="docutils literal notranslate"><span class="pre">FileBlock.respecuser</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.setFileName"><code class="docutils literal notranslate"><span class="pre">FileBlock.setFileName()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.spec"><code class="docutils literal notranslate"><span class="pre">FileBlock.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.user"><code class="docutils literal notranslate"><span class="pre">FileBlock.user</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.user_spec"><code class="docutils literal notranslate"><span class="pre">FileBlock.user_spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.wrongLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.wrongLine()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec"><code class="docutils literal notranslate"><span class="pre">FileSpec</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.absolutePath"><code class="docutils literal notranslate"><span class="pre">FileSpec.absolutePath()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.abspath"><code class="docutils literal notranslate"><span class="pre">FileSpec.abspath</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.filename"><code class="docutils literal notranslate"><span class="pre">FileSpec.filename</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getFileName"><code class="docutils literal notranslate"><span class="pre">FileSpec.getFileName()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getInfo"><code class="docutils literal notranslate"><span class="pre">FileSpec.getInfo()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getNumberHeaders"><code class="docutils literal notranslate"><span class="pre">FileSpec.getNumberHeaders()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getNumberScans"><code class="docutils literal notranslate"><span class="pre">FileSpec.getNumberScans()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getScanByNumber"><code class="docutils literal notranslate"><span class="pre">FileSpec.getScanByNumber()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getSpec"><code class="docutils literal notranslate"><span class="pre">FileSpec.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getTimeCreated"><code class="docutils literal notranslate"><span class="pre">FileSpec.getTimeCreated()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getTimeModified"><code class="docutils literal notranslate"><span class="pre">FileSpec.getTimeModified()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getUser"><code class="docutils literal notranslate"><span class="pre">FileSpec.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.get_scan_by_number"><code class="docutils literal notranslate"><span class="pre">FileSpec.get_scan_by_number()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.headers"><code class="docutils literal notranslate"><span class="pre">FileSpec.headers</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.info"><code class="docutils literal notranslate"><span class="pre">FileSpec.info</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.length"><code class="docutils literal notranslate"><span class="pre">FileSpec.length</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.spec"><code class="docutils literal notranslate"><span class="pre">FileSpec.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.time_created"><code class="docutils literal notranslate"><span class="pre">FileSpec.time_created</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.time_modified"><code class="docutils literal notranslate"><span class="pre">FileSpec.time_modified</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.update"><code class="docutils literal notranslate"><span class="pre">FileSpec.update()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.user"><code class="docutils literal notranslate"><span class="pre">FileSpec.user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpecFormatUnknown"><code class="docutils literal notranslate"><span class="pre">FileSpecFormatUnknown</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Header"><code class="docutils literal notranslate"><span class="pre">Header</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.Header.end"><code class="docutils literal notranslate"><span class="pre">Header.end()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData"><code class="docutils literal notranslate"><span class="pre">McaData</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.calib"><code class="docutils literal notranslate"><span class="pre">McaData.calib</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.data"><code class="docutils literal notranslate"><span class="pre">McaData.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.getCalib"><code class="docutils literal notranslate"><span class="pre">McaData.getCalib()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.getData"><code class="docutils literal notranslate"><span class="pre">McaData.getData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.setCalib"><code class="docutils literal notranslate"><span class="pre">McaData.setCalib()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD"><code class="docutils literal notranslate"><span class="pre">OneD</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD.data"><code class="docutils literal notranslate"><span class="pre">OneD.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD.getData"><code class="docutils literal notranslate"><span class="pre">OneD.getData()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan"><code class="docutils literal notranslate"><span class="pre">Scan</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.command"><code class="docutils literal notranslate"><span class="pre">Scan.command</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.comments"><code class="docutils literal notranslate"><span class="pre">Scan.comments</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.count_time"><code class="docutils literal notranslate"><span class="pre">Scan.count_time</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.counter_names"><code class="docutils literal notranslate"><span class="pre">Scan.counter_names</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.counters"><code class="docutils literal notranslate"><span class="pre">Scan.counters</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.data"><code class="docutils literal notranslate"><span class="pre">Scan.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.date"><code class="docutils literal notranslate"><span class="pre">Scan.date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.end"><code class="docutils literal notranslate"><span class="pre">Scan.end()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.extra_lines"><code class="docutils literal notranslate"><span class="pre">Scan.extra_lines</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.file_date"><code class="docutils literal notranslate"><span class="pre">Scan.file_date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.file_epoch"><code class="docutils literal notranslate"><span class="pre">Scan.file_epoch</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.finalizeParsing"><code class="docutils literal notranslate"><span class="pre">Scan.finalizeParsing()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.geometry"><code class="docutils literal notranslate"><span class="pre">Scan.geometry</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getColumns"><code class="docutils literal notranslate"><span class="pre">Scan.getColumns()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCommand"><code class="docutils literal notranslate"><span class="pre">Scan.getCommand()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getComments"><code class="docutils literal notranslate"><span class="pre">Scan.getComments()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCountTime"><code class="docutils literal notranslate"><span class="pre">Scan.getCountTime()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCounterMnemonics"><code class="docutils literal notranslate"><span class="pre">Scan.getCounterMnemonics()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCounterNames"><code class="docutils literal notranslate"><span class="pre">Scan.getCounterNames()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getData"><code class="docutils literal notranslate"><span class="pre">Scan.getData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getDate"><code class="docutils literal notranslate"><span class="pre">Scan.getDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getExtra"><code class="docutils literal notranslate"><span class="pre">Scan.getExtra()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getExtraLines"><code class="docutils literal notranslate"><span class="pre">Scan.getExtraLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getFileDate"><code class="docutils literal notranslate"><span class="pre">Scan.getFileDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getFileEpoch"><code class="docutils literal notranslate"><span class="pre">Scan.getFileEpoch()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getGeometry"><code class="docutils literal notranslate"><span class="pre">Scan.getGeometry()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getHKL"><code class="docutils literal notranslate"><span class="pre">Scan.getHKL()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getLabels"><code class="docutils literal notranslate"><span class="pre">Scan.getLabels()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getLines"><code class="docutils literal notranslate"><span class="pre">Scan.getLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMcas"><code class="docutils literal notranslate"><span class="pre">Scan.getMcas()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMeta"><code class="docutils literal notranslate"><span class="pre">Scan.getMeta()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorMnemonics"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorMnemonics()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorNames"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorNames()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorPositions"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorPositions()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumber"><code class="docutils literal notranslate"><span class="pre">Scan.getNumber()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberInFile"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberInFile()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberMcas"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberMcas()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberOneD"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberOneD()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getOneD"><code class="docutils literal notranslate"><span class="pre">Scan.getOneD()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getOrder"><code class="docutils literal notranslate"><span class="pre">Scan.getOrder()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getScanIndex"><code class="docutils literal notranslate"><span class="pre">Scan.getScanIndex()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getSource"><code class="docutils literal notranslate"><span class="pre">Scan.getSource()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getSpec"><code class="docutils literal notranslate"><span class="pre">Scan.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getUser"><code class="docutils literal notranslate"><span class="pre">Scan.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getUserLines"><code class="docutils literal notranslate"><span class="pre">Scan.getUserLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.get_mca"><code class="docutils literal notranslate"><span class="pre">Scan.get_mca()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.get_oned"><code class="docutils literal notranslate"><span class="pre">Scan.get_oned()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.hkl"><code class="docutils literal notranslate"><span class="pre">Scan.hkl</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.labels"><code class="docutils literal notranslate"><span class="pre">Scan.labels</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.mcas"><code class="docutils literal notranslate"><span class="pre">Scan.mcas</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.metadata"><code class="docutils literal notranslate"><span class="pre">Scan.metadata</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motor_names"><code class="docutils literal notranslate"><span class="pre">Scan.motor_names</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motor_positions"><code class="docutils literal notranslate"><span class="pre">Scan.motor_positions</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motors"><code class="docutils literal notranslate"><span class="pre">Scan.motors</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_columns"><code class="docutils literal notranslate"><span class="pre">Scan.nb_columns</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_mcas"><code class="docutils literal notranslate"><span class="pre">Scan.nb_mcas</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_oneds"><code class="docutils literal notranslate"><span class="pre">Scan.nb_oneds</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_points"><code class="docutils literal notranslate"><span class="pre">Scan.nb_points</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.number"><code class="docutils literal notranslate"><span class="pre">Scan.number</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.order"><code class="docutils literal notranslate"><span class="pre">Scan.order</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.save"><code class="docutils literal notranslate"><span class="pre">Scan.save()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.source"><code class="docutils literal notranslate"><span class="pre">Scan.source</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.spec"><code class="docutils literal notranslate"><span class="pre">Scan.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.user"><code class="docutils literal notranslate"><span class="pre">Scan.user</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.user_lines"><code class="docutils literal notranslate"><span class="pre">Scan.user_lines</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pyspec.server.html"
+                          title="previous chapter">pyspec.server package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyspec.file.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyspec.server.html" title="pyspec.server package"
+             accesskey="P">previous</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.file package</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="pyspec-file-package">
+<h1>pyspec.file package<a class="headerlink" href="#pyspec-file-package" title="Link to this heading">¶</a></h1>
+<section id="module-pyspec.file.h5datasets">
+<span id="pyspec-file-h5datasets-module"></span><h2>pyspec.file.h5datasets module<a class="headerlink" href="#module-pyspec.file.h5datasets" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.h5datasets.h5crawler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.h5datasets.</span></span><span class="sig-name descname"><span class="pre">h5crawler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileobj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/h5datasets.html#h5crawler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.h5datasets.h5crawler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.h5datasets.h5crawler.search_2d">
+<span class="sig-name descname"><span class="pre">search_2d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/h5datasets.html#h5crawler.search_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.h5datasets.h5crawler.search_2d" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.h5datasets.h5crawler.search_key">
+<span class="sig-name descname"><span class="pre">search_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kyroot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/h5datasets.html#h5crawler.search_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.h5datasets.h5crawler.search_key" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.h5datasets.h5crawler.search_wrapper">
+<span class="sig-name descname"><span class="pre">search_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kyroot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/h5datasets.html#h5crawler.search_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.h5datasets.h5crawler.search_wrapper" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyspec.file.h5datasets.h5crawler_error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.h5datasets.</span></span><span class="sig-name descname"><span class="pre">h5crawler_error</span></span><a class="reference internal" href="_modules/pyspec/file/h5datasets.html#h5crawler_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.h5datasets.h5crawler_error" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pyspec.file.hamamatsu">
+<span id="pyspec-file-hamamatsu-module"></span><h2>pyspec.file.hamamatsu module<a class="headerlink" href="#module-pyspec.file.hamamatsu" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.hamamatsu.</span></span><span class="sig-name descname"><span class="pre">ItexImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#ItexImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage.data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage.from_buffer">
+<span class="sig-name descname"><span class="pre">from_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#ItexImage.from_buffer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage.from_buffer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage.from_file">
+<span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#ItexImage.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage.from_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage.get_roisum">
+<span class="sig-name descname"><span class="pre">get_roisum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#ItexImage.get_roisum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage.get_roisum" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.ItexImage.parse_comments">
+<span class="sig-name descname"><span class="pre">parse_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#ItexImage.parse_comments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.ItexImage.parse_comments" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.file.hamamatsu.main">
+<span class="sig-prename descclassname"><span class="pre">pyspec.file.hamamatsu.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hamamatsu.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hamamatsu.main" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspec.file.hdf5">
+<span id="pyspec-file-hdf5-module"></span><h2>pyspec.file.hdf5 module<a class="headerlink" href="#module-pyspec.file.hdf5" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Reader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.hdf5.</span></span><span class="sig-name descname"><span class="pre">H5Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Reader" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Reader.get_image">
+<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgno</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Reader.get_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Reader.get_image" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Reader.get_nb_images">
+<span class="sig-name descname"><span class="pre">get_nb_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Reader.get_nb_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Reader.get_nb_images" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Writer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.hdf5.</span></span><span class="sig-name descname"><span class="pre">H5Writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images_per_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Writer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Writer.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Writer.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Writer.create" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Writer.create_datafile">
+<span class="sig-name descname"><span class="pre">create_datafile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataky</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Writer.create_datafile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Writer.create_datafile" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Writer.save_img">
+<span class="sig-name descname"><span class="pre">save_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Writer.save_img"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Writer.save_img" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.H5Writer.save_metadata">
+<span class="sig-name descname"><span class="pre">save_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rootky</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/entry'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#H5Writer.save_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.H5Writer.save_metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.choose_filename">
+<span class="sig-prename descclassname"><span class="pre">pyspec.file.hdf5.</span></span><span class="sig-name descname"><span class="pre">choose_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#choose_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.choose_filename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.get">
+<span class="sig-prename descclassname"><span class="pre">pyspec.file.hdf5.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.get" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">T</span></code>, bound= <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.file.hdf5.test">
+<span class="sig-prename descclassname"><span class="pre">pyspec.file.hdf5.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/hdf5.html#test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.hdf5.test" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspec.file.spec">
+<span id="pyspec-file-spec-module"></span><h2>pyspec.file.spec module<a class="headerlink" href="#module-pyspec.file.spec" title="Link to this heading">¶</a></h2>
+<section id="filespec">
+<h3>filespec<a class="headerlink" href="#filespec" title="Link to this heading">¶</a></h3>
+<section id="description">
+<h4>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>This module offers an interface to files with data in the spec
+file format. The format specificiation can be consulted online
+at the certif.com website.</p>
+<p>A spec file normally consists of a series of header blocks and scan blocks.
+Data comes after scan blocks. Sometimes comment lines can be also
+be found in between blocks.
+These comment lines could contain for example the result of user
+calculations after a scan, or pure comments.  For practical purposes comment
+lines will be considered to belong to the preceding scan or header block.</p>
+</div></blockquote>
+</section>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">FileBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">firstline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addColumnsLine">
+<span class="sig-name descname"><span class="pre">addColumnsLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addColumnsLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addColumnsLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addCommentLine">
+<span class="sig-name descname"><span class="pre">addCommentLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addCommentLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addCommentLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addCounterLabelLine">
+<span class="sig-name descname"><span class="pre">addCounterLabelLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addCounterLabelLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addCounterLabelLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addCounterMneLine">
+<span class="sig-name descname"><span class="pre">addCounterMneLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addCounterMneLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addCounterMneLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addDateLine">
+<span class="sig-name descname"><span class="pre">addDateLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addDateLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addDateLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addEpochLine">
+<span class="sig-name descname"><span class="pre">addEpochLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addEpochLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addEpochLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addExtraLine">
+<span class="sig-name descname"><span class="pre">addExtraLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addExtraLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addExtraLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addFileLine">
+<span class="sig-name descname"><span class="pre">addFileLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addFileLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addFileLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addGeoLine">
+<span class="sig-name descname"><span class="pre">addGeoLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addGeoLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addGeoLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addLabelLine">
+<span class="sig-name descname"><span class="pre">addLabelLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addLabelLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addLabelLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addLine">
+<span class="sig-name descname"><span class="pre">addLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addMotorLabelLine">
+<span class="sig-name descname"><span class="pre">addMotorLabelLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addMotorLabelLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addMotorLabelLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addMotorMneLine">
+<span class="sig-name descname"><span class="pre">addMotorMneLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addMotorMneLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addMotorMneLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addMotorPositionLine">
+<span class="sig-name descname"><span class="pre">addMotorPositionLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addMotorPositionLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addMotorPositionLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addQLine">
+<span class="sig-name descname"><span class="pre">addQLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addQLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addQLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addSLine">
+<span class="sig-name descname"><span class="pre">addSLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addSLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addSLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addTimeLine">
+<span class="sig-name descname"><span class="pre">addTimeLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addTimeLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addTimeLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.addUserLine">
+<span class="sig-name descname"><span class="pre">addUserLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.addUserLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.addUserLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.date">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#pyspec.file.spec.FileBlock.date" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.end" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.finalizeParsing">
+<span class="sig-name descname"><span class="pre">finalizeParsing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.finalizeParsing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.finalizeParsing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.getDate">
+<span class="sig-name descname"><span class="pre">getDate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.getDate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.getDate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the date when the scan was started</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.getSpec">
+<span class="sig-name descname"><span class="pre">getSpec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.getSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.getSpec" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the name of the spec application
+from which the file was created</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.getUser">
+<span class="sig-name descname"><span class="pre">getUser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.getUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.getUser" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the name of the unix user that created the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.getUserSpec">
+<span class="sig-name descname"><span class="pre">getUserSpec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.getUserSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.getUserSpec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.parse" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.resetParsedData">
+<span class="sig-name descname"><span class="pre">resetParsedData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.resetParsedData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.resetParsedData" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.respecuser">
+<span class="sig-name descname"><span class="pre">respecuser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">re.compile('(?P&lt;spec&gt;.*?)\\s+User\\s+=\\s+(?P&lt;user&gt;.*?)$')</span></em><a class="headerlink" href="#pyspec.file.spec.FileBlock.respecuser" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.setFileName">
+<span class="sig-name descname"><span class="pre">setFileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.setFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.setFileName" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><a class="headerlink" href="#pyspec.file.spec.FileBlock.spec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.user">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#pyspec.file.spec.FileBlock.user" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.user_spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_spec</span></span><a class="headerlink" href="#pyspec.file.spec.FileBlock.user_spec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileBlock.wrongLine">
+<span class="sig-name descname"><span class="pre">wrongLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errmsg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileBlock.wrongLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileBlock.wrongLine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">FileSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<p>FileSpec class documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.absolutePath">
+<span class="sig-name descname"><span class="pre">absolutePath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.absolutePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.absolutePath" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.abspath">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abspath</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.abspath" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.filename">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.filename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getFileName">
+<span class="sig-name descname"><span class="pre">getFileName</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getFileName" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getInfo">
+<span class="sig-name descname"><span class="pre">getInfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getInfo" title="Link to this definition">¶</a></dt>
+<dd><p>Returns user and application</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getNumberHeaders">
+<span class="sig-name descname"><span class="pre">getNumberHeaders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getNumberHeaders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getNumberHeaders" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getNumberScans">
+<span class="sig-name descname"><span class="pre">getNumberScans</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getNumberScans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getNumberScans" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getScanByNumber">
+<span class="sig-name descname"><span class="pre">getScanByNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scanno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getScanByNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getScanByNumber" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getSpec">
+<span class="sig-name descname"><span class="pre">getSpec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getSpec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getTimeCreated">
+<span class="sig-name descname"><span class="pre">getTimeCreated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getTimeCreated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getTimeCreated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getTimeModified">
+<span class="sig-name descname"><span class="pre">getTimeModified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getTimeModified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getTimeModified" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.getUser">
+<span class="sig-name descname"><span class="pre">getUser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.getUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.getUser" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.get_scan_by_number">
+<span class="sig-name descname"><span class="pre">get_scan_by_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scanno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspec.file.spec.FileSpec.get_scan_by_number" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.headers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.headers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.info" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.length">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.length" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.spec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.time_created">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time_created</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.time_created" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.time_modified">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time_modified</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.time_modified" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpec.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpec.update" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpec.user">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#pyspec.file.spec.FileSpec.user" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyspec.file.spec.FileSpecFormatUnknown">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">FileSpecFormatUnknown</span></span><a class="reference internal" href="_modules/pyspec/file/spec.html#FileSpecFormatUnknown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.FileSpecFormatUnknown" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseException</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.Header">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">Header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">firstline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Header" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.file.spec.FileBlock" title="pyspec.file.spec.FileBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileBlock</span></code></a></p>
+<p>Class representing a file header.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Header.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Header.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Header.end" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">McaData</span></span><a class="reference internal" href="_modules/pyspec/file/spec.html#McaData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.McaData" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The class MCA data represents 1D data</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData.calib">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib</span></span><a class="headerlink" href="#pyspec.file.spec.McaData.calib" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#pyspec.file.spec.McaData.data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData.getCalib">
+<span class="sig-name descname"><span class="pre">getCalib</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#McaData.getCalib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.McaData.getCalib" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData.getData">
+<span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibrated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#McaData.getData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.McaData.getData" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.McaData.setCalib">
+<span class="sig-name descname"><span class="pre">setCalib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calib</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#McaData.setCalib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.McaData.setCalib" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.OneD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">OneD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#OneD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.OneD" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<p>The class OneD is for the one dimension channels.
+It has a list of McaData objects.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.OneD.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#pyspec.file.spec.OneD.data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.OneD.getData">
+<span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#OneD.getData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.OneD.getData" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.file.spec.</span></span><span class="sig-name descname"><span class="pre">Scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">firstline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.file.spec.FileBlock" title="pyspec.file.spec.FileBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileBlock</span></code></a></p>
+<p>Scan class documentation</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.command">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.command" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.comments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comments</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.comments" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.count_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">count_time</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.count_time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.counter_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">counter_names</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.counter_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.counters">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">counters</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.counters" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.date">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.date" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.end" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.extra_lines">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extra_lines</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.extra_lines" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.file_date">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_date</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.file_date" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.file_epoch">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_epoch</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.file_epoch" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.finalizeParsing">
+<span class="sig-name descname"><span class="pre">finalizeParsing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.finalizeParsing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.finalizeParsing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.geometry">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.geometry" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getColumns">
+<span class="sig-name descname"><span class="pre">getColumns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getColumns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getColumns" title="Link to this definition">¶</a></dt>
+<dd><p>Returns number of columns from scan header</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getCommand">
+<span class="sig-name descname"><span class="pre">getCommand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getCommand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getCommand" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a string containing the command that
+was run in spec to start the scan</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getComments">
+<span class="sig-name descname"><span class="pre">getComments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getComments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getComments" title="Link to this definition">¶</a></dt>
+<dd><p>Returns comments in the scan.
+Aborted termination can be found in this way</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getCountTime">
+<span class="sig-name descname"><span class="pre">getCountTime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getCountTime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getCountTime" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with two values: counting time and units
+if time units cannot be found in file the units value is left empty</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getCounterMnemonics">
+<span class="sig-name descname"><span class="pre">getCounterMnemonics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getCounterMnemonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getCounterMnemonics" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with counter mnemonics. Counter mnemonics are saved
+in files only since spec version 6.0.10</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getCounterNames">
+<span class="sig-name descname"><span class="pre">getCounterNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getCounterNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getCounterNames" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with counter names. Counter names are saved
+in files only since spec version 6.0.10</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getData">
+<span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getData" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a numpy array with all data in the scan</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getDate">
+<span class="sig-name descname"><span class="pre">getDate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getDate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getDate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the date when the scan was started</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getExtra">
+<span class="sig-name descname"><span class="pre">getExtra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getExtra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getExtra" title="Link to this definition">¶</a></dt>
+<dd><p>Returns extra lines starting with “&#64;” character.
+These are normally lines related with MCA data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getExtraLines">
+<span class="sig-name descname"><span class="pre">getExtraLines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getExtraLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getExtraLines" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getFileDate">
+<span class="sig-name descname"><span class="pre">getFileDate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getFileDate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getFileDate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the date when the file was created</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getFileEpoch">
+<span class="sig-name descname"><span class="pre">getFileEpoch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getFileEpoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getFileEpoch" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the epoch of the file creation. It is possible to find
+the absolute epoch for any scan time by adding
+the file epoch with the value in the Epoch column of the scan</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getGeometry">
+<span class="sig-name descname"><span class="pre">getGeometry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getGeometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getGeometry" title="Link to this definition">¶</a></dt>
+<dd><p>Returns geometry values as saved in the file.
+Check the spec documentation for the meaning of these values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getHKL">
+<span class="sig-name descname"><span class="pre">getHKL</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getHKL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getHKL" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with HKL values at the beginning of the scan</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getLabels">
+<span class="sig-name descname"><span class="pre">getLabels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getLabels" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the labels for the data columns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getLines">
+<span class="sig-name descname"><span class="pre">getLines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getLines" title="Link to this definition">¶</a></dt>
+<dd><p>Returns number of data lines</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getMcas">
+<span class="sig-name descname"><span class="pre">getMcas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getMcas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getMcas" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list of 1D numpy arrays in the scan,
+each of them being a spectrum from a 1D detector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getMeta">
+<span class="sig-name descname"><span class="pre">getMeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getMeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getMeta" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary with the most relevant metdata information</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getMotorMnemonics">
+<span class="sig-name descname"><span class="pre">getMotorMnemonics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getMotorMnemonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getMotorMnemonics" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with motor mnemonics. Motor mnemonics are saved
+in files only since spec version 6.0.10</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getMotorNames">
+<span class="sig-name descname"><span class="pre">getMotorNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getMotorNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getMotorNames" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list with motor names</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getMotorPositions">
+<span class="sig-name descname"><span class="pre">getMotorPositions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getMotorPositions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getMotorPositions" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary with motor names and positions.
+These are the positions of the motors when the scan was started</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getNumber">
+<span class="sig-name descname"><span class="pre">getNumber</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getNumber" title="Link to this definition">¶</a></dt>
+<dd><p>Returns scan number as it appeared in spec.
+Remember that it could be that more than one scan
+in the file will have the same number.
+The scan index is the position of the scan in the file.
+The scan number is the number given by spec
+to the scan at the time it was executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getNumberInFile">
+<span class="sig-name descname"><span class="pre">getNumberInFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getNumberInFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getNumberInFile" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getNumberMcas">
+<span class="sig-name descname"><span class="pre">getNumberMcas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getNumberMcas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getNumberMcas" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the number of mcas in the scan</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getNumberOneD">
+<span class="sig-name descname"><span class="pre">getNumberOneD</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getNumberOneD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getNumberOneD" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the number of OneD channels in the scan.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getOneD">
+<span class="sig-name descname"><span class="pre">getOneD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getOneD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getOneD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getOrder">
+<span class="sig-name descname"><span class="pre">getOrder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getOrder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getOrder" title="Link to this definition">¶</a></dt>
+<dd><p>Returns scan order for the scan. The combination
+of scan number/scan order should be unique for a scan.
+in a file.  The first scan with a certain number in
+the file will have order 1.  If another scan in the file
+uses the same number, it will be associated with order 2 and so on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getScanIndex">
+<span class="sig-name descname"><span class="pre">getScanIndex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getScanIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getScanIndex" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the position of the scan in the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getSource">
+<span class="sig-name descname"><span class="pre">getSource</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getSource" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the path of the file as it appears in the file header</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getSpec">
+<span class="sig-name descname"><span class="pre">getSpec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getSpec" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the name of the spec application
+from which the file was created</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getUser">
+<span class="sig-name descname"><span class="pre">getUser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getUser" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the name of the unix user that created the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.getUserLines">
+<span class="sig-name descname"><span class="pre">getUserLines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.getUserLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.getUserLines" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.get_mca">
+<span class="sig-name descname"><span class="pre">get_mca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspec.file.spec.Scan.get_mca" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.get_oned">
+<span class="sig-name descname"><span class="pre">get_oned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspec.file.spec.Scan.get_oned" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.hkl">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hkl</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.hkl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.labels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">labels</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.labels" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.mcas">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mcas</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.mcas" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.motor_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">motor_names</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.motor_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.motor_positions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">motor_positions</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.motor_positions" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.motors">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">motors</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.motors" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.nb_columns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nb_columns</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.nb_columns" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.nb_mcas">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nb_mcas</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.nb_mcas" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.nb_oneds">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nb_oneds</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.nb_oneds" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.nb_points">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nb_points</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.nb_points" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.number">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.number" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.order">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.order" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'spec'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/file/spec.html#Scan.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.file.spec.Scan.save" title="Link to this definition">¶</a></dt>
+<dd><p>scan.save method produces a simple output meant to export scan
+data to format readable by excel and other programs</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.source">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.source" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.spec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.user">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.user" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyspec.file.spec.Scan.user_lines">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_lines</span></span><a class="headerlink" href="#pyspec.file.spec.Scan.user_lines" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyspec.file">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyspec.file" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.file package</a><ul>
+<li><a class="reference internal" href="#module-pyspec.file.h5datasets">pyspec.file.h5datasets module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler"><code class="docutils literal notranslate"><span class="pre">h5crawler</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_2d"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_2d()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_key"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_key()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler.search_wrapper"><code class="docutils literal notranslate"><span class="pre">h5crawler.search_wrapper()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.h5datasets.h5crawler_error"><code class="docutils literal notranslate"><span class="pre">h5crawler_error</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.hamamatsu">pyspec.file.hamamatsu module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage"><code class="docutils literal notranslate"><span class="pre">ItexImage</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.data"><code class="docutils literal notranslate"><span class="pre">ItexImage.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.from_buffer"><code class="docutils literal notranslate"><span class="pre">ItexImage.from_buffer()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.from_file"><code class="docutils literal notranslate"><span class="pre">ItexImage.from_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.get_roisum"><code class="docutils literal notranslate"><span class="pre">ItexImage.get_roisum()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.ItexImage.parse_comments"><code class="docutils literal notranslate"><span class="pre">ItexImage.parse_comments()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hamamatsu.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.hdf5">pyspec.file.hdf5 module</a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader"><code class="docutils literal notranslate"><span class="pre">H5Reader</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader.get_image"><code class="docutils literal notranslate"><span class="pre">H5Reader.get_image()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Reader.get_nb_images"><code class="docutils literal notranslate"><span class="pre">H5Reader.get_nb_images()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer"><code class="docutils literal notranslate"><span class="pre">H5Writer</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.create"><code class="docutils literal notranslate"><span class="pre">H5Writer.create()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.create_datafile"><code class="docutils literal notranslate"><span class="pre">H5Writer.create_datafile()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.save_img"><code class="docutils literal notranslate"><span class="pre">H5Writer.save_img()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.H5Writer.save_metadata"><code class="docutils literal notranslate"><span class="pre">H5Writer.save_metadata()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.choose_filename"><code class="docutils literal notranslate"><span class="pre">choose_filename()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.hdf5.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file.spec">pyspec.file.spec module</a><ul>
+<li><a class="reference internal" href="#filespec">filespec</a><ul>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock"><code class="docutils literal notranslate"><span class="pre">FileBlock</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addColumnsLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addColumnsLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCommentLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCommentLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCounterLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCounterLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addCounterMneLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addCounterMneLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addDateLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addDateLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addEpochLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addEpochLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addExtraLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addExtraLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addFileLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addFileLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addGeoLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addGeoLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorLabelLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorLabelLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorMneLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorMneLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addMotorPositionLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addMotorPositionLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addQLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addQLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addSLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addSLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addTimeLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addTimeLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.addUserLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.addUserLine()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.date"><code class="docutils literal notranslate"><span class="pre">FileBlock.date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.end"><code class="docutils literal notranslate"><span class="pre">FileBlock.end()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.finalizeParsing"><code class="docutils literal notranslate"><span class="pre">FileBlock.finalizeParsing()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getDate"><code class="docutils literal notranslate"><span class="pre">FileBlock.getDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getSpec"><code class="docutils literal notranslate"><span class="pre">FileBlock.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getUser"><code class="docutils literal notranslate"><span class="pre">FileBlock.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.getUserSpec"><code class="docutils literal notranslate"><span class="pre">FileBlock.getUserSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.parse"><code class="docutils literal notranslate"><span class="pre">FileBlock.parse()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.resetParsedData"><code class="docutils literal notranslate"><span class="pre">FileBlock.resetParsedData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.respecuser"><code class="docutils literal notranslate"><span class="pre">FileBlock.respecuser</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.setFileName"><code class="docutils literal notranslate"><span class="pre">FileBlock.setFileName()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.spec"><code class="docutils literal notranslate"><span class="pre">FileBlock.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.user"><code class="docutils literal notranslate"><span class="pre">FileBlock.user</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.user_spec"><code class="docutils literal notranslate"><span class="pre">FileBlock.user_spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileBlock.wrongLine"><code class="docutils literal notranslate"><span class="pre">FileBlock.wrongLine()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec"><code class="docutils literal notranslate"><span class="pre">FileSpec</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.absolutePath"><code class="docutils literal notranslate"><span class="pre">FileSpec.absolutePath()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.abspath"><code class="docutils literal notranslate"><span class="pre">FileSpec.abspath</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.filename"><code class="docutils literal notranslate"><span class="pre">FileSpec.filename</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getFileName"><code class="docutils literal notranslate"><span class="pre">FileSpec.getFileName()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getInfo"><code class="docutils literal notranslate"><span class="pre">FileSpec.getInfo()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getNumberHeaders"><code class="docutils literal notranslate"><span class="pre">FileSpec.getNumberHeaders()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getNumberScans"><code class="docutils literal notranslate"><span class="pre">FileSpec.getNumberScans()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getScanByNumber"><code class="docutils literal notranslate"><span class="pre">FileSpec.getScanByNumber()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getSpec"><code class="docutils literal notranslate"><span class="pre">FileSpec.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getTimeCreated"><code class="docutils literal notranslate"><span class="pre">FileSpec.getTimeCreated()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getTimeModified"><code class="docutils literal notranslate"><span class="pre">FileSpec.getTimeModified()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.getUser"><code class="docutils literal notranslate"><span class="pre">FileSpec.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.get_scan_by_number"><code class="docutils literal notranslate"><span class="pre">FileSpec.get_scan_by_number()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.headers"><code class="docutils literal notranslate"><span class="pre">FileSpec.headers</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.info"><code class="docutils literal notranslate"><span class="pre">FileSpec.info</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.length"><code class="docutils literal notranslate"><span class="pre">FileSpec.length</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.spec"><code class="docutils literal notranslate"><span class="pre">FileSpec.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.time_created"><code class="docutils literal notranslate"><span class="pre">FileSpec.time_created</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.time_modified"><code class="docutils literal notranslate"><span class="pre">FileSpec.time_modified</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.update"><code class="docutils literal notranslate"><span class="pre">FileSpec.update()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpec.user"><code class="docutils literal notranslate"><span class="pre">FileSpec.user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.FileSpecFormatUnknown"><code class="docutils literal notranslate"><span class="pre">FileSpecFormatUnknown</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Header"><code class="docutils literal notranslate"><span class="pre">Header</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.Header.end"><code class="docutils literal notranslate"><span class="pre">Header.end()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData"><code class="docutils literal notranslate"><span class="pre">McaData</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.calib"><code class="docutils literal notranslate"><span class="pre">McaData.calib</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.data"><code class="docutils literal notranslate"><span class="pre">McaData.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.getCalib"><code class="docutils literal notranslate"><span class="pre">McaData.getCalib()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.getData"><code class="docutils literal notranslate"><span class="pre">McaData.getData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.McaData.setCalib"><code class="docutils literal notranslate"><span class="pre">McaData.setCalib()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD"><code class="docutils literal notranslate"><span class="pre">OneD</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD.data"><code class="docutils literal notranslate"><span class="pre">OneD.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.OneD.getData"><code class="docutils literal notranslate"><span class="pre">OneD.getData()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan"><code class="docutils literal notranslate"><span class="pre">Scan</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.command"><code class="docutils literal notranslate"><span class="pre">Scan.command</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.comments"><code class="docutils literal notranslate"><span class="pre">Scan.comments</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.count_time"><code class="docutils literal notranslate"><span class="pre">Scan.count_time</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.counter_names"><code class="docutils literal notranslate"><span class="pre">Scan.counter_names</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.counters"><code class="docutils literal notranslate"><span class="pre">Scan.counters</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.data"><code class="docutils literal notranslate"><span class="pre">Scan.data</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.date"><code class="docutils literal notranslate"><span class="pre">Scan.date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.end"><code class="docutils literal notranslate"><span class="pre">Scan.end()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.extra_lines"><code class="docutils literal notranslate"><span class="pre">Scan.extra_lines</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.file_date"><code class="docutils literal notranslate"><span class="pre">Scan.file_date</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.file_epoch"><code class="docutils literal notranslate"><span class="pre">Scan.file_epoch</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.finalizeParsing"><code class="docutils literal notranslate"><span class="pre">Scan.finalizeParsing()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.geometry"><code class="docutils literal notranslate"><span class="pre">Scan.geometry</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getColumns"><code class="docutils literal notranslate"><span class="pre">Scan.getColumns()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCommand"><code class="docutils literal notranslate"><span class="pre">Scan.getCommand()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getComments"><code class="docutils literal notranslate"><span class="pre">Scan.getComments()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCountTime"><code class="docutils literal notranslate"><span class="pre">Scan.getCountTime()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCounterMnemonics"><code class="docutils literal notranslate"><span class="pre">Scan.getCounterMnemonics()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getCounterNames"><code class="docutils literal notranslate"><span class="pre">Scan.getCounterNames()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getData"><code class="docutils literal notranslate"><span class="pre">Scan.getData()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getDate"><code class="docutils literal notranslate"><span class="pre">Scan.getDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getExtra"><code class="docutils literal notranslate"><span class="pre">Scan.getExtra()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getExtraLines"><code class="docutils literal notranslate"><span class="pre">Scan.getExtraLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getFileDate"><code class="docutils literal notranslate"><span class="pre">Scan.getFileDate()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getFileEpoch"><code class="docutils literal notranslate"><span class="pre">Scan.getFileEpoch()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getGeometry"><code class="docutils literal notranslate"><span class="pre">Scan.getGeometry()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getHKL"><code class="docutils literal notranslate"><span class="pre">Scan.getHKL()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getLabels"><code class="docutils literal notranslate"><span class="pre">Scan.getLabels()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getLines"><code class="docutils literal notranslate"><span class="pre">Scan.getLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMcas"><code class="docutils literal notranslate"><span class="pre">Scan.getMcas()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMeta"><code class="docutils literal notranslate"><span class="pre">Scan.getMeta()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorMnemonics"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorMnemonics()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorNames"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorNames()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getMotorPositions"><code class="docutils literal notranslate"><span class="pre">Scan.getMotorPositions()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumber"><code class="docutils literal notranslate"><span class="pre">Scan.getNumber()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberInFile"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberInFile()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberMcas"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberMcas()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getNumberOneD"><code class="docutils literal notranslate"><span class="pre">Scan.getNumberOneD()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getOneD"><code class="docutils literal notranslate"><span class="pre">Scan.getOneD()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getOrder"><code class="docutils literal notranslate"><span class="pre">Scan.getOrder()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getScanIndex"><code class="docutils literal notranslate"><span class="pre">Scan.getScanIndex()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getSource"><code class="docutils literal notranslate"><span class="pre">Scan.getSource()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getSpec"><code class="docutils literal notranslate"><span class="pre">Scan.getSpec()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getUser"><code class="docutils literal notranslate"><span class="pre">Scan.getUser()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.getUserLines"><code class="docutils literal notranslate"><span class="pre">Scan.getUserLines()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.get_mca"><code class="docutils literal notranslate"><span class="pre">Scan.get_mca()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.get_oned"><code class="docutils literal notranslate"><span class="pre">Scan.get_oned()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.hkl"><code class="docutils literal notranslate"><span class="pre">Scan.hkl</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.labels"><code class="docutils literal notranslate"><span class="pre">Scan.labels</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.mcas"><code class="docutils literal notranslate"><span class="pre">Scan.mcas</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.metadata"><code class="docutils literal notranslate"><span class="pre">Scan.metadata</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motor_names"><code class="docutils literal notranslate"><span class="pre">Scan.motor_names</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motor_positions"><code class="docutils literal notranslate"><span class="pre">Scan.motor_positions</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.motors"><code class="docutils literal notranslate"><span class="pre">Scan.motors</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_columns"><code class="docutils literal notranslate"><span class="pre">Scan.nb_columns</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_mcas"><code class="docutils literal notranslate"><span class="pre">Scan.nb_mcas</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_oneds"><code class="docutils literal notranslate"><span class="pre">Scan.nb_oneds</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.nb_points"><code class="docutils literal notranslate"><span class="pre">Scan.nb_points</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.number"><code class="docutils literal notranslate"><span class="pre">Scan.number</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.order"><code class="docutils literal notranslate"><span class="pre">Scan.order</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.save"><code class="docutils literal notranslate"><span class="pre">Scan.save()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.source"><code class="docutils literal notranslate"><span class="pre">Scan.source</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.spec"><code class="docutils literal notranslate"><span class="pre">Scan.spec</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.user"><code class="docutils literal notranslate"><span class="pre">Scan.user</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.file.spec.Scan.user_lines"><code class="docutils literal notranslate"><span class="pre">Scan.user_lines</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyspec.file">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pyspec.server.html"
+                          title="previous chapter">pyspec.server package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyspec.file.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyspec.server.html" title="pyspec.server package"
+             >previous</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.file package</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

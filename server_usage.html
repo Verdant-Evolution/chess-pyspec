@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Server Usage &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /><link rel="stylesheet" href="_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="_static/py.svg" />
+            <script type="text/javascript" src="_static/copybutton.js"></script>
+            <script type="text/javascript" src="_static/menu.js"></script>
+            <script type="text/javascript" src="_static/search-focus.js"></script>
+            <script type="text/javascript" src="_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Server Usage</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
+<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/server_usage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">Server Usage</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="server-usage">
+<h1>Server Usage<a class="headerlink" href="#server-usage" title="Link to this heading">¶</a></h1>
+<p>This document provides an overview of how to use the PySpec server to implement a custom SPEC server.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The PySpec server allows remote clients to interact with Python objects and functions as if they were part of a SPEC server. It supports remote function calls, property access, and event broadcasting.</p>
+</section>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Server Class</strong>: The main entry point is the <a class="reference internal" href="pyspec.server.html#pyspec.server.Server" title="pyspec.server.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> class, which manages client connections, remote function calls, and property updates.</p></li>
+<li><p><strong>Remote Functions</strong>: Methods decorated with <a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a> are exposed to clients for remote execution.</p></li>
+<li><p><strong>Remote Properties</strong>: Properties defined using the <a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> class can be accessed and updated remotely.</p></li>
+<li><p><strong>Event Broadcasting</strong>: Property changes are broadcast to subscribed clients.</p></li>
+</ul>
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">Server</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">remote_function</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MySpecServer</span><span class="p">(</span><span class="n">Server</span><span class="p">):</span>
+    <span class="n">my_property</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_property&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@remote_function</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">MySpecServer</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">server</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>SPEC Client Side:</p>
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>&gt;&gt;<span class="w"> </span>host<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;localhost:12345&quot;</span>
+&gt;&gt;<span class="w"> </span>remote_par(host,<span class="w"> </span><span class="s2">&quot;connect&quot;</span>)
+<span class="c"># Now the connection should be established.</span>
+&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>)
+0
+&gt;&gt;<span class="w"> </span>property_put(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>,<span class="w"> </span>42)
+&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>)
+42
+&gt;&gt;<span class="w"> </span>remote_cmd(host,<span class="w"> </span><span class="s2">&quot;add(1, 2)&quot;</span>)
+3.0
+</pre></div>
+</div>
+<p>PySpec Client Side (Python):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># Should print 3.0</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;my_property&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># Should print 0</span>
+        <span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># Should print 42</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Remote Function Calls</strong>: Register functions with the <a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a> decorator. Clients can call these functions remotely.</p></li>
+<li><p><strong>Remote Properties</strong>: Use the <a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> class to define properties. Clients can get, set, and subscribe to property changes.</p></li>
+<li><p><strong>Test Mode</strong>: If <cite>test_mode=True</cite>, arbitrary code execution is allowed (for testing only).</p></li>
+<li><p><strong>Abortable Tasks</strong>: Long-running tasks can be aborted by clients.</p></li>
+</ul>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.Server" title="pyspec.server.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a>: Main server class. Handles connections and dispatches remote calls.</p></li>
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>: Defines a remotely accessible property.</p></li>
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a>: Decorator to expose methods for remote execution.</p></li>
+</ul>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Always use caution with <code class="docutils literal notranslate"><span class="pre">allow_remote_code_execution=True</span></code> as it allows arbitrary code execution. If disabled (default) only literal values through <a class="reference external" href="https://docs.python.org/3/library/ast.html#ast.literal_eval">ast.literal_eval</a> can be evaluated from client inputs, which is much safer for production use.</p></li>
+<li><p>The server uses asyncio for concurrency and can handle multiple clients.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Server Usage</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
+<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/server_usage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">Server Usage</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

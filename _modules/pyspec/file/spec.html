@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspec.file.spec &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="../../../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /><link rel="stylesheet" href="../../../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../../../_static/py.svg" />
+            <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../../../_static/menu.js"></script>
+            <script type="text/javascript" src="../../../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../../../_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../../../_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../../../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.file.spec</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspec.file.spec</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># ******************************************************************************</span>
+<span class="c1">#</span>
+<span class="c1">#  %W%  %G% CSS</span>
+<span class="c1">#</span>
+<span class="c1">#  &quot;pyspec&quot; Release %R%</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2013,2014,2015,2016,2017,2018,2019,2020,2021</span>
+<span class="c1">#  by Certified Scientific Software.</span>
+<span class="c1">#  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  Permission is hereby granted, free of charge, to any person obtaining a</span>
+<span class="c1">#  copy of this software (&quot;pyspec&quot;) and associated documentation files (the</span>
+<span class="c1">#  &quot;Software&quot;), to deal in the Software without restriction, including</span>
+<span class="c1">#  without limitation the rights to use, copy, modify, merge, publish,</span>
+<span class="c1">#  distribute, sublicense, and/or sell copies of the Software, and to</span>
+<span class="c1">#  permit persons to whom the Software is furnished to do so, subject to</span>
+<span class="c1">#  the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1">#  The above copyright notice and this permission notice shall be included</span>
+<span class="c1">#  in all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1">#  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="c1">#  may be used to endorse or promote products derived from this software</span>
+<span class="c1">#  without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1">#     * The software is provided &quot;as is&quot;, without warranty of any   *</span>
+<span class="c1">#     * kind, express or implied, including but not limited to the  *</span>
+<span class="c1">#     * warranties of merchantability, fitness for a particular     *</span>
+<span class="c1">#     * purpose and noninfringement.  In no event shall the authors *</span>
+<span class="c1">#     * or copyright holders be liable for any claim, damages or    *</span>
+<span class="c1">#     * other liability, whether in an action of contract, tort     *</span>
+<span class="c1">#     * or otherwise, arising from, out of or in connection with    *</span>
+<span class="c1">#     * the software or the use of other dealings in the software.  *</span>
+<span class="c1">#</span>
+<span class="c1"># ******************************************************************************</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">****************</span>
+<span class="sd">filespec</span>
+<span class="sd">****************</span>
+
+<span class="sd">Description</span>
+<span class="sd">****************</span>
+<span class="sd">   This module offers an interface to files with data in the spec</span>
+<span class="sd">   file format. The format specificiation can be consulted online</span>
+<span class="sd">   at the certif.com website.</span>
+
+<span class="sd">   A spec file normally consists of a series of header blocks and scan blocks.</span>
+<span class="sd">   Data comes after scan blocks. Sometimes comment lines can be also</span>
+<span class="sd">   be found in between blocks.</span>
+<span class="sd">   These comment lines could contain for example the result of user</span>
+<span class="sd">   calculations after a scan, or pure comments.  For practical purposes comment</span>
+<span class="sd">   lines will be considered to belong to the preceding scan or header block.</span>
+
+<span class="sd">.. _`certif.com`: http://www.certif.com/spec_help/scans.html</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+
+
+<div class="viewcode-block" id="FileSpecFormatUnknown">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpecFormatUnknown">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileSpecFormatUnknown</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="FileSpec">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileSpec</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FileSpec class documentation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+
+        <span class="nb">list</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origfilename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastpos</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inheader</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filestat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">st_size</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># dictionary to hold references (by scan number) to the scanlist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scans</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_indexscans</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FileSpecFormatUnknown</span><span class="p">(</span><span class="s2">&quot;No scans found in file </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abspath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">absolutePath</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.absolutePath">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.absolutePath">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">absolutePath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileSpec.update">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">currstat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">currstat</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">st_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">st_size</span> <span class="o">=</span> <span class="n">currstat</span><span class="o">.</span><span class="n">st_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_indexscans</span><span class="p">()</span>
+            <span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">modified</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">modified</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFileName</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getFileName">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getFileName">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span></div>
+
+
+<div class="viewcode-block" id="FileSpec.getScanByNumber">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getScanByNumber">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getScanByNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scanno</span><span class="p">,</span> <span class="n">scanorder</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">scanno</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">scanorder</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">scanorder</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">[</span><span class="n">scanno</span><span class="p">]):</span>
+                <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">[</span><span class="n">scanno</span><span class="p">][</span><span class="n">scanorder</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">scan</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="n">get_scan_by_number</span> <span class="o">=</span> <span class="n">getScanByNumber</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">time_created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTimeCreated</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getTimeCreated">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getTimeCreated">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getTimeCreated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getDate</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getUser">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getUser">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getUser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getSpec">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getSpec">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getSpec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">time_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTimeModified</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getTimeModified">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getTimeModified">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getTimeModified</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">mtime</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span><span class="o">.</span><span class="n">st_mtime</span>
+        <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">mtime</span><span class="p">))</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumberScans</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getNumberScans">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getNumberScans">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumberScans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumberHeaders</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getNumberHeaders">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getNumberHeaders">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumberHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileSpec.getInfo">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileSpec.getInfo">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns user and application&quot;&quot;&quot;</span>
+        <span class="n">ctime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTimeCreated</span><span class="p">()</span>
+        <span class="n">mtime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTimeModified</span><span class="p">()</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ctime</span><span class="p">,</span> <span class="n">mtime</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">spec</span><span class="p">]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_indexscans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastpos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fb</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">#&quot;</span><span class="p">)):</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sline</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">sline</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">]:</span>
+
+                <span class="n">btype</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">]:</span>
+                    <span class="c1"># block not followed by space is not a block. ignore line</span>
+                    <span class="k">if</span> <span class="n">sline</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot; &quot;</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                <span class="n">blockstart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastpos</span>
+                <span class="n">blockline</span> <span class="o">=</span> <span class="n">lineno</span>
+
+                <span class="k">if</span> <span class="n">fb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">fb</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">btype</span> <span class="o">==</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">origfilename</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">fb</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="n">blockstart</span><span class="p">,</span> <span class="n">blockline</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inheader</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">btype</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+                    <span class="n">fb</span> <span class="o">=</span> <span class="n">Scan</span><span class="p">(</span><span class="n">blockstart</span><span class="p">,</span> <span class="n">blockline</span><span class="p">)</span>
+                    <span class="n">fb</span><span class="o">.</span><span class="n">addSLine</span><span class="p">(</span><span class="n">sline</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inheader</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
+                    <span class="n">fb</span><span class="o">.</span><span class="n">_setScanIndex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">):</span>
+                        <span class="c1"># Assign last added header to current scan</span>
+                        <span class="n">fb</span><span class="o">.</span><span class="n">_setFileHeader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">origfilename</span><span class="p">:</span>
+                    <span class="n">fb</span><span class="o">.</span><span class="n">setFileName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origfilename</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">sline</span> <span class="ow">and</span> <span class="n">fb</span><span class="p">:</span>
+                <span class="n">fb</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="n">sline</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+
+        <span class="c1"># register last block</span>
+        <span class="k">if</span> <span class="n">fb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fb</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+
+        <span class="c1"># correct the scan order if necessary</span>
+        <span class="c1"># assign number in file</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scans</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scanidx</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">scanno</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">getNumber</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">scanno</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">[</span><span class="n">scanno</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">[</span><span class="n">scanno</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scan</span><span class="p">)</span>
+            <span class="n">scan</span><span class="o">.</span><span class="n">_setOrder</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scans</span><span class="p">[</span><span class="n">scanno</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">scan</span><span class="o">.</span><span class="n">_setNumberInFile</span><span class="p">(</span><span class="n">scanidx</span><span class="p">)</span>
+            <span class="n">scanidx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="FileBlock">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileBlock</span><span class="p">:</span>
+
+    <span class="n">respecuser</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;spec&gt;.*?)\s+User\s+=\s+(?P&lt;user&gt;.*?)$&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">firstline</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firstline</span> <span class="o">=</span> <span class="n">firstline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addSLine</span><span class="p">,</span>
+            <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addEpochLine</span><span class="p">,</span>
+            <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addFileLine</span><span class="p">,</span>
+            <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addDateLine</span><span class="p">,</span>
+            <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addColumnsLine</span><span class="p">,</span>
+            <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addLabelLine</span><span class="p">,</span>
+            <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addMotorLabelLine</span><span class="p">,</span>
+            <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addMotorMneLine</span><span class="p">,</span>
+            <span class="s2">&quot;J&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addCounterLabelLine</span><span class="p">,</span>
+            <span class="s2">&quot;j&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addCounterMneLine</span><span class="p">,</span>
+            <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addUserLine</span><span class="p">,</span>
+            <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addCommentLine</span><span class="p">,</span>
+            <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addMotorPositionLine</span><span class="p">,</span>
+            <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addTimeLine</span><span class="p">,</span>
+            <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addGeoLine</span><span class="p">,</span>
+            <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addQLine</span><span class="p">,</span>
+            <span class="s2">&quot;@&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addExtraLine</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resetParsedData</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileBlock.resetParsedData">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.resetParsedData">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resetParsedData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># self._number = 0</span>
+        <span class="c1"># self._command = &quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_count_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_date</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter_mnes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comment_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geo_pars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qvalue</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extra_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wrong_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_oned</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reading_mca</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.end">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.parse">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.parse">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lineno</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">oned_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">data_line</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">comp_line</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># The mca data is between 2 data counter lines.</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sline</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+
+                <span class="n">lineno</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">sline</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">first_char</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">first_char</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span><span class="p">:</span>
+
+                    <span class="n">widx</span> <span class="o">=</span> <span class="n">sline</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+                    <span class="n">metakey</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">metaval</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">widx</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">content</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="n">widx</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">metakey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span><span class="p">[</span><span class="n">metakey</span><span class="p">](</span><span class="n">content</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">metaval</span><span class="p">)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">wrongLine</span><span class="p">(</span>
+                                <span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="s2">&quot;unknown line (</span><span class="si">%s</span><span class="s2">) &quot;</span> <span class="o">%</span> <span class="n">metakey</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">wrongLine</span><span class="p">(</span>
+                            <span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="s2">&quot;unknown header line (</span><span class="si">%s</span><span class="s2">) &quot;</span> <span class="o">%</span> <span class="n">metakey</span>
+                        <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">sline</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;@A&quot;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">data_line</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">comp_line</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># The mca data is the first line.</span>
+
+                        <span class="n">sline</span> <span class="o">=</span> <span class="n">sline</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">reading_mca</span> <span class="o">=</span> <span class="kc">True</span>
+
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_oned</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">OneD</span><span class="p">())</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tmpmca</span> <span class="o">=</span> <span class="n">McaData</span><span class="p">()</span>
+                        <span class="n">complete</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpmca</span><span class="o">.</span><span class="n">_addLine</span><span class="p">(</span><span class="n">sline</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">complete</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">[</span><span class="n">oned_idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpmca</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">reading_mca</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="n">oned_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data_line</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reading_mca</span><span class="p">:</span>
+                        <span class="n">complete</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpmca</span><span class="o">.</span><span class="n">_addLine</span><span class="p">(</span><span class="n">sline</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">complete</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">[</span><span class="n">oned_idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpmca</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">reading_mca</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="n">oned_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">oned_idx</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">dataline</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">sline</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+                            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">wrongLine</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="s2">&quot;wrong data line&quot;</span><span class="p">)</span>
+                                <span class="k">continue</span>
+
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataline</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">wrongLine</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="s2">&quot;wrong number of columns&quot;</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataline</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span> <span class="o">==</span> <span class="n">comp_line</span><span class="p">:</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_find_oned</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">wrongLine</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="s2">&quot;cannot parse line &quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">finalizeParsing</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.finalizeParsing">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.finalizeParsing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">finalizeParsing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.wrongLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.wrongLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrongLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineno</span><span class="p">,</span> <span class="n">sline</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wrong_lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">errmsg</span><span class="p">,</span> <span class="n">sline</span><span class="p">])</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lineno</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">firstline</span> <span class="o">+</span> <span class="n">lineno</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ermsg</span> <span class="o">=</span> <span class="s2">&quot;erroneous data / </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">errmsg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ermsg</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.setFileName">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.setFileName">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addSLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addSLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addSLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_command</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addFileLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addFileLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addFileLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">content</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addEpochLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addEpochLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addEpochLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addDateLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addDateLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addDateLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_date</span> <span class="o">=</span> <span class="n">content</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addColumnsLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addColumnsLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addColumnsLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addLabelLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addLabelLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addLabelLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\s+&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">:</span>
+                <span class="c1"># cope with no N line. get nb columns from _labels</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addMotorLabelLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addMotorLabelLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addMotorLabelLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Beware of double spacing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\s+&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addMotorMneLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addMotorMneLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addMotorMneLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addCounterLabelLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addCounterLabelLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addCounterLabelLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Beware of double spacing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter_labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s\s+&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addCounterMneLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addCounterMneLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addCounterMneLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Beware of double spacing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter_mnes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addMotorPositionLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addMotorPositionLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addMotorPositionLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_positions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addUserLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addUserLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addUserLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addCommentLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addCommentLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addCommentLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comment_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addTimeLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addTimeLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addTimeLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\)\(]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_count_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">units</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_count_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addGeoLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addGeoLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addGeoLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geo_pars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addQLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addQLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addQLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qvalue</span> <span class="o">=</span> <span class="n">content</span></div>
+
+
+<div class="viewcode-block" id="FileBlock.addExtraLine">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addExtraLine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addExtraLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extra_lines</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">keyval</span><span class="p">,</span> <span class="n">content</span><span class="p">])</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileBlock.getDate">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.getDate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getDate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the date when the scan was started</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_date</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUserSpec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileBlock.getUserSpec">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.getUserSpec">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getUserSpec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comment_lines</span>
+
+        <span class="k">if</span> <span class="n">comments</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">:</span>
+                <span class="n">mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">respecuser</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mat</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">),</span> <span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileBlock.getSpec">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.getSpec">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getSpec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the name of the spec application</span>
+<span class="sd">        from which the file was created</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUserSpec</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FileBlock.getUser">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.getUser">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getUser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the name of the unix user that created the file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUserSpec</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Header">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Header">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Header</span><span class="p">(</span><span class="n">FileBlock</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a file header.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">firstline</span><span class="p">):</span>
+        <span class="n">FileBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">firstline</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Header.end">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Header.end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Scan">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Scan</span><span class="p">(</span><span class="n">FileBlock</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scan class documentation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">firstline</span><span class="p">):</span>
+        <span class="n">FileBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">firstline</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_numberinfile</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="Scan.end">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resetParsedData</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Scan.finalizeParsing">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.finalizeParsing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">finalizeParsing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># prepare motor positions</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorNames</span><span class="p">()</span>
+        <span class="n">poss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_positions</span>
+        <span class="n">poserr</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_positions_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">ermsg</span> <span class="o">=</span> <span class="s2">&quot;no motor names&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ermsg</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">poserr</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">poss</span><span class="p">):</span>
+            <span class="n">ermsg</span> <span class="o">=</span> <span class="s2">&quot;number of motor labels and positions are different&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ermsg</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">poserr</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">poserr</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motor_positions_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">poss</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setFileHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="o">=</span> <span class="n">header</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setScanIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">idx</span>
+
+<div class="viewcode-block" id="Scan.getScanIndex">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getScanIndex">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getScanIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the position of the scan in the file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumber</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getNumber">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getNumber">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns scan number as it appeared in spec.</span>
+<span class="sd">        Remember that it could be that more than one scan</span>
+<span class="sd">        in the file will have the same number.</span>
+<span class="sd">        The scan index is the position of the scan in the file.</span>
+<span class="sd">        The scan number is the number given by spec</span>
+<span class="sd">        to the scan at the time it was executed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrder</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getOrder">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getOrder">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getOrder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns scan order for the scan. The combination</span>
+<span class="sd">        of scan number/scan order should be unique for a scan.</span>
+<span class="sd">        in a file.  The first scan with a certain number in</span>
+<span class="sd">        the file will have order 1.  If another scan in the file</span>
+<span class="sd">        uses the same number, it will be associated with order 2 and so on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setNumberInFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_numberinfile</span> <span class="o">=</span> <span class="n">number</span>
+
+<div class="viewcode-block" id="Scan.getNumberInFile">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getNumberInFile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumberInFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numberinfile</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLines</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getLines">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getLines">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getLines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns number of data lines</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getColumns">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getColumns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns number of columns from scan header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLabels</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getLabels">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getLabels">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the labels for the data columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCommand</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getCommand">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getCommand">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a string containing the command that</span>
+<span class="sd">        was run in spec to start the scan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">motor_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorNames</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getMotorNames">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getMotorNames">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMotorNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with motor names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_labels</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_labels</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_motor_labels</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_motor_labels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">motors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorMnemonics</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getMotorMnemonics">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getMotorMnemonics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMotorMnemonics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with motor mnemonics. Motor mnemonics are saved</span>
+<span class="sd">        in files only since spec version 6.0.10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_motor_mnes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_motor_mnes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">counter_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCounterNames</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getCounterNames">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getCounterNames">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getCounterNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with counter names. Counter names are saved</span>
+<span class="sd">        in files only since spec version 6.0.10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter_labels</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter_labels</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_counter_labels</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_counter_labels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">counters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCounterMnemonics</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getCounterMnemonics">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getCounterMnemonics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getCounterMnemonics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with counter mnemonics. Counter mnemonics are saved</span>
+<span class="sd">        in files only since spec version 6.0.10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter_mnes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter_mnes</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_counter_mnes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_counter_mnes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">motor_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorPositions</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getMotorPositions">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getMotorPositions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMotorPositions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary with motor names and positions.</span>
+<span class="sd">        These are the positions of the motors when the scan was started</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor_positions_list</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getUser">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getUser">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getUser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getSpec">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getSpec">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getSpec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getDate">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getDate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getDate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the date when the scan was started</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_date</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">file_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFileDate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getFileDate">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getFileDate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getFileDate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the date when the file was created</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_date</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSource</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getSource">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getSource">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getSource</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path of the file as it appears in the file header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_filename</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_filename</span>
+
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGeometry</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getGeometry">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getGeometry">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns geometry values as saved in the file.</span>
+<span class="sd">        Check the spec documentation for the meaning of these values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geo_pars</span><span class="p">]</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hkl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHKL</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getHKL">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getHKL">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getHKL</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with HKL values at the beginning of the scan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qvalue</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">file_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFileEpoch</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getFileEpoch">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getFileEpoch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getFileEpoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the epoch of the file creation. It is possible to find</span>
+<span class="sd">        the absolute epoch for any scan time by adding</span>
+<span class="sd">        the file epoch with the value in the Epoch column of the scan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fileheader</span><span class="o">.</span><span class="n">_epoch</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">count_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCountTime</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getCountTime">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getCountTime">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getCountTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list with two values: counting time and units</span>
+<span class="sd">        if time units cannot be found in file the units value is left empty</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count_time</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">comments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getComments">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getComments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getComments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns comments in the scan.</span>
+<span class="sd">        Aborted termination can be found in this way</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comment_lines</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUserLines</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getUserLines">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getUserLines">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getUserLines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_lines</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExtraLines</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getExtra">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getExtra">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getExtra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns extra lines starting with &quot;@&quot; character.</span>
+<span class="sd">        These are normally lines related with MCA data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExtraLines</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Scan.getExtraLines">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getExtraLines">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getExtraLines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extra_lines</span><span class="p">]</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMeta</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getMeta">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getMeta">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary with the most relevant metdata information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;spec&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HKL&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scanno&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;comments&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># spec and user. In fileheader comment line</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpec</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUser</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSource</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;HKL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHKL</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDate</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;scanno&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumber</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorPositions</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;motornames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorNames</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;comments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrder</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;noinfile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumberInFile</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLines</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;userlines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUserLines</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGeometry</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExtra</span><span class="p">()</span>
+
+        <span class="n">motmnes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorMnemonics</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">motmnes</span><span class="p">:</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;motormnes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMotorMnemonics</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contains_error</span><span class="p">:</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_messages</span>
+
+        <span class="k">return</span> <span class="n">meta</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getData">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getData">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a numpy array with all data in the scan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">))</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_mcas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumberMcas</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getNumberMcas">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getNumberMcas">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumberMcas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of mcas in the scan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">))</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mcas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMcas</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getMcas">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getMcas">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMcas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of 1D numpy arrays in the scan,</span>
+<span class="sd">        each of them being a spectrum from a 1D detector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">mcas</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">mcas</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_oneds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumberOneD</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Scan.getNumberOneD">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getNumberOneD">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getNumberOneD</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of OneD channels in the scan.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Scan.getOneD">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.getOneD">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getOneD</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oneds</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
+
+
+    <span class="n">get_mca</span> <span class="o">=</span> <span class="n">getOneD</span>
+    <span class="n">get_oned</span> <span class="o">=</span> <span class="n">getOneD</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setOrder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="n">order</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_parsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Scan.save">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.Scan.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mcas</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;scan.save method produces a simple output meant to export scan</span>
+<span class="sd">        data to format readable by excel and other programs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCommand</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumber</span><span class="p">()</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">append</span><span class="p">:</span>
+            <span class="n">ofd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ofd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;tabs&quot;</span><span class="p">:</span>
+            <span class="n">labsep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+            <span class="n">datsep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+            <span class="n">labsep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+            <span class="n">datsep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;spec&quot;</span><span class="p">:</span>
+            <span class="n">labsep</span> <span class="o">=</span> <span class="s2">&quot;  &quot;</span>
+            <span class="n">datsep</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="p">(</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">#S %(number)s %(command)s</span>
+<span class="sd">#N %(columns)s</span>
+<span class="sd">#L &quot;&quot;&quot;</span>
+                <span class="o">%</span> <span class="n">meta</span>
+            <span class="p">)</span>
+
+        <span class="n">ofd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="n">labsep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabels</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">outline</span> <span class="o">=</span> <span class="n">datsep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">%.12g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">row</span><span class="p">]])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">ofd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outline</span><span class="p">)</span>
+        <span class="n">ofd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="McaData">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.McaData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">McaData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class MCA data represents 1D data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calib</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calib</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCalib</span><span class="p">()</span>
+
+<div class="viewcode-block" id="McaData.getCalib">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.McaData.getCalib">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getCalib</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calib</span></div>
+
+
+    <span class="nd">@calib</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calib</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setCalib</span><span class="p">(</span><span class="n">calib</span><span class="p">)</span>
+
+<div class="viewcode-block" id="McaData.setCalib">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.McaData.setCalib">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setCalib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calib</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calib</span> <span class="o">=</span> <span class="n">calib</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+
+<div class="viewcode-block" id="McaData.getData">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.McaData.getData">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibrated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">calibrated</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calib</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calib</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="n">channels</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">indexes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_addLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">:</span>
+            <span class="n">dataline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">complete</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dataline</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="n">complete</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">dataline</span><span class="o">.</span><span class="n">split</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="n">complete</span></div>
+
+
+
+<div class="viewcode-block" id="OneD">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.OneD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OneD</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class OneD is for the one dimension channels.</span>
+<span class="sd">    It has a list of McaData objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+
+<div class="viewcode-block" id="OneD.getData">
+<a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.OneD.getData">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">mcadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">raw_data</span> <span class="o">=</span> <span class="n">mcadata</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">FileSpec</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to open file was </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  number of scans: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  file created by user </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fs</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="n">fs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scan </span><span class="si">%d</span><span class="s2"> /  &quot;</span> <span class="o">%</span> <span class="n">scan</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   count time is </span><span class="si">%s</span><span class="s2"> /  &quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">scan</span><span class="o">.</span><span class="n">count_time</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   number of points in scan: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">scan</span><span class="o">.</span><span class="n">nb_points</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   number of mcas in scan: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">scan</span><span class="o">.</span><span class="n">nb_mcas</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mca</span> <span class="ow">in</span> <span class="n">scan</span><span class="o">.</span><span class="n">mcas</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     - mca / shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">mca</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="../../../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="../../../index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyspec.file.spec</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../../../search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>

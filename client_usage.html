@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Client Usage &#8212; pyspec 0.1 documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /><link rel="stylesheet" href="_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="_static/py.svg" />
+            <script type="text/javascript" src="_static/copybutton.js"></script>
+            <script type="text/javascript" src="_static/menu.js"></script>
+            <script type="text/javascript" src="_static/search-focus.js"></script>
+            <script type="text/javascript" src="_static/themetoggle.js"></script> 
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="_static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" />
+                <input type="submit" value="Go"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Client Usage</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
+<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#connection">Connection</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#property-types">Property Types</a></li>
+<li><a class="reference internal" href="#working-with-variables-and-associative-arrays">Working with Variables and Associative Arrays</a></li>
+<li><a class="reference internal" href="#event-based-programming">Event-Based Programming</a></li>
+<li><a class="reference internal" href="#moving-motors">Moving Motors</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/client_usage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </nav>
+    </div>
+</div>
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">Client Usage</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="client-usage">
+<h1>Client Usage<a class="headerlink" href="#client-usage" title="Link to this heading">¶</a></h1>
+<p>This document provides an overview of how to use the PySpec client to interact with a SPEC server.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The PySpec client allows you to connect to a SPEC server, send commands, interact with remote properties, and subscribe to updates. It is designed for asynchronous and event-driven programming.</p>
+</section>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Client Class</strong>: The main entry point is the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class, which manages the connection to the server and provides interfaces for commands, properties, and domains.</p></li>
+<li><p><strong>Domains</strong>: The client exposes domain-specific interfaces such as <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.status" title="pyspec.client.Client.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.count" title="pyspec.client.Client.count"><code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code></a>, and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.output" title="pyspec.client.Client.output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code></a> for interacting with different parts of the SPEC data model.</p></li>
+<li><p><strong>Remote Functions and Commands</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call</span></code></a> to invoke server functions and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec</span></code></a> to execute raw commands.</p></li>
+<li><p><strong>Properties</strong>: Properties can be read, written, and subscribed to for updates. The client provides Pythonic interfaces for all property types.</p></li>
+</ul>
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="c1"># The HELLO is sent automatically when connecting.</span>
+        <span class="c1"># You can now interact with the server:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;add(1, 2) =&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="c1"># Access a SPEC variable</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Hello from client!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Domain Interfaces</strong>: Access server domains via <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.status" title="pyspec.client.Client.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.count" title="pyspec.client.Client.count"><code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code></a>, and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.output" title="pyspec.client.Client.output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code></a>.</p></li>
+<li><p><strong>Remote Function Calls</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code></a> to invoke server-side functions with arguments.</p></li>
+<li><p><strong>Raw Command Execution</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code></a> to send complex or multi-line commands to the server.</p></li>
+<li><p><strong>Property Access</strong>: Get, set, and subscribe to properties using Pythonic interfaces.</p></li>
+<li><p><strong>Associative Arrays</strong>: Access and manipulate SPEC associative arrays as Python dictionaries.</p></li>
+<li><p><strong>Event-Driven Programming</strong>: Subscribe to property changes and handle updates asynchronously.</p></li>
+</ul>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> : Main client class for connecting and interacting with the server.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Property" title="pyspec.client.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> : Represents a property that supports get, set, and subscribe.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.ReadableProperty" title="pyspec.client.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a> : Represents a read-only property.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.WritableProperty" title="pyspec.client.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a> : Represents a write-only property.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.EventStream" title="pyspec.client.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a> : Represents an event stream property.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code></a> : Call a remote function on the server.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code></a> : Execute a raw command on the server.</p></li>
+</ul>
+</section>
+<section id="connection">
+<h2>Connection<a class="headerlink" href="#connection" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class in the <a class="reference internal" href="pyspec.client.html#module-pyspec.client" title="pyspec.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyspec.client</span></code></a> subpackage provides an interface for connecting to a SPEC server and sending commands. You can create an instance of the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class and use it to connect to a server by providing the host and port information. The client uses asynchronous programming, so you will need to use <strong>async</strong> and <strong>await</strong> when working with it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="c1"># The HELLO is sent automatically when connecting.</span>
+        <span class="c1"># An error will be raised if the server does not respond with a HELLO_REPLY message.</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Link to this heading">¶</a></h2>
+<p>The core concept of the SPEC data model is the property. While connected to a SPEC server, there are 3 operations that a property can support:</p>
+<ol class="arabic simple">
+<li><p><strong>get</strong>: Get the current value of the property from the server.</p></li>
+<li><p><strong>set</strong>: Set the value of the property on the server.</p></li>
+<li><p><strong>subscribe</strong> / <strong>unsubscribe</strong>: Subscribe to updates for the property from the server. Changes will automatically be pushed to the client.</p></li>
+</ol>
+<p>Properties fall into a couple of different categories depending on which interfaces they support. Some properties are <cite>read-only</cite>, meaning that they support <strong>get</strong> and <strong>subscribe</strong>, but not <strong>set</strong>. Some properties are <cite>write-only</cite>, meaning that they support <strong>set</strong>, but not <strong>get</strong> or <strong>subscribe</strong>. Some properties are <cite>event-only</cite>, meaning that they don’t represent a single value or state, but instead a stream of events and only implement <strong>subscribe</strong>. Lastly, some properties support all interfaces. When interfacing with the <cite>Client</cite> object, you will encounter these properties through the python types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Property" title="pyspec.client.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>: A property that supports <strong>get</strong>, <strong>set</strong>, and <strong>subscribe</strong>.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.ReadableProperty" title="pyspec.client.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a>: A property that supports <strong>get</strong> and <strong>subscribe</strong>, but not <strong>set</strong>.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.WritableProperty" title="pyspec.client.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a>: A property that supports <strong>set</strong>, but not <strong>get</strong> or <strong>subscribe</strong>.</p></li>
+<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.EventStream" title="pyspec.client.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a>: A property that only supports <strong>subscribe</strong>.</p></li>
+</ul>
+</section>
+<section id="property-types">
+<h2>Property Types<a class="headerlink" href="#property-types" title="Link to this heading">¶</a></h2>
+<p>Properties in SPEC can be:</p>
+<ul class="simple">
+<li><p><strong>Read-Write-Subscribe</strong>: Full interface (get, set, subscribe) (ex. <strong>var/x</strong>).</p></li>
+<li><p><strong>Read-Only</strong>: Only get and subscribe (ex. <strong>motor/mne/position</strong>).</p></li>
+<li><p><strong>Write-Only</strong>: Only set (ex. <strong>motor/mne/start_one</strong>).</p></li>
+<li><p><strong>Event-Only</strong>: Only subscribe (stream of events) (ex. <strong>output/tty</strong>).</p></li>
+</ul>
+</section>
+<section id="working-with-variables-and-associative-arrays">
+<h2>Working with Variables and Associative Arrays<a class="headerlink" href="#working-with-variables-and-associative-arrays" title="Link to this heading">¶</a></h2>
+<p>One of the most common direct interface with properties is when accessing SPEC variables stored under <strong>var/…</strong> on the server. These can be accessed by name through the <cite>client.var</cite> interface. Variables in SPEC will implement the full read-write-subscribe interface.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt; x = &quot;This is a spec variable&quot;
+x = &quot;This is a spec variable&quot;
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a reference to the variable &#39;x&#39; on the server.</span>
+<span class="c1"># This does not retrieve the value of x,</span>
+<span class="c1"># but instead gives you an interface to interact with it.</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: &quot;This is a spec variable&quot;</span>
+</pre></div>
+</div>
+<p>Associative arrays are handled similarly:</p>
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Value at key&quot;</span>
+a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Value at key&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">a_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a[key]&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: {&quot;key&quot;: &quot;Value at key&quot;}</span>
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a_key</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: &quot;Value at key&quot;</span>
+</pre></div>
+</div>
+<p>Writing associative array values back to the server is batched by default, so to update the server, you have to do the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="c1"># Get the current value of the associative array</span>
+<span class="n">associative_array</span> <span class="o">=</span> <span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">associative_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;value at </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Write the updated associative array back to the server</span>
+<span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">associative_array</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SPEC transforms all associative array keys into strings. Keys like <cite>1</cite> and <cite>1.00000001</cite> will map to the same key.</p>
+</div>
+</section>
+<section id="event-based-programming">
+<h2>Event-Based Programming<a class="headerlink" href="#event-based-programming" title="Link to this heading">¶</a></h2>
+<p>You can subscribe to property changes and handle updates asynchronously:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>  <span class="c1"># Wait forever</span>
+</pre></div>
+</div>
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
+x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
+
+<span class="c"># The client will print:</span>
+<span class="c"># &quot;Hello&quot;</span>
+</pre></div>
+</div>
+<p>To record all changes in a list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">changes</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># &#39;changes&#39; is now a list of all values x took during those 10 seconds.</span>
+</pre></div>
+</div>
+</section>
+<section id="moving-motors">
+<h2>Moving Motors<a class="headerlink" href="#moving-motors" title="Link to this heading">¶</a></h2>
+<p>The client provides a high-level interface for moving motors on the server. You can access motors through the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.motor</span></code></a> interface and call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">move</span></code> method to move them to a specified position. The client also supports motor synchronization, allowing you to prepare multiple motor moves and execute them together.</p>
+<p>Moving individual motors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">motor_x</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Move motor x to position 10</span>
+</pre></div>
+</div>
+<p>Doing something else while the motor is moving:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">move_task</span> <span class="o">=</span> <span class="n">motor_x</span><span class="o">.</span><span class="n">start_move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># Do other things here while the motor is moving...</span>
+<span class="k">await</span> <span class="n">move_task</span>  <span class="c1"># Wait for the move to complete</span>
+</pre></div>
+</div>
+<p>Synchronizing multiple motors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">motor_y</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">synchronized_motors</span><span class="p">():</span>
+    <span class="n">motor_x</span><span class="o">.</span><span class="n">prepare_move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Prepare move for motor x</span>
+    <span class="n">motor_y</span><span class="o">.</span><span class="n">prepare_move</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Prepare move for motor y</span>
+
+    <span class="c1"># Trying to run Motor.move in this context will fail</span>
+    <span class="c1"># await motor_x.move(10)</span>
+<span class="c1"># Motion starts when we leave the context.</span>
+<span class="c1"># Both motors will now execute their moves together.</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Client Usage</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
+<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#connection">Connection</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#property-types">Property Types</a></li>
+<li><a class="reference internal" href="#working-with-variables-and-associative-arrays">Working with Variables and Associative Arrays</a></li>
+<li><a class="reference internal" href="#event-based-programming">Event-Based Programming</a></li>
+<li><a class="reference internal" href="#moving-motors">Moving Motors</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/client_usage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+          <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+              <a href="index.html">pyspec 0.1 documentation</a> &#187;
+              
+          </li>
+        <li class="nav-item nav-item-this"><a href="">Client Usage</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" aria-label="Quick search" type="search" name="q" id="search-box" />
+          <input type="submit" value="Go" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+    Copyright
+     .
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+    
+    <br />
+
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+
+  </body>
+</html>
