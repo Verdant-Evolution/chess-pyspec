@@ -31,7 +31,9 @@ jobs:
               uses: astral-sh/setup-uv@v7
 
             - name: Install cibuildwheel
-              run: uv pip install cibuildwheel
+              run: |
+                  uv sync
+                  uv pip install cibuildwheel
 
             - name: Build wheels
               run: uv run cibuildwheel --output-dir wheelhouse
