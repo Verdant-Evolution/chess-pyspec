@@ -8,7 +8,7 @@ jobs:
     build-docs:
         runs-on: ubuntu-latest
         permissions:
-            contents: read
+            contents: read-write
             pages: write
             id-token: write
         steps:
