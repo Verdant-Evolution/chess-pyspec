@@ -18,13 +18,9 @@ T = TypeVar("T", bound=ctypes.Structure)
 
 class Connection(AsyncIOEventEmitter):
     host: str
-    """
-    The host address of the connection.
-    """
+    """The host address of the connection."""
     port: int
-    """
-    The port number of the connection.
-    """
+    """The port number of the connection."""
 
     @dataclass
     class Message:
@@ -49,8 +45,9 @@ class Connection(AsyncIOEventEmitter):
         """
         Initialize a connection to a remote host.
 
-        :param host: The hostname or IP address of the remote server.
-        :param port: The port number of the remote server.
+        Args:
+            host (str): The hostname or IP address of the remote server.
+            port (int): The port number of the remote server.
         """
 
     @overload
@@ -65,8 +62,9 @@ class Connection(AsyncIOEventEmitter):
         This version should be used when the socket connection is already established
         and you just want to interface with the sockets using the protocols defined here.
 
-        :param reader: The stream reader for the connection.
-        :param writer: The stream writer for the connection.
+        Args:
+            reader (asyncio.StreamReader): The StreamReader for the connection.
+            writer (asyncio.StreamWriter): The StreamWriter for the connection.
         """
 
     def __init__(
@@ -79,8 +77,8 @@ class Connection(AsyncIOEventEmitter):
         Initialize a connection to a remote host or using an existing stream.
 
         Args:
-            host_or_reader (str | asyncio.StreamReader): Hostname or StreamReader.
-            port_or_writer (int | asyncio.StreamWriter): Port number or StreamWriter.
+            host_or_reader (str or asyncio.StreamReader): Hostname or StreamReader.
+            port_or_writer (int or asyncio.StreamWriter): Port number or StreamWriter.
         Raises:
             TypeError: If argument types are invalid.
         """
@@ -133,7 +131,7 @@ class Connection(AsyncIOEventEmitter):
         Enter the async context manager for the connection.
 
         Returns:
-            Self: The connection instance.
+            Connection: The connection instance.
         """
         self._listener = asyncio.create_task(self._listen())
         return self
@@ -153,7 +151,8 @@ class Connection(AsyncIOEventEmitter):
         """
         Sends raw data to the connected server.
 
-        :param msg: The bytes to send.
+        Args:
+            msg (bytes): The bytes to send.
         """
         assert self._writer is not None, "Connection is not established."
         self.logger.debug("Sending message: %s", msg)
@@ -164,8 +163,9 @@ class Connection(AsyncIOEventEmitter):
         """
         Sends a message to the connected server.
 
-        :param header: The header to send.
-        :param data: The data to send.
+        Args:
+            header (Header): The header to send.
+            data (DataType, optional): The data to send.
         """
         header_struct, data_bytes = protocol.serialize(
             header, data, self._peer_endianness
