@@ -447,6 +447,8 @@ def serialize(
         # we have found that its better to just keep them STRINGs, since that is what it really
         # expects. Especially if it is going to concatenate it to a string in a command, which is common.
         if isinstance(data, (int, float)):
+            # Note: This happens to convert bools to 1/0 strings.
+            # SPEC wants them in 1/0 strings anyway.
             data = f"{data:.15g}"
         data_bytes = struct.pack("{}s".format(len(data)), data.encode("utf-8"))
     elif isinstance(data, AssociativeArray):

@@ -24,6 +24,8 @@ class Server(PyspecServer):
 
     ticker = Property[int]("ticker", 0)
 
+    flag = Property[int]("flag", 0)
+
     async def tick(self):
         while True:
             await asyncio.sleep(0.01)

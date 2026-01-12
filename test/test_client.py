@@ -5,6 +5,7 @@ import asyncio
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_read_write(server_process):
     async with Client(HOST, PORT) as client:
         foo = client._property("foo", int)
@@ -14,6 +15,7 @@ async def test_client_property_read_write(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_get_next(server_process):
     async with (
         Client(HOST, PORT) as client,
@@ -25,6 +27,7 @@ async def test_client_property_get_next(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_exec_function(server_process):
     async with Client(HOST, PORT) as client:
         result = await client.call("sum", 2, 3)
@@ -32,6 +35,7 @@ async def test_client_exec_function(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_exec_command(server_process):
     async with Client(HOST, PORT) as client:
         result = await client.exec("2+2")
@@ -39,6 +43,7 @@ async def test_client_exec_command(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_wait_for(server_process):
     async with (
         Client(HOST, PORT) as client,
@@ -64,6 +69,7 @@ async def test_client_property_wait_for(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_get_when_subscribed(server_process):
     async with (
         Client(HOST, PORT) as client,
@@ -75,6 +81,7 @@ async def test_client_property_get_when_subscribed(server_process):
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_get_next_when_subscribed(server_process):
     async with (
         Client(HOST, PORT) as client,
@@ -83,3 +90,19 @@ async def test_client_property_get_next_when_subscribed(server_process):
         current_value = await ticker.get_next()
         next_value = await ticker.get_next()
         assert next_value == current_value + 1
+
+
+@pytest.mark.asyncio
+@pytest.mark.timeout(2)
+async def test_client_boolean_property(server_process):
+    async with (
+        Client(HOST, PORT) as client,
+        client._property("flag", bool).subscribed() as flag,
+    ):
+        await flag.set(True)
+        value = await flag.get()
+        assert value is True
+
+        await flag.set(False)
+        value = await flag.get()
+        assert value is False
