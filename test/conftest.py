@@ -1,11 +1,11 @@
 import asyncio
 from contextlib import suppress
 
-from pyspec.server import Server as PyspecServer, Property, remote_function
-
 import pytest_asyncio
-import time
-import pytest
+
+from pyspec.server import Property
+from pyspec.server import Server as PyspecServer
+from pyspec.server import remote_function
 
 HOST = "127.0.0.1"
 PORT = 56789
