@@ -1,6 +1,6 @@
 [project]
 name = "chess-pyspec"
-version = "1.0.1"
+version = "1.0.2"
 description = "Python SPEC modules and tools"
 license-files = ["LICENSE"]
 readme = "README.md"
