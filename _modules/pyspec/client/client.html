@@ -288,6 +288,30 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call a remote function on the server.</span>
 
+<span class="sd">        If this task raises an exception (e.g. due to a timeout),</span>
+<span class="sd">        the client will send an abort message to the server to stop the execution of the remote function.</span>
+
+<span class="sd">        A timeout can be enforced with the following patterns:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Pattern 1: Using asyncio.wait_for</span>
+<span class="sd">            try:</span>
+<span class="sd">                result = await asyncio.wait_for(</span>
+<span class="sd">                    client.call(&quot;function_name&quot;, arg1, arg2),</span>
+<span class="sd">                    timeout=5.0,  # seconds</span>
+<span class="sd">                )</span>
+<span class="sd">            except asyncio.TimeoutError:</span>
+<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
+
+
+<span class="sd">            # Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
+<span class="sd">            try:</span>
+<span class="sd">                with asyncio.timeout(5.0):  # seconds</span>
+<span class="sd">                    result = await client.call(&quot;function_name&quot;, arg1, arg2)</span>
+<span class="sd">            except asyncio.TimeoutError:</span>
+<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            function_name (str): The name of the remote function to call.</span>
 <span class="sd">            *args (str | float | int): The arguments to pass to the remote function.</span>
@@ -302,6 +326,31 @@
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a command on the server.</span>
+
+
+<span class="sd">        If this task raises an exception (e.g. due to a timeout),</span>
+<span class="sd">        the client will send an abort message to the server to stop the execution of the remote function.</span>
+
+<span class="sd">        A timeout can be enforced with the following patterns:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Pattern 1: Using asyncio.wait_for</span>
+<span class="sd">            try:</span>
+<span class="sd">                result = await asyncio.wait_for(</span>
+<span class="sd">                    client.call(&quot;function_name&quot;, arg1, arg2),</span>
+<span class="sd">                    timeout=5.0,  # seconds</span>
+<span class="sd">                )</span>
+<span class="sd">            except asyncio.TimeoutError:</span>
+<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
+
+
+<span class="sd">            # Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
+<span class="sd">            try:</span>
+<span class="sd">                with asyncio.timeout(5.0):  # seconds</span>
+<span class="sd">                    result = await client.call(&quot;function_name&quot;, arg1, arg2)</span>
+<span class="sd">            except asyncio.TimeoutError:</span>
+<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            command (str): The command to execute.</span>
