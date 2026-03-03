@@ -203,8 +203,12 @@ class ClientConnection(
 
         try:
             msg_data: DataType = await response
-        except KeyboardInterrupt:
-            await self.abort()
+        except Exception:
+            # If an exception (i.e. asyncio.TimeoutError) occurs while waiting for the reply,
+            # we should send a message to the server to abort the command.
+            if not response.done():
+                # Slightly more race condition protection.
+                await self.abort()
             raise
 
         if isinstance(msg_data, ErrorStr):
