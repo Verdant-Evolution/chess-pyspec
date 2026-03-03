@@ -200,7 +200,7 @@ class Server(AsyncIOEventEmitter, Singleton):
                     return await task
             return result
         except asyncio.CancelledError:
-            LOGGER.info("Function '%s' aborted.", name)
+            LOGGER.warning("Function '%s' aborted.", name)
             raise RuntimeError("Function execution aborted.")
 
     async def broadcast_property(self, property_name: str, value: DataType) -> None:

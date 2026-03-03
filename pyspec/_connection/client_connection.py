@@ -198,17 +198,24 @@ class ClientConnection(
         header.sequence_number = sequence_number
         response = asyncio.Future()
 
-        self.once(f"reply-{sequence_number}", response.set_result)
+        event_key = f"reply-{sequence_number}"
+        self.once(event_key, response.set_result)
         await self._send(header, data)
 
         try:
             msg_data: DataType = await response
-        except Exception:
+        except (Exception, asyncio.CancelledError) as e:
+            self.remove_listener(event_key, response.set_result)
+
+            if not isinstance(e, asyncio.CancelledError):
+                self.logger.error(
+                    "Error while waiting for reply for sequence number %d",
+                    sequence_number,
+                    exc_info=e,
+                )
             # If an exception (i.e. asyncio.TimeoutError) occurs while waiting for the reply,
             # we should send a message to the server to abort the command.
-            if not response.done():
-                # Slightly more race condition protection.
-                await self.abort()
+            await self.abort()
             raise
 
         if isinstance(msg_data, ErrorStr):

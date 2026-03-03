@@ -1,10 +1,14 @@
 import asyncio
 
 import pytest
+from conftest import HOST, PORT
+from exceptiongroup import suppress
 
+import pyspec._connection
+import pyspec._connection.connection
 from pyspec._connection import ClientConnection
 from pyspec._connection.client_connection import RemoteException
-from conftest import HOST, PORT
+from pyspec._connection.data import ErrorStr
 
 
 @pytest.mark.asyncio
@@ -85,3 +89,30 @@ async def test_command_and_function_interrupt(server_process):
         await client.abort()
         with pytest.raises(RemoteException):
             await task
+
+
+@pytest.mark.asyncio
+async def test_command_and_function_timeout(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        # This is a placeholder; actual timeout logic depends on server implementation
+
+        error_fut = asyncio.Future()
+
+        def on_msg(msg: pyspec._connection.connection.Connection.Message):
+            if isinstance(msg.data, ErrorStr):
+                with suppress(asyncio.InvalidStateError):
+                    error_fut.set_result(msg.data)
+
+        client.on("message", on_msg)
+
+        with suppress(asyncio.TimeoutError):
+            await asyncio.wait_for(
+                client.remote_func("long_running_func"),
+                timeout=0.1,
+            )
+
+        task = asyncio.create_task(client.remote_func("long_running_func"))
+
+        error_result = await asyncio.wait_for(error_fut, timeout=1)
+        assert isinstance(error_result, ErrorStr)
+        assert error_result == "Function execution aborted."
