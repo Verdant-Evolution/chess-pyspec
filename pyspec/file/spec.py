@@ -478,7 +478,7 @@ class FileBlock:
         self._motor_labels.extend(re.split(r"\s\s+", content))
 
     def addMotorMneLine(self, content, keyval=None):
-        self._motor_mnes.extend(re.split(r"\s", content))
+        self._motor_mnes.extend(re.split(r"\s+", content))
 
     def addCounterLabelLine(self, content, keyval=None):
         # Beware of double spacing
@@ -489,7 +489,7 @@ class FileBlock:
         self._counter_mnes.extend(re.split(r"\s", content))
 
     def addMotorPositionLine(self, content, keyval=None):
-        self._motor_positions.extend(content.split(" "))
+        self._motor_positions.extend(re.split(r"\s+", content))
 
     def addUserLine(self, content, keyval=None):
         self._user_lines.append(content)
