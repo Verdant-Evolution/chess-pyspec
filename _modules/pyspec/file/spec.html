@@ -687,7 +687,7 @@
 <div class="viewcode-block" id="FileBlock.addMotorMneLine">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addMotorMneLine">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">addMotorMneLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_mnes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="FileBlock.addCounterLabelLine">
@@ -707,7 +707,7 @@
 <div class="viewcode-block" id="FileBlock.addMotorPositionLine">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.spec.FileBlock.addMotorPositionLine">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">addMotorPositionLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">keyval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_positions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_positions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="FileBlock.addUserLine">
