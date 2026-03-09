@@ -479,9 +479,8 @@ class Property(ReadableProperty[T], WritableProperty[T]): ...
 
 class PropertyGroup:
 
-    _stack = AsyncExitStack()
-
     def __init__(self, prefix: str | Path, remote_property_table: RemotePropertyTable):
+        self._stack = AsyncExitStack()
         self._prefix = Path(prefix)
         self._remote_property_table = remote_property_table
 
