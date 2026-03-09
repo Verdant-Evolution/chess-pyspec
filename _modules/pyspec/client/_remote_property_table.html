@@ -683,9 +683,8 @@
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.PropertyGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PropertyGroup</span><span class="p">:</span>
 
-    <span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">:</span> <span class="n">RemotePropertyTable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prefix</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span> <span class="o">=</span> <span class="n">remote_property_table</span>
 
