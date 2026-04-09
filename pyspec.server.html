@@ -74,6 +74,7 @@
 <li><a class="reference internal" href="#pyspec.server.Server.broadcast_property"><code class="docutils literal notranslate"><span class="pre">Server.broadcast_property()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.execute_command"><code class="docutils literal notranslate"><span class="pre">Server.execute_command()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.execute_function"><code class="docutils literal notranslate"><span class="pre">Server.execute_function()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.listening_address"><code class="docutils literal notranslate"><span class="pre">Server.listening_address</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
 </ul>
 </li>
@@ -296,6 +297,12 @@ Refers to the table of remote functions built at server initialization.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspec.server.Server.listening_address">
+<span class="sig-name descname"><span class="pre">listening_address</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple[str,</span> <span class="pre">int]</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#pyspec.server.Server.listening_address" title="Link to this definition">¶</a></dt>
+<dd><p>Tuple of (host, port) that the server is listening on. Set after a client connects.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyspec.server.Server.serve_forever">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serve_forever</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.serve_forever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.serve_forever" title="Link to this definition">¶</a></dt>
@@ -346,6 +353,7 @@ Refers to the table of remote functions built at server initialization.</p>
 <li><a class="reference internal" href="#pyspec.server.Server.broadcast_property"><code class="docutils literal notranslate"><span class="pre">Server.broadcast_property()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.execute_command"><code class="docutils literal notranslate"><span class="pre">Server.execute_command()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.execute_function"><code class="docutils literal notranslate"><span class="pre">Server.execute_function()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.listening_address"><code class="docutils literal notranslate"><span class="pre">Server.listening_address</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
 </ul>
 </li>
