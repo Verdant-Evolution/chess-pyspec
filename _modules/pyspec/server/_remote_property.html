@@ -122,9 +122,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyspec.server._remote_property</h1><div class="highlight"><pre>
-<span></span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyee.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span>
@@ -201,6 +199,43 @@
             <span class="sa">f</span><span class="s2">&quot;Property &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; updated to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> and &#39;change&#39; event emitted.&quot;</span>
         <span class="p">)</span></div>
 </div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">variable_property_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build the canonical server property path for a SPEC variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/var/&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;var/&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;var/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<div class="viewcode-block" id="Variable">
+<a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Variable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Variable</span><span class="p">(</span><span class="n">Property</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a remotely accessible SPEC variable property.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): The variable name. It will be exposed as var/{name}.</span>
+<span class="sd">            Accepts: &quot;var/NAME&quot;, &quot;/var/NAME&quot;, or &quot;NAME&quot; (all will be treated as var/NAME).</span>
+<span class="sd">        initial_value (T): The initial value of the variable.</span>
+<span class="sd">        dtype (type[T] | type[object], optional): The expected data type of the variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">initial_value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="nb">object</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">variable_property_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_name</span> <span class="o">=</span> <span class="n">full_name</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;var/&quot;</span><span class="p">)</span> <span class="p">:]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 
 </pre></div>
 
