@@ -1,7 +1,7 @@
 import ast
 import asyncio
 import logging
-from typing import Any, Callable, Coroutine, TypeVar, Tuple, Union
+from typing import Any, Callable, Coroutine, Optional, TypeVar, Tuple, Union
 
 from pyspec._connection.data import DataType
 
@@ -12,6 +12,7 @@ SyncOrAsyncCallable = Union[
 ]
 
 F = TypeVar("F", bound=SyncOrAsyncCallable)
+SymbolResolver = Callable[[str], Any]
 
 
 def mark_remote_function(function: F) -> F:
@@ -52,31 +53,65 @@ def remote_function_name(function: SyncOrAsyncCallable) -> str:
     return getattr(function, "_remote_function_name", function.__name__)
 
 
-def parse_remote_function_string(function_string: str) -> Tuple[str, Tuple[str, ...]]:
+def parse_remote_function_name(function_string: str) -> str:
+    """
+    Parse only the function name from a remote function call string.
+
+    Args:
+        function_string (str): The function call string to parse.
+    Returns:
+        str: The function name.
+    """
+    try:
+        expression = ast.parse(function_string.strip(), mode="eval")
+    except SyntaxError as exc:
+        raise ValueError(f"Invalid function call string: {function_string}") from exc
+    if not isinstance(expression.body, ast.Call):
+        raise ValueError(f"Invalid function call string: {function_string}")
+    if not isinstance(expression.body.func, ast.Name):
+        raise ValueError(f"Invalid function call string: {function_string}")
+    return expression.body.func.id
+
+
+def _literal_eval_with_symbols(
+    node: ast.AST, resolve_symbol: Optional[SymbolResolver] = None
+) -> Any:
+    if resolve_symbol is not None and isinstance(node, ast.Name):
+        return resolve_symbol(node.id)
+    return ast.literal_eval(node)
+
+
+def parse_remote_function_string(
+    function_string: str, resolve_symbol: Optional[SymbolResolver] = None
+) -> Tuple[str, Tuple[Any, ...]]:
     """
     Parse a remote function call string into its name and arguments.
 
     Args:
         function_string (str): The function call string to parse.
+        resolve_symbol (SymbolResolver | None): Optional resolver for bare symbol
+            arguments, such as SPEC variable names.
     Returns:
         tuple: Tuple of function name and arguments.
     """
     function_string = function_string.strip()
-    if "(" not in function_string or not function_string.endswith(")"):
+    try:
+        expression = ast.parse(function_string, mode="eval")
+    except SyntaxError as exc:
+        raise ValueError(f"Invalid function call string: {function_string}") from exc
+
+    if not isinstance(expression.body, ast.Call):
         raise ValueError(f"Invalid function call string: {function_string}")
 
-    name, args_str = function_string[:-1].split("(", 1)
+    call = expression.body
+    if not isinstance(call.func, ast.Name) or call.keywords:
+        raise ValueError(f"Invalid function call string: {function_string}")
 
-    args_str = args_str.strip()
-    if args_str:
-        # Use ast.literal_eval to safely parse the arguments
-        # This will handle more complex argument types like strings with commas
-        # It is a safer and more constrained alternative to eval
-        args = ast.literal_eval(f"({args_str},)")
-    else:
-        args = ()
+    # Use ast.literal_eval to safely parse arguments. Bare names can optionally
+    # resolve through a caller-provided symbol table, matching SPEC variables.
+    args = tuple(_literal_eval_with_symbols(arg, resolve_symbol) for arg in call.args)
 
-    return name, args
+    return call.func.id, args
 
 
 def build_remote_function_string(

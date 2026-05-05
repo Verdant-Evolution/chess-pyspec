@@ -1,7 +1,7 @@
 import asyncio
 
 import pytest
-from conftest import HOST, PORT
+from conftest import HOST, PORT, Server
 from exceptiongroup import suppress
 
 import pyspec._connection
@@ -27,6 +27,33 @@ async def test_command_execution(server_process):
 
 
 @pytest.mark.asyncio
+async def test_command_executes_remote_function(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        result = await client.remote_cmd("sum(1, 2)")
+        assert result == 3
+
+
+@pytest.mark.asyncio
+async def test_command_executes_remote_function_with_var_symbol(server_process):
+    async with ClientConnection(HOST, PORT) as client:
+        await client.prop_set("var/TEMP", 40)
+        result = await client.remote_cmd("sum(TEMP, 2)")
+        assert result == 42
+
+
+@pytest.mark.asyncio
+async def test_command_executes_remote_function_without_remote_code_execution():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        assert server.temperature.name == "var/TEMP"
+        server.temperature.set(40)
+        result = await server.execute_command("sum(TEMP, 2)")
+        assert result == 42
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
 async def test_function_execution_success(server_process):
     async with ClientConnection(HOST, PORT) as client:
         result = await client.remote_func("sum", 1, 2)
@@ -38,6 +65,17 @@ async def test_async_function_execution_success(server_process):
     async with ClientConnection(HOST, PORT) as client:
         result = await client.remote_func("async_sum", 1, 2)
         assert result == 3
+
+
+@pytest.mark.asyncio
+async def test_function_argument_data_type_resolution():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        server.temperature.set(40)
+        result = await server.execute_function("argument_types(1.0, 2, 'x', TEMP)")
+        assert result == "float,int,str,int"
+    finally:
+        Server.dispose()
 
 
 @pytest.mark.asyncio
