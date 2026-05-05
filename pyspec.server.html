@@ -77,7 +77,6 @@
 <li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyspec.server.Variable"><code class="docutils literal notranslate"><span class="pre">Variable</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.remote_function"><code class="docutils literal notranslate"><span class="pre">remote_function()</span></code></a></li>
 </ul>
 </li>
@@ -305,23 +304,6 @@ Refers to the table of remote functions built at server initialization.</p>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="pyspec.server.Variable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'object'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_property.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Variable" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyspec.server.Property" title="pyspec.server._remote_property.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
-<p>Defines a remotely accessible SPEC variable property.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – The variable name. It will be exposed as var/{name}.
-Accepts: “var/NAME”, “/var/NAME”, or “NAME” (all will be treated as var/NAME).</p></li>
-<li><p><strong>initial_value</strong> (<em>T</em>) – The initial value of the variable.</p></li>
-<li><p><strong>dtype</strong> (<em>type</em><em>[</em><em>T</em><em>] </em><em>| </em><em>type</em><em>[</em><em>object</em><em>]</em><em>, </em><em>optional</em>) – The expected data type of the variable.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspec.server.remote_function">
 <span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">remote_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_function.html#remote_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.remote_function" title="Link to this definition">¶</a></dt>
@@ -367,7 +349,6 @@ Accepts: “var/NAME”, “/var/NAME”, or “NAME” (all will be treated as 
 <li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyspec.server.Variable"><code class="docutils literal notranslate"><span class="pre">Variable</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.server.remote_function"><code class="docutils literal notranslate"><span class="pre">remote_function()</span></code></a></li>
 </ul>
 </li>

@@ -284,9 +284,7 @@
 
 <div class="viewcode-block" id="Client.call">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.Client.call">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Property</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call a remote function on the server.</span>
 
@@ -316,8 +314,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            function_name (str): The name of the remote function to call.</span>
-<span class="sd">            *args (str | float | int | Property[Any]): The arguments to pass to the remote function.</span>
-<span class="sd">                Properties under the var/ tree are passed as remote variable symbols.</span>
+<span class="sd">            *args (str | float | int): The arguments to pass to the remote function.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the remote function call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
