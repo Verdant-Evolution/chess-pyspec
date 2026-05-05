@@ -3,7 +3,7 @@ from contextlib import suppress
 
 import pytest_asyncio
 
-from pyspec.server import Property, Variable
+from pyspec.server import Property
 from pyspec.server import Server as PyspecServer
 from pyspec.server import remote_function
 
@@ -20,17 +20,11 @@ class Server(PyspecServer):
     async def async_sum(self, a: str, b: str):
         return float(a) + float(b)
 
-    @remote_function
-    def argument_types(self, *args):
-        return ",".join(type(arg).__name__ for arg in args)
-
     foo = Property[int]("foo", 0)
 
     ticker = Property[int]("ticker", 0)
 
     flag = Property[int]("flag", 0)
-
-    temperature = Variable[int]("TEMP", 0)
 
     async def tick(self):
         while True:

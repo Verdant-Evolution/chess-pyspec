@@ -1,6 +1,5 @@
 import pytest
 from pyspec.client import Client
-from pyspec._connection.client_connection import build_remote_function_string
 from conftest import HOST, PORT
 import asyncio
 
@@ -33,26 +32,6 @@ async def test_client_exec_function(server_process):
     async with Client(HOST, PORT) as client:
         result = await client.call("sum", 2, 3)
         assert result == 5
-
-
-@pytest.mark.asyncio
-@pytest.mark.timeout(2)
-async def test_client_exec_function_with_var_property_reference(server_process):
-    async with Client(HOST, PORT) as client:
-        temp = client.var("TEMP", int)
-        await temp.set(40)
-        result = await client.call("sum", temp, 2)
-        assert result == 42
-
-
-def test_remote_function_string_uses_only_var_property_references():
-    client = Client(HOST, PORT)
-    temp = client.var("TEMP", int)
-    foo = client._property("foo", int)
-
-    assert build_remote_function_string("sum", temp, 2) == "sum(TEMP, 2)"
-    with pytest.raises(ValueError):
-        build_remote_function_string("sum", foo, 2)
 
 
 @pytest.mark.asyncio

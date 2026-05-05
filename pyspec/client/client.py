@@ -141,9 +141,7 @@ class Client(PropertyGroup):
         """
         return self._property("scaler/.all./count", bool)
 
-    async def call(
-        self, function_name: str, *args: str | float | int | Property[Any]
-    ) -> DataType:
+    async def call(self, function_name: str, *args: str | float | int) -> DataType:
         """
         Call a remote function on the server.
 
@@ -173,8 +171,7 @@ class Client(PropertyGroup):
 
         Args:
             function_name (str): The name of the remote function to call.
-            *args (str | float | int | Property[Any]): The arguments to pass to the remote function.
-                Properties under the var/ tree are passed as remote variable symbols.
+            *args (str | float | int): The arguments to pass to the remote function.
         Returns:
             DataType: The result of the remote function call.
         """
