@@ -18,6 +18,7 @@ from .._connection import ServerConnection
 from ._remote_function import (
     SyncOrAsyncCallable,
     is_remote_function,
+    parse_remote_function_name,
     parse_remote_function_string,
     remote_function_name,
 )
@@ -117,10 +118,22 @@ class Server(AsyncIOEventEmitter, Singleton):
             dict: Dictionary mapping property names to Property objects.
         """
 
-        def make_broadcaster(property_name: str) -> Callable[[Any], asyncio.Task]:
-            return lambda value: asyncio.create_task(
-                self.broadcast_property(property_name, value)
-            )
+        def property_names(prop: Property[Any]) -> tuple[str, ...]:
+            aliases = getattr(prop, "aliases", lambda: ())()
+            return (prop.name, *aliases)
+
+        def make_broadcaster(
+            property_names: tuple[str, ...],
+        ) -> Callable[[Any], asyncio.Task]:
+            async def broadcast_all(value: Any) -> None:
+                await asyncio.gather(
+                    *(
+                        self.broadcast_property(property_name, value)
+                        for property_name in property_names
+                    )
+                )
+
+            return lambda value: asyncio.create_task(broadcast_all(value))
 
         remote_properties: dict[str, Property[Any]] = {}
         for attr_name, prop in inspect.getmembers(self):
@@ -128,8 +141,10 @@ class Server(AsyncIOEventEmitter, Singleton):
                 LOGGER.debug(
                     "Registering remote property: `%s` at `%s`", attr_name, prop.name
                 )
-                prop.on("change", make_broadcaster(prop.name))
-                remote_properties[prop.name] = prop
+                names = property_names(prop)
+                prop.on("change", make_broadcaster(names))
+                for property_name in names:
+                    remote_properties[property_name] = prop
         return remote_properties
 
     @contextmanager
@@ -162,6 +177,14 @@ class Server(AsyncIOEventEmitter, Singleton):
         Raises:
             PermissionError: If not in test mode.
         """
+        try:
+            name = parse_remote_function_name(command)
+        except ValueError:
+            name = ""
+
+        if name in self._remote_functions:
+            return await self.execute_function(command)
+
         if self._allow_remote_code_execution:
             return eval(command)
         else:
@@ -174,6 +197,15 @@ class Server(AsyncIOEventEmitter, Singleton):
                 )
                 raise PermissionError("Command execution is only allowed in test mode.")
 
+    def _resolve_variable_symbol(self, symbol: str) -> DataType:
+        """
+        Resolve a bare SPEC symbol to a remote variable property value.
+        """
+        prop = self._remote_properties.get(f"var/{symbol}")
+        if prop is not None:
+            return prop.get()
+        raise ValueError(f"Variable '{symbol}' not found on server.")
+
     async def execute_function(self, function_call: str) -> DataType:
         """
         Attempts to execute a function call defined on the server.
@@ -185,7 +217,10 @@ class Server(AsyncIOEventEmitter, Singleton):
             DataType: The result of the function call.
         """
 
-        name, args = parse_remote_function_string(function_call)
+        name, args = parse_remote_function_string(
+            function_call,
+            resolve_symbol=self._resolve_variable_symbol,
+        )
         if name not in self._remote_functions:
             raise ValueError(f"Remote function '{name}' not found on server.")
 
