@@ -72,12 +72,14 @@ class Property(PropertyEventEmitter[T]):
 def variable_property_name(name: str) -> str:
     """
     Build the canonical server property path for a SPEC variable.
+
+    Leading and trailing slashes are stripped so inputs like "NAME/",
+    "/var/NAME/", and "var/NAME" all normalize to "var/NAME".
     """
-    if name.startswith("/var/"):
-        return name[1:]
-    if name.startswith("var/"):
-        return name
-    return f"var/{name}"
+    normalized_name = name.strip("/")
+    if normalized_name.startswith("var/"):
+        return normalized_name
+    return f"var/{normalized_name}"
 
 
 class Variable(Property[T]):
