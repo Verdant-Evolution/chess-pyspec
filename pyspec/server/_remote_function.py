@@ -131,8 +131,6 @@ def build_remote_function_string(
 
 
 def remote_function(function: F) -> F:
-    # TODO: Need to figure out how to type this properly
-    # Since the client will only give you strs.
     """
     Decorator to mark a function as remotely callable.
 
