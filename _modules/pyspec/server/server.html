@@ -412,7 +412,7 @@
 <span class="sd">            client_reader (asyncio.StreamReader): The stream reader for the client connection.</span>
 <span class="sd">            client_writer (asyncio.StreamWriter): The stream writer for the client connection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">host</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)</span>
+        <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">LOGGER</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">connection</span> <span class="o">=</span> <span class="n">ServerConnection</span><span class="p">(</span><span class="n">client_reader</span><span class="p">,</span> <span class="n">client_writer</span><span class="p">)</span>
 
