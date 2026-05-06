@@ -271,7 +271,7 @@ class Server(AsyncIOEventEmitter, Singleton):
             client_reader (asyncio.StreamReader): The stream reader for the client connection.
             client_writer (asyncio.StreamWriter): The stream writer for the client connection.
         """
-        host, port = client_writer.get_extra_info("peername")
+        host, port, *_ = client_writer.get_extra_info("peername")
         logger = LOGGER.getChild(f"{host}:{port}")
         connection = ServerConnection(client_reader, client_writer)
 
