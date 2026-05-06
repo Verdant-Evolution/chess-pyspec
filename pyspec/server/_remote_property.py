@@ -1,5 +1,3 @@
-
-
 import logging
 from typing import Any, Callable, Generic, Literal, TypeVar, Type, Union
 
@@ -69,3 +67,39 @@ class Property(PropertyEventEmitter[T]):
         LOGGER.debug(
             f"Property '{self.name}' updated to {value} and 'change' event emitted."
         )
+
+
+def variable_property_name(name: str) -> str:
+    """
+    Build the canonical server property path for a SPEC variable.
+
+    Leading and trailing slashes are stripped so inputs like "NAME/",
+    "/var/NAME/", and "var/NAME" all normalize to "var/NAME".
+    """
+    normalized_name = name.strip("/")
+    if normalized_name.startswith("var/"):
+        return normalized_name
+    return f"var/{normalized_name}"
+
+
+class Variable(Property[T]):
+    """
+    Defines a remotely accessible SPEC variable property.
+
+    Args:
+        name (str): The variable name. It will be exposed as var/{name}.
+            Accepts: "var/NAME", "/var/NAME", or "NAME" (all will be treated as var/NAME).
+        initial_value (T): The initial value of the variable.
+        dtype (type[T] | type[object], optional): The expected data type of the variable.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        initial_value: T,
+        dtype: Union[Type[T], Type[object]] = object,
+    ):
+
+        full_name = variable_property_name(name)
+        self.variable_name = full_name[len("var/") :]
+        super().__init__(full_name, initial_value, dtype)
