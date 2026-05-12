@@ -60,6 +60,31 @@
     </select>
 </label>
   <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.server package</a><ul>
+<li><a class="reference internal" href="#pyspec.server.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.server.Property.get"><code class="docutils literal notranslate"><span class="pre">Property.get()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Property.set"><code class="docutils literal notranslate"><span class="pre">Property.set()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.server.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.server.Server.abort"><code class="docutils literal notranslate"><span class="pre">Server.abort()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.abortable"><code class="docutils literal notranslate"><span class="pre">Server.abortable()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.broadcast_property"><code class="docutils literal notranslate"><span class="pre">Server.broadcast_property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.execute_command"><code class="docutils literal notranslate"><span class="pre">Server.execute_command()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.execute_function"><code class="docutils literal notranslate"><span class="pre">Server.execute_function()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.server.Variable"><code class="docutils literal notranslate"><span class="pre">Variable</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.remote_function"><code class="docutils literal notranslate"><span class="pre">remote_function()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="pyspec.client.html"
                           title="previous chapter">pyspec.client package</a></p>
@@ -96,6 +121,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyspec.file.html" title="pyspec.file package"
              accesskey="N">next</a> |</li>
@@ -143,8 +171,175 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="pyspec-server-package">
-<h1>pyspec.server package<a class="headerlink" href="#pyspec-server-package" title="Link to this heading">¶</a></h1>
+  <section id="module-pyspec.server">
+<span id="pyspec-server-package"></span><h1>pyspec.server package<a class="headerlink" href="#module-pyspec.server" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.server.Property">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">Property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'object'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_property.html#Property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Property" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyEventEmitter</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Defines a property that can be remotely accessed by clients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the property.</p></li>
+<li><p><strong>initial_value</strong> (<em>T</em>) – The initial value of the property.</p></li>
+<li><p><strong>dtype</strong> (<em>type</em><em>[</em><em>T</em><em>] </em><em>| </em><em>type</em><em>[</em><em>object</em><em>]</em><em>, </em><em>optional</em>) – The expected data type of the property. Defaults to object (no validation).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Property.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_property.html#Property.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Property.get" title="Link to this definition">¶</a></dt>
+<dd><p>Get the current value of the property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current value of the property.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Property.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_property.html#Property.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Property.set" title="Link to this definition">¶</a></dt>
+<dd><p>Set the value of the property and emit a change event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">T</span></code>, bound= <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AssociativeArray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ErrorStr</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>])</span>) – The new value to set.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.server.Server">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_remote_code_execution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIOEventEmitter</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Singleton</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.abort">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.abort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.abort" title="Link to this definition">¶</a></dt>
+<dd><p>Aborts all abortable tasks on the server.
+See the abortable() context manager.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.abortable">
+<span class="sig-name descname"><span class="pre">abortable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.abortable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.abortable" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager to register a task as an abortable task on the server.</p>
+<p>A task registered like this will be interrupted by ABORT commands from clients or by calling the server’s abort() method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>task</strong> (<em>asyncio.Task</em>) – The task to register as abortable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.broadcast_property">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">broadcast_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.broadcast_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.broadcast_property" title="Link to this definition">¶</a></dt>
+<dd><p>Broadcasts a property value to all connected clients that are subscribed to updates for that property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property_name</strong> (<em>str</em>) – The name of the property to broadcast.</p></li>
+<li><p><strong>value</strong> (<em>DataType</em>) – The value to broadcast.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.execute_command">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.execute_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.execute_command" title="Link to this definition">¶</a></dt>
+<dd><p>WARNING: This method allows execution of arbitrary code.
+You should not allow this to be called in production environments.</p>
+<p>Executes an arbitrary command string in test mode only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>command</strong> (<em>str</em>) – The command string to execute.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the executed command.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>PermissionError</strong> – If not in test mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.execute_function">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_call</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.execute_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.execute_function" title="Link to this definition">¶</a></dt>
+<dd><p>Attempts to execute a function call defined on the server.
+Refers to the table of remote functions built at server initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>function_call</strong> (<em>str</em>) – The function call string, e.g. “func_name(arg1, arg2)”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the function call.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspec.server.Server.serve_forever">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serve_forever</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/server.html#Server.serve_forever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Server.serve_forever" title="Link to this definition">¶</a></dt>
+<dd><p>Runs the server indefinitely.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspec.server.Variable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'object'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_property.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.Variable" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspec.server.Property" title="pyspec.server._remote_property.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Defines a remotely accessible SPEC variable property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The variable name. It will be exposed as var/{name}.
+Accepts: “var/NAME”, “/var/NAME”, or “NAME” (all will be treated as var/NAME).</p></li>
+<li><p><strong>initial_value</strong> (<em>T</em>) – The initial value of the variable.</p></li>
+<li><p><strong>dtype</strong> (<em>type</em><em>[</em><em>T</em><em>] </em><em>| </em><em>type</em><em>[</em><em>object</em><em>]</em><em>, </em><em>optional</em>) – The expected data type of the variable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.server.remote_function">
+<span class="sig-prename descclassname"><span class="pre">pyspec.server.</span></span><span class="sig-name descname"><span class="pre">remote_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/server/_remote_function.html#remote_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.server.remote_function" title="Link to this definition">¶</a></dt>
+<dd><p>Decorator to mark a function as remotely callable.</p>
+<p>Note: All inputs to the function will be received as strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>F</em>) – The function to mark as remote.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same function, marked as remote.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>F</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -154,6 +349,31 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyspec.server package</a><ul>
+<li><a class="reference internal" href="#pyspec.server.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.server.Property.get"><code class="docutils literal notranslate"><span class="pre">Property.get()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Property.set"><code class="docutils literal notranslate"><span class="pre">Property.set()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.server.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a><ul>
+<li><a class="reference internal" href="#pyspec.server.Server.abort"><code class="docutils literal notranslate"><span class="pre">Server.abort()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.abortable"><code class="docutils literal notranslate"><span class="pre">Server.abortable()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.broadcast_property"><code class="docutils literal notranslate"><span class="pre">Server.broadcast_property()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.execute_command"><code class="docutils literal notranslate"><span class="pre">Server.execute_command()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.execute_function"><code class="docutils literal notranslate"><span class="pre">Server.execute_function()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.Server.serve_forever"><code class="docutils literal notranslate"><span class="pre">Server.serve_forever()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspec.server.Variable"><code class="docutils literal notranslate"><span class="pre">Variable</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.server.remote_function"><code class="docutils literal notranslate"><span class="pre">remote_function()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="pyspec.client.html"
@@ -191,6 +411,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pyspec.file.html" title="pyspec.file package"
              >next</a> |</li>

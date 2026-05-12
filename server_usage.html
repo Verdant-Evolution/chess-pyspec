@@ -99,6 +99,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
           <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
           <li><a href="https://www.python.org/">Python</a> &#187;</li>
           <li class="switchers">
@@ -150,9 +153,9 @@
 <section id="key-concepts">
 <h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Server Class</strong>: The main entry point is the <code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code> class, which manages client connections, remote function calls, and property updates.</p></li>
-<li><p><strong>Remote Functions</strong>: Methods decorated with <code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code> are exposed to clients for remote execution.</p></li>
-<li><p><strong>Remote Properties</strong>: Properties defined using the <code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code> class can be accessed and updated remotely.</p></li>
+<li><p><strong>Server Class</strong>: The main entry point is the <a class="reference internal" href="pyspec.server.html#pyspec.server.Server" title="pyspec.server.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> class, which manages client connections, remote function calls, and property updates.</p></li>
+<li><p><strong>Remote Functions</strong>: Methods decorated with <a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a> are exposed to clients for remote execution.</p></li>
+<li><p><strong>Remote Properties</strong>: Properties defined using the <a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> class can be accessed and updated remotely.</p></li>
 <li><p><strong>Event Broadcasting</strong>: Property changes are broadcast to subscribed clients.</p></li>
 </ul>
 </section>
@@ -205,8 +208,8 @@
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Remote Function Calls</strong>: Register functions with the <code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code> decorator. Clients can call these functions remotely.</p></li>
-<li><p><strong>Remote Properties</strong>: Use the <code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code> class to define properties. Clients can get, set, and subscribe to property changes.</p></li>
+<li><p><strong>Remote Function Calls</strong>: Register functions with the <a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a> decorator. Clients can call these functions remotely.</p></li>
+<li><p><strong>Remote Properties</strong>: Use the <a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> class to define properties. Clients can get, set, and subscribe to property changes.</p></li>
 <li><p><strong>Test Mode</strong>: If <cite>test_mode=True</cite>, arbitrary code execution is allowed (for testing only).</p></li>
 <li><p><strong>Abortable Tasks</strong>: Long-running tasks can be aborted by clients.</p></li>
 </ul>
@@ -214,9 +217,9 @@
 <section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code>: Main server class. Handles connections and dispatches remote calls.</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code>: Defines a remotely accessible property.</p></li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code>: Decorator to expose methods for remote execution.</p></li>
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.Server" title="pyspec.server.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a>: Main server class. Handles connections and dispatches remote calls.</p></li>
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.Property" title="pyspec.server.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>: Defines a remotely accessible property.</p></li>
+<li><p><a class="reference internal" href="pyspec.server.html#pyspec.server.remote_function" title="pyspec.server.remote_function"><code class="xref py py-func docutils literal notranslate"><span class="pre">&#64;remote_function</span></code></a>: Decorator to expose methods for remote execution.</p></li>
 </ul>
 </section>
 <section id="notes">
@@ -277,6 +280,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
           <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
           <li><a href="https://www.python.org/">Python</a> &#187;</li>
           <li class="switchers">
