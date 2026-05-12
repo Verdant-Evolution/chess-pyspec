@@ -104,9 +104,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
           <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
           <li><a href="https://www.python.org/">Python</a> &#187;</li>
           <li class="switchers">
@@ -158,9 +155,9 @@
 <section id="key-concepts">
 <h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Client Class</strong>: The main entry point is the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class, which manages the connection to the server and provides interfaces for commands, properties, and domains.</p></li>
-<li><p><strong>Domains</strong>: The client exposes domain-specific interfaces such as <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.status" title="pyspec.client.Client.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.count" title="pyspec.client.Client.count"><code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code></a>, and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.output" title="pyspec.client.Client.output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code></a> for interacting with different parts of the SPEC data model.</p></li>
-<li><p><strong>Remote Functions and Commands</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call</span></code></a> to invoke server functions and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec</span></code></a> to execute raw commands.</p></li>
+<li><p><strong>Client Class</strong>: The main entry point is the <code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code> class, which manages the connection to the server and provides interfaces for commands, properties, and domains.</p></li>
+<li><p><strong>Domains</strong>: The client exposes domain-specific interfaces such as <code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code>, and <code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code> for interacting with different parts of the SPEC data model.</p></li>
+<li><p><strong>Remote Functions and Commands</strong>: Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call</span></code> to invoke server functions and <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec</span></code> to execute raw commands.</p></li>
 <li><p><strong>Properties</strong>: Properties can be read, written, and subscribed to for updates. The client provides Pythonic interfaces for all property types.</p></li>
 </ul>
 </section>
@@ -189,9 +186,9 @@
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Domain Interfaces</strong>: Access server domains via <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.status" title="pyspec.client.Client.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code></a>, <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.count" title="pyspec.client.Client.count"><code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code></a>, and <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.output" title="pyspec.client.Client.output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code></a>.</p></li>
-<li><p><strong>Remote Function Calls</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code></a> to invoke server-side functions with arguments.</p></li>
-<li><p><strong>Raw Command Execution</strong>: Use <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code></a> to send complex or multi-line commands to the server.</p></li>
+<li><p><strong>Domain Interfaces</strong>: Access server domains via <code class="xref py py-meth docutils literal notranslate"><span class="pre">status</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">motor</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">count</span></code>, and <code class="xref py py-meth docutils literal notranslate"><span class="pre">output</span></code>.</p></li>
+<li><p><strong>Remote Function Calls</strong>: Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code> to invoke server-side functions with arguments.</p></li>
+<li><p><strong>Raw Command Execution</strong>: Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code> to send complex or multi-line commands to the server.</p></li>
 <li><p><strong>Property Access</strong>: Get, set, and subscribe to properties using Pythonic interfaces.</p></li>
 <li><p><strong>Associative Arrays</strong>: Access and manipulate SPEC associative arrays as Python dictionaries.</p></li>
 <li><p><strong>Event-Driven Programming</strong>: Subscribe to property changes and handle updates asynchronously.</p></li>
@@ -200,18 +197,18 @@
 <section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> : Main client class for connecting and interacting with the server.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Property" title="pyspec.client.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a> : Represents a property that supports get, set, and subscribe.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.ReadableProperty" title="pyspec.client.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a> : Represents a read-only property.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.WritableProperty" title="pyspec.client.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a> : Represents a write-only property.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.EventStream" title="pyspec.client.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a> : Represents an event stream property.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client.call" title="pyspec.client.Client.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code></a> : Call a remote function on the server.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code></a> : Execute a raw command on the server.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code> : Main client class for connecting and interacting with the server.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code> : Represents a property that supports get, set, and subscribe.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code> : Represents a read-only property.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code> : Represents a write-only property.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code> : Represents an event stream property.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.call(function_name,</span> <span class="pre">*args)</span></code> : Call a remote function on the server.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec(command)</span></code> : Execute a raw command on the server.</p></li>
 </ul>
 </section>
 <section id="connection">
 <h2>Connection<a class="headerlink" href="#connection" title="Link to this heading">¶</a></h2>
-<p>The <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class in the <a class="reference internal" href="pyspec.client.html#module-pyspec.client" title="pyspec.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyspec.client</span></code></a> subpackage provides an interface for connecting to a SPEC server and sending commands. You can create an instance of the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client" title="pyspec.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> class and use it to connect to a server by providing the host and port information. The client uses asynchronous programming, so you will need to use <strong>async</strong> and <strong>await</strong> when working with it.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code> class in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyspec.client</span></code> subpackage provides an interface for connecting to a SPEC server and sending commands. You can create an instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code> class and use it to connect to a server by providing the host and port information. The client uses asynchronous programming, so you will need to use <strong>async</strong> and <strong>await</strong> when working with it.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
@@ -236,10 +233,10 @@
 </ol>
 <p>Properties fall into a couple of different categories depending on which interfaces they support. Some properties are <cite>read-only</cite>, meaning that they support <strong>get</strong> and <strong>subscribe</strong>, but not <strong>set</strong>. Some properties are <cite>write-only</cite>, meaning that they support <strong>set</strong>, but not <strong>get</strong> or <strong>subscribe</strong>. Some properties are <cite>event-only</cite>, meaning that they don’t represent a single value or state, but instead a stream of events and only implement <strong>subscribe</strong>. Lastly, some properties support all interfaces. When interfacing with the <cite>Client</cite> object, you will encounter these properties through the python types:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.Property" title="pyspec.client.Property"><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code></a>: A property that supports <strong>get</strong>, <strong>set</strong>, and <strong>subscribe</strong>.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.ReadableProperty" title="pyspec.client.ReadableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code></a>: A property that supports <strong>get</strong> and <strong>subscribe</strong>, but not <strong>set</strong>.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.WritableProperty" title="pyspec.client.WritableProperty"><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code></a>: A property that supports <strong>set</strong>, but not <strong>get</strong> or <strong>subscribe</strong>.</p></li>
-<li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.EventStream" title="pyspec.client.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a>: A property that only supports <strong>subscribe</strong>.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Property</span></code>: A property that supports <strong>get</strong>, <strong>set</strong>, and <strong>subscribe</strong>.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadableProperty</span></code>: A property that supports <strong>get</strong> and <strong>subscribe</strong>, but not <strong>set</strong>.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WritableProperty</span></code>: A property that supports <strong>set</strong>, but not <strong>get</strong> or <strong>subscribe</strong>.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code>: A property that only supports <strong>subscribe</strong>.</p></li>
 </ul>
 </section>
 <section id="property-types">
@@ -299,7 +296,7 @@ a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="
 <h2>Event-Based Programming<a class="headerlink" href="#event-based-programming" title="Link to this heading">¶</a></h2>
 <p>You can subscribe to property changes and handle updates asynchronously:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
     <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>  <span class="c1"># Wait forever</span>
 </pre></div>
@@ -321,7 +318,7 @@ x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&q
 </section>
 <section id="moving-motors">
 <h2>Moving Motors<a class="headerlink" href="#moving-motors" title="Link to this heading">¶</a></h2>
-<p>The client provides a high-level interface for moving motors on the server. You can access motors through the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.motor</span></code></a> interface and call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">move</span></code> method to move them to a specified position. The client also supports motor synchronization, allowing you to prepare multiple motor moves and execute them together.</p>
+<p>The client provides a high-level interface for moving motors on the server. You can access motors through the <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.motor</span></code> interface and call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">move</span></code> method to move them to a specified position. The client also supports motor synchronization, allowing you to prepare multiple motor moves and execute them together.</p>
 <p>Moving individual motors:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 <span class="k">await</span> <span class="n">motor_x</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Move motor x to position 10</span>
@@ -405,9 +402,6 @@ x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&q
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
           <li><img src="_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
           <li><a href="https://www.python.org/">Python</a> &#187;</li>
           <li class="switchers">
