@@ -329,10 +329,10 @@ async def synchronized_motors(
 
     .. code-block:: python
 
-        async with client_connection.synchronized_motors():
+        async with client.synchronized_motors():
             # Motor movement will be held in here.
-            motor1.move(position)
-            motor2.move(position)
+            motor1.prepare_move(position)
+            motor2.prepare_move(position)
 
             # Motors will not start moving yet.
             await asyncio.sleep(1)  # Simulate other operations
