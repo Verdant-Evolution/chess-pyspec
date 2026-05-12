@@ -64,9 +64,9 @@ async def test_status():
     async with Client("localhost", SERVER_PORT) as client:
         status = client.status()
         async with status:
-            assert await status.ready.get(), "ready"
-            assert not await status.shell.get(), "its a shell"
-            assert not await status.simulate.get(), "its not simulation mode"
+            assert await status.ready.get(), "expected status.ready == True"
+            assert not await status.shell.get(), "expected status.shell == False"
+            assert not await status.simulate.get(), "expected status.simulate == False"
 
 
 @pytest.mark.asyncio
