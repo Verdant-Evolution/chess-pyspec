@@ -140,15 +140,10 @@ class Server(AsyncIOEventEmitter, Singleton):
                 LOGGER.debug(
                     "Registering remote property: `%s` at `%s`", attr_name, prop.name
                 )
-<<<<<<< HEAD
-                prop.on("update", make_broadcaster(prop.name))
-                remote_properties[prop.name] = prop
-=======
                 names = property_names(prop)
                 prop.on("update", make_broadcaster(names))
                 for property_name in names:
                     remote_properties[property_name] = prop
->>>>>>> 16f80b4 (Resolve CMDs to explicitly exposed remote function calls if possible.)
         return remote_properties
 
     @contextmanager
