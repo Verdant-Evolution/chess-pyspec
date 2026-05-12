@@ -245,7 +245,9 @@ class Client(PropertyGroup):
         Raises:
             RuntimeError: If there are pending motor motions from a previous context.
         """
-        async with synchronized_motors(self._connection, timeout=timeout):
+        async with synchronized_motors(
+            self._connection, self._remote_property_table, timeout=timeout
+        ):
             yield
 
 

@@ -1,5 +1,6 @@
 import asyncio
-from collections import Iterable, defaultdict
+import weakref
+from collections.abc import Iterable
 from contextlib import AsyncExitStack, asynccontextmanager
 from typing import AsyncContextManager, Literal, Optional, overload
 
@@ -216,7 +217,7 @@ class Motor(PropertyGroup):
             position (float): The target position to move the motor to.
         """
 
-        if _SYNCHRONIZING_MOTORS[self._client_connection]:
+        if _SYNCHRONIZING_MOTORS.get(self._client_connection, False):
             raise RuntimeError(
                 "Cannot start move when synchronizing motors. Use prepare_move instead."
             )
@@ -248,14 +249,15 @@ class Motor(PropertyGroup):
         Args:
             position (float): The target position to move the motor to.
         """
-        if not _SYNCHRONIZING_MOTORS[self._client_connection]:
+        if not _SYNCHRONIZING_MOTORS.get(self._client_connection, False):
             raise RuntimeError("Cannot prepare move when not synchronizing motors")
 
-        if self.name in _PENDING_MOTIONS[self._client_connection]:
+        pending_motions = _PENDING_MOTIONS.setdefault(self._client_connection, {})
+        if self.name in pending_motions:
             raise RuntimeError(
                 f"Motor {self.name} already has a pending motion in this synchronization context."
             )
-        _PENDING_MOTIONS[self._client_connection][self.name] = (self, position)
+        pending_motions[self.name] = position
 
     @overload
     async def search(self, how: Literal["home", "home+", "home-"], home_pos: float): ...
@@ -307,9 +309,11 @@ class Motor(PropertyGroup):
         await self._limits.set(f"{low_limit} {high_limit}")
 
 
-_SYNCHRONIZING_MOTORS: dict[ClientConnection, bool] = defaultdict(bool)
-_PENDING_MOTIONS: dict[ClientConnection, dict[str, tuple[Motor, float]]] = defaultdict(
-    dict
+_SYNCHRONIZING_MOTORS: weakref.WeakKeyDictionary[ClientConnection, bool] = (
+    weakref.WeakKeyDictionary()
+)
+_PENDING_MOTIONS: weakref.WeakKeyDictionary[ClientConnection, dict[str, float]] = (
+    weakref.WeakKeyDictionary()
 )
 
 
@@ -323,7 +327,10 @@ async def enter_all(contexts: Iterable[AsyncContextManager]):
 
 @asynccontextmanager
 async def synchronized_motors(
-    client_connection: ClientConnection, *, timeout: Optional[float] = None
+    client_connection: ClientConnection,
+    remote_property_table: RemotePropertyTable,
+    *,
+    timeout: Optional[float] = None,
 ):
     """
     Context manager to enable synchronized motor operations for the client.
@@ -353,33 +360,39 @@ async def synchronized_motors(
     Raises:
         RuntimeError: If there are pending motor motions from a previous context.
     """
-    assert not _SYNCHRONIZING_MOTORS[client_connection], (
+    assert not _SYNCHRONIZING_MOTORS.get(client_connection, False), (
         "Concurrent synchronized_motors contexts are not allowed."
     )
 
     motion_started = False
     try:
-        if len(_PENDING_MOTIONS[client_connection]) > 0:
+        if len(_PENDING_MOTIONS.get(client_connection, {})) > 0:
             raise RuntimeError(
                 "There are pending motor motions from a previous synchronized_motors context."
             )
         _SYNCHRONIZING_MOTORS[client_connection] = True
+        _PENDING_MOTIONS[client_connection] = {}
 
         # Give control back to user.
         yield
 
-        async with enter_all(
-            (
-                m.moving.wait_for(False, timeout=timeout)
-                for m, _p in _PENDING_MOTIONS[client_connection].values()
+        pending_motions = _PENDING_MOTIONS[client_connection]
+
+        @asynccontextmanager
+        async def wait_for_move_done(mne: str):
+            moving = remote_property_table.readonly_property(
+                f"motor/{mne}/move_done", bool
             )
-        ):
+            async with moving.subscribed(), moving.wait_for(False, timeout=timeout):
+                yield
+
+        async with enter_all((wait_for_move_done(mne) for mne in pending_motions)):
             # Start the prestart message
             motion_started = True
             await client_connection.prop_set("motor/../prestart_all", None)
 
             # Append the individual motor commands
-            for mne, (_motor, position) in _PENDING_MOTIONS[client_connection].items():
+            for mne, position in pending_motions.items():
                 client_connection.logger.info(
                     "Starting synchronized move for `%s` to position %s.",
                     mne,
@@ -399,5 +412,5 @@ async def synchronized_motors(
             await client_connection.prop_set("motor/../abort_all", None)
         raise
     finally:
-        _SYNCHRONIZING_MOTORS[client_connection] = False
-        _PENDING_MOTIONS[client_connection].clear()
+        _SYNCHRONIZING_MOTORS.pop(client_connection, None)
+        _PENDING_MOTIONS.pop(client_connection, None)
