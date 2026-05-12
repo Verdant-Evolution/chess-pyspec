@@ -251,7 +251,11 @@ class Motor(PropertyGroup):
         if not _SYNCHRONIZING_MOTORS[self._client_connection]:
             raise RuntimeError("Cannot prepare move when not synchronizing motors")
 
-        _PENDING_MOTIONS[self._client_connection][self] = position
+        if self.name in _PENDING_MOTIONS[self._client_connection]:
+            raise RuntimeError(
+                f"Motor {self.name} already has a pending motion in this synchronization context."
+            )
+        _PENDING_MOTIONS[self._client_connection][self.name] = (self, position)
 
     @overload
     async def search(self, how: Literal["home", "home+", "home-"], home_pos: float): ...
@@ -304,7 +308,9 @@ class Motor(PropertyGroup):
 
 
 _SYNCHRONIZING_MOTORS: dict[ClientConnection, bool] = defaultdict(bool)
-_PENDING_MOTIONS: dict[ClientConnection, dict[Motor, float]] = defaultdict(dict)
+_PENDING_MOTIONS: dict[ClientConnection, dict[str, tuple[Motor, float]]] = defaultdict(
+    dict
+)
 
 
 @asynccontextmanager
@@ -365,7 +371,7 @@ async def synchronized_motors(
         async with enter_all(
             (
                 m.moving.wait_for(False, timeout=timeout)
-                for m in _PENDING_MOTIONS[client_connection].keys()
+                for m, _p in _PENDING_MOTIONS[client_connection].values()
             )
         ):
             # Start the prestart message
@@ -373,8 +379,7 @@ async def synchronized_motors(
             await client_connection.prop_set("motor/../prestart_all", None)
 
             # Append the individual motor commands
-            for motor, position in _PENDING_MOTIONS[client_connection].items():
-                mne = motor.name
+            for mne, (_motor, position) in _PENDING_MOTIONS[client_connection].items():
                 client_connection.logger.info(
                     "Starting synchronized move for `%s` to position %s.",
                     mne,
