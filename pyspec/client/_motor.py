@@ -364,7 +364,7 @@ async def synchronized_motors(
 
         async with enter_all(
             (
-                m.moving.wait_for(False)
+                m.moving.wait_for(False, timeout=timeout)
                 for m in _PENDING_MOTIONS[client_connection].keys()
             )
         ):
