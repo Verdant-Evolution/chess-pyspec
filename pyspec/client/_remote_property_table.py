@@ -8,7 +8,7 @@ from contextlib import AsyncExitStack, asynccontextmanager
 from pathlib import Path
 from typing import (
     Any,
-    AsyncIterator,
+    AsyncGenerator,
     Awaitable,
     Callable,
     Generic,
@@ -23,7 +23,6 @@ from typing_extensions import Self
 from pyspec._connection import ClientConnection
 from pyspec._connection.associative_array import (
     AssociativeArray,
-    get_associative_array_key,
     pack_associative_array_element,
     unpack_associative_array_element,
 )
@@ -153,9 +152,9 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         Returns:
             DataType: The next value of the property.
         """
-        assert self.is_subscribed(
-            property_name
-        ), "Property must be watched to read next value."
+        assert self.is_subscribed(property_name), (
+            "Property must be watched to read next value."
+        )
 
         future = asyncio.Future()
         self.once(f"property-{property_name}", lambda value: future.set_result(value))
@@ -292,7 +291,7 @@ class EventStream(_PropertyBase[T]):
         coerce (Callable[[DataType], T], optional): Optional function to coerce the data to a specific type.
     """
 
-    EventType = Literal["change", "event"]
+    EventType = Literal["update", "event"]
 
     _subscriber_depth = 0
 
@@ -316,10 +315,10 @@ class EventStream(_PropertyBase[T]):
                 ) from e
         return cast(T, value)
 
-    def _emit_change(self, value: T) -> None:
+    def _emit_update(self, value: T) -> None:
         try:
             value = self._cast_value(value)
-            self._emitter.emit("change", value)
+            self._emitter.emit("update", value)
         except TypeError:
             LOGGER.error(
                 "Received value of incorrect type for property '%s': expected %s, got %s",
@@ -381,11 +380,11 @@ class EventStream(_PropertyBase[T]):
                 future.set_result(None)
 
         def on_done(*args, **kwargs) -> None:
-            self.remove_listener("change", check_value)
+            self.remove_listener("update", check_value)
 
         future.add_done_callback(on_done)
 
-        self.on("change", check_value)
+        self.on("update", check_value)
         return ContextWaiter(asyncio.wait_for(future, timeout))
 
     def is_subscribed(self) -> bool:
@@ -400,7 +399,7 @@ class EventStream(_PropertyBase[T]):
     @asynccontextmanager
     async def subscribed(
         self,
-    ) -> AsyncIterator[Self]:
+    ) -> AsyncGenerator[Self]:
         """
         Context manager that subscribes to the property for the duration of the context.
 
@@ -413,11 +412,11 @@ class EventStream(_PropertyBase[T]):
         def skip_first_emit_change(value: T) -> None:
             # This shenanigans is necessary to preserve change semantics.
             # The initial value of the property is sent back immediately upon subscribing as an "event".
-            # We don't want to call that a "change" at this level, so we don't emit that.
+            # We don't want to call that a "update" at this level, so we don't emit that.
             # The initialized value is of course still available from read() at any time.
             nonlocal initialized
             if initialized:
-                self._emit_change(value)
+                self._emit_update(value)
             initialized = True
 
         try:
@@ -478,7 +477,6 @@ class Property(ReadableProperty[T], WritableProperty[T]): ...
 
 
 class PropertyGroup:
-
     def __init__(self, prefix: str | Path, remote_property_table: RemotePropertyTable):
         self._stack = AsyncExitStack()
         self._prefix = Path(prefix)

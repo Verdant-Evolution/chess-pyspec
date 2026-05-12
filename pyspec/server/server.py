@@ -63,7 +63,6 @@ class ServerException(Exception):
 
 
 class Server(AsyncIOEventEmitter, Singleton):
-
     def __init__(
         self,
         host: str = "localhost",
@@ -118,20 +117,11 @@ class Server(AsyncIOEventEmitter, Singleton):
             dict: Dictionary mapping property names to Property objects.
         """
 
-        def property_names(prop: Property[Any]) -> tuple[str, ...]:
-            aliases = getattr(prop, "aliases", lambda: ())()
-            return (prop.name, *aliases)
-
         def make_broadcaster(
-            property_names: tuple[str, ...],
+            name: str,
         ) -> Callable[[Any], asyncio.Task]:
             async def broadcast_all(value: Any) -> None:
-                await asyncio.gather(
-                    *(
-                        self.broadcast_property(property_name, value)
-                        for property_name in property_names
-                    )
-                )
+                await self.broadcast_property(name, value)
 
             return lambda value: asyncio.create_task(broadcast_all(value))
 
@@ -141,10 +131,8 @@ class Server(AsyncIOEventEmitter, Singleton):
                 LOGGER.debug(
                     "Registering remote property: `%s` at `%s`", attr_name, prop.name
                 )
-                names = property_names(prop)
-                prop.on("change", make_broadcaster(names))
-                for property_name in names:
-                    remote_properties[property_name] = prop
+                prop.on("update", make_broadcaster(prop.name))
+                remote_properties[prop.name] = prop
         return remote_properties
 
     @contextmanager

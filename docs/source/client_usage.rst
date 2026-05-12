@@ -71,7 +71,7 @@ The :py:class:`Client <pyspec.client.Client>` class in the :py:mod:`pyspec.clien
 .. code-block:: python
 
     from pyspec.client import Client
-    
+
     async def main():
         async with Client(host='localhost', port=6510) as client:
             # The HELLO is sent automatically when connecting.
@@ -129,7 +129,7 @@ Example:
 
 .. code-block:: python
 
-    # Get a reference to the variable 'x' on the server. 
+    # Get a reference to the variable 'x' on the server.
     # This does not retrieve the value of x,
     # but instead gives you an interface to interact with it.
     x = client.var('x')
@@ -159,12 +159,12 @@ Writing associative array values back to the server is batched by default, so to
 
     a = client.var('a')
     # Get the current value of the associative array
-    associative_array = await a.get()  
+    associative_array = await a.get()
     for i in range(10):
         associative_array[i] = f"value at {i}"
 
     # Write the updated associative array back to the server
-    await a.set(associative_array)  
+    await a.set(associative_array)
 
 .. note::
    SPEC transforms all associative array keys into strings. Keys like `1` and `1.00000001` will map to the same key.
@@ -177,7 +177,7 @@ You can subscribe to property changes and handle updates asynchronously:
 .. code-block:: python
 
     x = client.var('x')
-    x.on("change", print)
+    x.on("update", print)
     async with x.subscribed():
         await asyncio.Future()  # Wait forever
 

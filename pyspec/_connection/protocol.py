@@ -42,20 +42,19 @@ import struct
 import time
 from dataclasses import dataclass
 from typing import Literal, TypeVar, Union
-from .flag import Flag
 
 import numpy as np
 
-from .command import Command
 from .associative_array import AssociativeArray, try_cast
+from .command import Command
 from .data import (
     NATIVE_ENDIANNESS,
-    AssociativeArray,
     DataType,
     ErrorStr,
     Type,
     with_endianness,
 )
+from .flag import Flag
 
 LOGGER = logging.getLogger("pyspec.protocol")
 
