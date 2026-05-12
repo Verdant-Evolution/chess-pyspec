@@ -243,20 +243,11 @@
 <span class="sd">            dict: Dictionary mapping property names to Property objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">property_names</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="n">Property</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-            <span class="n">aliases</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="s2">&quot;aliases&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">())()</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">aliases</span><span class="p">)</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">make_broadcaster</span><span class="p">(</span>
-            <span class="n">property_names</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">]:</span>
             <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">broadcast_all</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
-                    <span class="o">*</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">broadcast_property</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">property_name</span> <span class="ow">in</span> <span class="n">property_names</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">broadcast_all</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
@@ -266,10 +257,8 @@
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="s2">&quot;Registering remote property: `</span><span class="si">%s</span><span class="s2">` at `</span><span class="si">%s</span><span class="s2">`&quot;</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">)</span>
-                <span class="n">names</span> <span class="o">=</span> <span class="n">property_names</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
-                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">property_name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-                    <span class="n">remote_properties</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">remote_properties</span><span class="p">[</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop</span>
         <span class="k">return</span> <span class="n">remote_properties</span>
 
 <div class="viewcode-block" id="Server.abortable">
