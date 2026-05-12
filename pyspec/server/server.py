@@ -62,7 +62,6 @@ class ServerException(Exception):
 
 
 class Server(AsyncIOEventEmitter, Singleton):
-
     def __init__(
         self,
         host: str = "localhost",
@@ -128,7 +127,7 @@ class Server(AsyncIOEventEmitter, Singleton):
                 LOGGER.debug(
                     "Registering remote property: `%s` at `%s`", attr_name, prop.name
                 )
-                prop.on("change", make_broadcaster(prop.name))
+                prop.on("update", make_broadcaster(prop.name))
                 remote_properties[prop.name] = prop
         return remote_properties
 

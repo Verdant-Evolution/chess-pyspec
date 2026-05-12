@@ -1,9 +1,10 @@
-import pytest
+import asyncio
 import os
+
+import pytest
+
 import pyspec
 from pyspec import Client
-import asyncio
-
 from pyspec._connection.associative_array import AssociativeArray
 from pyspec.client import Property
 
@@ -25,22 +26,22 @@ async def test_connect():
 @pytest.mark.asyncio
 async def test_var_read_write():
     async with Client("localhost", SERVER_PORT) as client:
-        test_var = client.var("test_var")
-        await test_var.set(123)
-        value = await test_var.get()
+        H = client.var("H")
+        await H.set(123)
+        value = await H.get()
         assert value == 123
 
 
 @pytest.mark.asyncio
 async def test_var_subscribe():
     async with Client("localhost", SERVER_PORT) as client:
-        async with client.var("test_var").subscribed() as test_var:
-            await test_var.set(10)
+        async with client.var("H").subscribed() as H:
+            await H.set(10)
 
-            async with test_var.wait_for(123):
-                await client.exec("test_var = 123")
+            async with H.wait_for(123):
+                await client.exec("H = 123")
 
-            assert await test_var.get() == 123
+            assert await H.get() == 123
 
 
 @pytest.mark.asyncio
@@ -63,20 +64,20 @@ async def test_status():
     async with Client("localhost", SERVER_PORT) as client:
         status = client.status()
         async with status:
-            assert await status.ready.get()
-            assert not await status.shell.get()
-            assert await status.simulate.get()
+            assert await status.ready.get(), "ready"
+            assert not await status.shell.get(), "its a shell"
+            assert not await status.simulate.get(), "its not simulation mode"
 
 
 @pytest.mark.asyncio
 async def test_motor():
     async with Client("localhost", SERVER_PORT) as client:
-        s0v = client.motor("s0v")
-        async with s0v:
+        m0 = client.motor("m0")
+        async with m0:
             await asyncio.sleep(1)
-            current_position = await s0v.position.get()
-            await s0v.move(-current_position)
-        assert await s0v.position.get() == -current_position
+            current_position = await m0.position.get()
+            await m0.move(-current_position)
+        assert await m0.position.get() == -current_position
 
 
 @pytest.mark.asyncio
@@ -89,66 +90,67 @@ async def test_sync_motors():
 
     sR      1    0.00  2 HELLO
     sW      1    0.00  2 HELLO_REPLY      spec                            spec
-    sR      0    0.05  2 REGISTER         motor/xrfx/move_done
-    sW      0   56.79  2 EVENT            motor/xrfx/dial_position        -24.40375
-    sR      0    0.02  2 REGISTER         motor/xrfx/position
-    sW      0    0.00  2 EVENT            motor/xrfx/move_done            0
-    sW      0    0.00  2 EVENT            motor/xrfx/position             25.000001373291
-    sR      0    0.04  2 REGISTER         motor/xrfz/move_done
-    sW      0    0.00  2 EVENT            motor/xrfz/move_done            0
-    sR      0    0.04  2 REGISTER         motor/xrfz/position
-    sW      0    0.01  2 EVENT            motor/xrfz/position             326.000000610352
-    sR      2    0.15  2 CHAN_READ        motor/xrfx/position
-    sW      2    0.01  2 REPLY            motor/xrfx/position             25.000001373291
+    sR      0    0.05  2 REGISTER         motor/m0/move_done
+    sW      0   56.79  2 EVENT            motor/m0/dial_position        -24.40375
+    sR      0    0.02  2 REGISTER         motor/m0/position
+    sW      0    0.00  2 EVENT            motor/m0/move_done            0
+    sW      0    0.00  2 EVENT            motor/m0/position             25.000001373291
+    sR      0    0.04  2 REGISTER         motor/m1/move_done
+    sW      0    0.00  2 EVENT            motor/m1/move_done            0
+    sR      0    0.04  2 REGISTER         motor/m1/position
+    sW      0    0.01  2 EVENT            motor/m1/position             326.000000610352
+    sR      2    0.15  2 CHAN_READ        motor/m0/position
+    sW      2    0.01  2 REPLY            motor/m0/position             25.000001373291
     sR      0  113.65  2 CHAN_SEND        motor/../prestart_all
-    sR      0    0.36  2 CHAN_SEND        motor/xrfx/start_one            26
-    sR      0    0.12  2 CHAN_SEND        motor/xrfz/start_one            325
+    sR      0    0.36  2 CHAN_SEND        motor/m0/start_one            26
+    sR      0    0.12  2 CHAN_SEND        motor/m1/start_one            325
     sR      0    0.08  2 CHAN_SEND        motor/../start_all
-    sW      0  122.03  2 EVENT            motor/xrfx/move_done            1
-    sW      0    1.62  2 EVENT            motor/xrfz/move_done            1
-    sW      0    0.02  2 EVENT            motor/xrfx/position             25.000751373291
-    sW      0    0.01  2 EVENT            motor/xrfz/position             325.999063110352
-    sW      0    0.09  2 EVENT            motor/xrfx/position             26.000001373291
-    sW      0    0.00  2 EVENT            motor/xrfx/move_done            0
-    sW      0    0.05  2 EVENT            motor/xrfz/position             324.987875610352
-    sW      0    0.03  2 EVENT            motor/xrfz/position             325.000000610352
-    sW      0    0.02  2 EVENT            motor/xrfz/move_done            0
+    sW      0  122.03  2 EVENT            motor/m0/move_done            1
+    sW      0    1.62  2 EVENT            motor/m1/move_done            1
+    sW      0    0.02  2 EVENT            motor/m0/position             25.000751373291
+    sW      0    0.01  2 EVENT            motor/m1/position             325.999063110352
+    sW      0    0.09  2 EVENT            motor/m0/position             26.000001373291
+    sW      0    0.00  2 EVENT            motor/m0/move_done            0
+    sW      0    0.05  2 EVENT            motor/m1/position             324.987875610352
+    sW      0    0.03  2 EVENT            motor/m1/position             325.000000610352
+    sW      0    0.02  2 EVENT            motor/m1/move_done            0
     """
 
     async with Client("localhost", SERVER_PORT) as client:
-        xrfx = client.motor("xrfx")
-        xrfz = client.motor("xrfz")
+        m0 = client.motor("m0")
+        m1 = client.motor("m1")
 
-        xrfx_target = 26
-        xrfz_target = 325
+        m0_target = 26
+        m1_target = 150
 
-        async with xrfx, xrfz:
+        async with m0, m1:
             with pytest.raises(
                 RuntimeError, match="Cannot prepare move when not synchronizing motors"
             ):
-                xrfx.prepare_move(xrfx_target)
-                xrfz.prepare_move(xrfz_target)
+                m0.prepare_move(m0_target)
+                m1.prepare_move(m1_target)
 
             async with client.synchronized_motors():
                 with pytest.raises(
                     RuntimeError, match="Cannot start move when synchronizing motors"
                 ):
-                    await xrfx.move(xrfx_target)
-                    await xrfz.move(xrfz_target)
+                    await m0.move(m0_target)
+                    await m1.move(m1_target)
 
-                xrfx.prepare_move(xrfx_target)
-                xrfz.prepare_move(xrfz_target)
+                m0.prepare_move(m0_target)
+                m1.prepare_move(m1_target)
 
             # Note: There appears to be a bug in server mode simulation where the motor position
             # event doesn't actually get updated. So these tests might fail in with SIMULATION mode on.
-            assert pytest.approx(xrfx_target, rel=1e-3) == await xrfx.position.get()
-            assert pytest.approx(xrfz_target, rel=1e-3) == await xrfz.position.get()
+            assert pytest.approx(m0_target, rel=1e-3) == await m0.position.get()
+            assert pytest.approx(m1_target, rel=1e-3) == await m1.position.get()
 
 
 @pytest.mark.asyncio
 async def test_associative_array_index():
     async with Client("localhost", SERVER_PORT) as client:
-        x = client.var("x[1]")
+        await client.exec("__X = [ 1:0 ]")
+        x = client.var("__X[1]")
         await x.set("one")
         assert await x.get() == "one"
         await x.set("two")
@@ -158,7 +160,8 @@ async def test_associative_array_index():
 @pytest.mark.asyncio
 async def test_associative_array_multi_index():
     async with Client("localhost", SERVER_PORT) as client:
-        x = client.var("x[1][2]")
+        await client.exec("__X = [1:2:0]")
+        x = client.var("__X[1][2]")
         await x.set("one two")
         assert await x.get() == "one two"
         await x.set("three four")
@@ -168,7 +171,7 @@ async def test_associative_array_multi_index():
 @pytest.mark.asyncio
 async def test_associative_array():
     async with Client("localhost", SERVER_PORT) as client:
-        x: Property[AssociativeArray] = client.var("x")
+        x: Property[AssociativeArray] = client.var("__X")
         xv = await x.get()
         assert isinstance(xv, AssociativeArray)
 

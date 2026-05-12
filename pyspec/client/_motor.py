@@ -1,8 +1,15 @@
-from typing import Literal, Optional, overload
-from pyspec._connection import ClientConnection
 import asyncio
+from collections import Iterable, defaultdict
+from contextlib import AsyncExitStack, asynccontextmanager
+from typing import AsyncContextManager, Literal, Optional, overload
 
-from ._remote_property_table import PropertyGroup, RemotePropertyTable, WritableProperty
+from pyspec._connection import ClientConnection
+
+from ._remote_property_table import (
+    PropertyGroup,
+    RemotePropertyTable,
+    WritableProperty,
+)
 
 
 class Motor(PropertyGroup):
@@ -30,19 +37,19 @@ class Motor(PropertyGroup):
         self.position = self._readonly_property("position", float)
         """
         motor/{mne}/position
-            on("change"): Sent when the dial position or user offset changes.
+            on("update"): Sent when the dial position or user offset updates.
             get: Returns the current motor position in user units.
             set: Sets the user offset on the server.
         """
         self.dial_position = self._property("dial_position", float)
         """
         motor/{mne}/dial_position
-            on("change"): Sent when the dial position changes.
+            on("update"): Sent when the dial position updates.
             get: Returns the current motor position in dial units.
             set: Sets the dial position on the server by pushing a
 
                 .. code-block:: none
-                
+
                     set_dial mne data\\n
 
                 onto the command queue, unless the dial position is already set to that value.
@@ -50,12 +57,12 @@ class Motor(PropertyGroup):
         self.offset = self._property("offset", float)
         """
         motor/{mne}/offset
-            on("change"): Sent when the offset changes.
+            on("update"): Sent when the offset updates.
             get: Returns the current user offset in dial units.
             set: Sets the user offset by pushing the
 
                 .. code-block:: none
-                
+
                     set mne value\\n
 
                 command onto the command queue, unless the offset is already at the value.
@@ -65,19 +72,19 @@ class Motor(PropertyGroup):
         self.step_size = self._readonly_property("step_size", float)
         """
         motor/{mne}/step_size
-            on("change"): Sent when the steps-per-unit parameter changes.
+            on("update"): Sent when the steps-per-unit parameter updates.
             get: Returns the current steps-per-unit parameter.
         """
         self.sign = self._readonly_property("sign", int)
         """
         motor/{mne}/sign
-            on("change"): Sent when the sign-of-user*dial parameter changes.
+            on("update"): Sent when the sign-of-user*dial parameter updates.
             get: Returns the current sign-of-user*dial parameter.
         """
         self.moving = self._readonly_property("move_done", bool)
         """
         motor/{mne}/move_done
-            on("change"): Sent when moving starts (True) and stops (False).
+            on("update"): Sent when moving starts (True) and stops (False).
             get: True if the motor is busy, otherwise False.
 
         Note: This does seem a little backwards from the name of the SPEC prop.
@@ -85,36 +92,36 @@ class Motor(PropertyGroup):
         self.high_lim_hit = self._readonly_property("high_lim_hit", bool)
         """
         motor/{mne}/high_lim_hit
-            on("change"): Sent when the high-limit switch has been hit.
+            on("update"): Sent when the high-limit switch has been hit.
             get: True if the high-limit switch has been hit.
         """
         self.low_lim_hit = self._readonly_property("low_lim_hit", bool)
         """
         motor/{mne}/low_lim_hit
-            on("change"): Sent when the low-limit switch has been hit.
+            on("update"): Sent when the low-limit switch has been hit.
             get: True if the low-limit switch has been hit.
         """
         self.emergency_stop = self._readonly_property("emergency_stop", bool)
         """
         motor/{mne}/emergency_stop
-            on("change"): Sent when a motor controller indicates a hardware emergency stop.
+            on("update"): Sent when a motor controller indicates a hardware emergency stop.
             get: True if an emergency-stop switch or condition has been activated.
         """
         self.motor_fault = self._readonly_property("motor_fault", bool)
         """
         motor/{mne}/motor_fault
-            on("change"): Sent when a motor controller indicates a hardware motor fault.
+            on("update"): Sent when a motor controller indicates a hardware motor fault.
             get: True if a motor-fault condition has been activated.
         """
         self.high_limit = self._property("high_limit", float)
         """
         motor/{mne}/high_limit
-            on("change"): Sent when the value of the high limit position changes.
+            on("update"): Sent when the value of the high limit position updates.
             get: Returns the high limit in dial units.
             set: Sets the high limit by pushing
 
                 .. code-block:: none
-                
+
                     set_lm  mne data user(mne,get_lim(mne,-1))\\n
 
                 onto the server command queue. (The last argument adds the current low limit to the set_lm command line.)
@@ -123,12 +130,12 @@ class Motor(PropertyGroup):
         self.low_limit = self._property("low_limit", float)
         """
         motor/{mne}/low_limit
-            on("change"): Sent when the value of the low limit position changes.
+            on("update"): Sent when the value of the low limit position updates.
             get: Returns the low limit in dial units.
             set: Sets the low limit by pushing
 
                 .. code-block:: none
-                
+
                     set_lm mne data user(mne,get_lim(mne,+1))\\n
 
             onto the server command queue. (The last argument adds the current high limit to the set_lm command line.)
@@ -139,7 +146,7 @@ class Motor(PropertyGroup):
             set: Sets both motor limits by pushing
 
                 .. code-block:: none
-                
+
                     set_lm mne data\\n
 
                 onto the server command queue,
@@ -151,13 +158,13 @@ class Motor(PropertyGroup):
             set: The server starts a home or limit search by pushing a
 
                 .. code-block:: none
-                
+
                     chg_dial(mne, how)\\n
 
                 or a
-                
+
                 .. code-block:: none
-                
+
                     chg_dial(mne, how, home_pos)\\n
 
                 onto the command queue, depending on whether the data contains one or two arguments.
@@ -168,7 +175,7 @@ class Motor(PropertyGroup):
         self.unusable = self._readonly_property("unusable", bool)
         """
         motor/{mne}/unusable
-            on("change"): Sent when a "disable" option to motor_par() has changed the enabled/disabled state of a motor on the server.
+            on("update"): Sent when a "disable" option to motor_par() has updated the enabled/disabled state of a motor on the server.
             get: True if the motor is unusable.
         """
 
@@ -185,15 +192,15 @@ class Motor(PropertyGroup):
         motor/mne/start_one
             set: If preceded by a prestart_all, adds a
 
-                    
+
                 .. code-block:: none
-                
+
                     A[mne]=data;
 
                 to the buffer that will be pushed onto the server command queue. Otherwise, pushes
 
                 .. code-block:: none
-                
+
                     {get_angles;A[mne]=data;move_em;}\\n
 
                 onto the command queue in order to start the single motor moving.
@@ -209,9 +216,9 @@ class Motor(PropertyGroup):
             position (float): The target position to move the motor to.
         """
 
-        if self._client_connection._synchronizing_motors:
+        if _SYNCHRONIZING_MOTORS[self._client_connection]:
             raise RuntimeError(
-                "Cannot start move when synchronizing motors. Use enqueue_move instead."
+                "Cannot start move when synchronizing motors. Use prepare_move instead."
             )
 
         # Start the tracking before we send the move to avoid race conditions.
@@ -241,10 +248,10 @@ class Motor(PropertyGroup):
         Args:
             position (float): The target position to move the motor to.
         """
-        if not self._client_connection._synchronizing_motors:
+        if not _SYNCHRONIZING_MOTORS[self._client_connection]:
             raise RuntimeError("Cannot prepare move when not synchronizing motors")
 
-        self._client_connection._pending_motions[self.name] = position
+        _PENDING_MOTIONS[self._client_connection][self] = position
 
     @overload
     async def search(self, how: Literal["home", "home+", "home-"], home_pos: float): ...
@@ -294,3 +301,98 @@ class Motor(PropertyGroup):
             high_limit (float): The high limit value.
         """
         await self._limits.set(f"{low_limit} {high_limit}")
+
+
+_SYNCHRONIZING_MOTORS: dict[ClientConnection, bool] = defaultdict(bool)
+_PENDING_MOTIONS: dict[ClientConnection, dict[Motor, float]] = defaultdict(dict)
+
+
+@asynccontextmanager
+async def enter_all(contexts: Iterable[AsyncContextManager]):
+    async with AsyncExitStack() as stack:
+        for ctx in contexts:
+            await stack.enter_async_context(ctx)
+        yield
+
+
+@asynccontextmanager
+async def synchronized_motors(
+    client_connection: ClientConnection, *, timeout: Optional[float] = None
+):
+    """
+    Context manager to enable synchronized motor operations for the client.
+
+    While this context is active, motor movements will be held.
+    Upon exiting the context, the movements will be initialized simultaneously.
+
+    Example usage:
+
+    .. code-block:: python
+
+        async with client_connection.synchronized_motors():
+            # Motor movement will be held in here.
+            motor1.move(position)
+            motor2.move(position)
+
+            # Motors will not start moving yet.
+            await asyncio.sleep(1)  # Simulate other operations
+            # Motors will start moving simultaneously here.
+
+        # Outside of the context, all motors have completed their movements.
+
+    Args:
+        timeout (float, optional): Maximum time to wait for all motors to complete, in seconds.
+    Yields:
+        None
+    Raises:
+        RuntimeError: If there are pending motor motions from a previous context.
+    """
+    assert not _SYNCHRONIZING_MOTORS[client_connection], (
+        "Concurrent synchronized_motors contexts are not allowed."
+    )
+
+    motion_started = False
+    try:
+        if len(_PENDING_MOTIONS[client_connection]) > 0:
+            raise RuntimeError(
+                "There are pending motor motions from a previous synchronized_motors context."
+            )
+        _SYNCHRONIZING_MOTORS[client_connection] = True
+
+        # Give control back to user.
+        yield
+
+        async with enter_all(
+            (
+                m.moving.wait_for(False)
+                for m in _PENDING_MOTIONS[client_connection].keys()
+            )
+        ):
+            # Start the prestart message
+            motion_started = True
+            await client_connection.prop_set("motor/../prestart_all", None)
+
+            # Append the individual motor commands
+            for motor, position in _PENDING_MOTIONS[client_connection].items():
+                mne = motor.name
+                client_connection.logger.info(
+                    "Starting synchronized move for `%s` to position %s.",
+                    mne,
+                    position,
+                )
+
+                await client_connection.prop_set(f"motor/{mne}/start_one", position)
+
+            # Start all the motors simultaneously
+            await client_connection.prop_set("motor/../start_all", None)
+
+    except Exception as e:
+        client_connection.logger.error(
+            "Error during synchronized motor operations: %s", str(e)
+        )
+        if motion_started:
+            await client_connection.prop_set("motor/../abort_all", None)
+        raise
+    finally:
+        _SYNCHRONIZING_MOTORS[client_connection] = False
+        _PENDING_MOTIONS[client_connection].clear()

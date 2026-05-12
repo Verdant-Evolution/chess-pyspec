@@ -6,7 +6,7 @@ from typing import Any, Callable, TypeVar
 from pyspec._connection import ClientConnection
 from pyspec._connection.data import DataType
 
-from ._motor import Motor
+from ._motor import Motor, synchronized_motors
 from ._remote_property_table import (
     EventStream,
     Property,
@@ -73,8 +73,8 @@ class Client(PropertyGroup):
 
         .. code-block:: none
 
-            on("change")
-                Sent to clients who have registered when the variable var_name changes value.
+            on("update")
+                Sent to clients who have registered when the variable var_name updates value.
             get
                 Returns the value of the var_name in the data, if var_name is an existing variable on the server.
             set
@@ -104,7 +104,7 @@ class Client(PropertyGroup):
 
         .. code-block:: none
 
-            on("change"):
+            on("update"):
                 Sent when the server sends output to the file or device given by filename, where filename can be the built-in name "tty" or a file or device name. The data will be a string representing the output.
 
             Once a client has registered for output events from a particular file, the server will keep track of the client's request as the file is opened and closed.
@@ -127,7 +127,7 @@ class Client(PropertyGroup):
         scaler/.all./count
         .. code-block:: none
 
-            on("change")
+            on("update")
                 Sent when counting starts (data is True) and when counting stops (data is False).
             get
                 Data indicates counting (True) or not counting (False).
@@ -242,7 +242,7 @@ class Client(PropertyGroup):
         Raises:
             RuntimeError: If there are pending motor motions from a previous context.
         """
-        async with self._connection.synchronized_motors(timeout=timeout):
+        async with synchronized_motors(self._connection, timeout=timeout):
             yield
 
 

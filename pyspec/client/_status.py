@@ -22,10 +22,10 @@ class Status(PropertyGroup):
         self.quit = self._readonly_property("quit", bool)
         """
         status/quit
-        
+
         .. code-block:: none
 
-            on("change"): Sent when the server exits.
+            on("update"): Sent when the server exits.
             get: Always read back as zero.
         """
 
@@ -35,7 +35,7 @@ class Status(PropertyGroup):
 
         .. code-block:: none
 
-            on("change"): Sent when the server enters a subshell (True) or returns from a subshell (False).
+            on("update"): Sent when the server enters a subshell (True) or returns from a subshell (False).
             get: True if server command thread is in a subshell, otherwise False.
 
         Starting with spec release 6.06.01, when entering a subshell,
@@ -48,10 +48,10 @@ class Status(PropertyGroup):
 
         .. code-block:: none
 
-            on("change"): Sent when the server is waiting for input at the interactive prompt (True)
+            on("update"): Sent when the server is waiting for input at the interactive prompt (True)
                           and after a return has been typed at the interactive prompt (False).
                           The server is available to execute commands from clients when it is ready.
-                          
+
             get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.
         """
         self.simulate = self._readonly_property("simulate", bool)
@@ -59,8 +59,8 @@ class Status(PropertyGroup):
         status/simulate
 
         .. code-block:: none
-        
-            on("change"): Sent when the server enters (True) or leaves (False) simulate mode.
+
+            on("update"): Sent when the server enters (True) or leaves (False) simulate mode.
             get: True if server is in simulate mode, otherwise False.
 
         Note, when in simulate mode, the server will not send commands to hardware devices.

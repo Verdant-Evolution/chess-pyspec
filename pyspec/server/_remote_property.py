@@ -1,7 +1,5 @@
-
-
 import logging
-from typing import Any, Callable, Generic, Literal, TypeVar, Type, Union
+from typing import Any, Callable, Generic, Literal, Type, TypeVar, Union
 
 from pyee.asyncio import AsyncIOEventEmitter
 
@@ -19,10 +17,10 @@ class PropertyEventEmitter(Generic[T], AsyncIOEventEmitter):
     """
 
     def emit(self, event: str, *args: Any, **kwargs: Any) -> None:  # type: ignore
-        # type: (Literal["change"], T) -> None # type: ignore
+        # type: (Literal["update"], T) -> None # type: ignore
         super().emit(event, *args, **kwargs)
 
-    def on(self, event: Literal["change"], func: Callable[[T], Any]) -> Any:  # type: ignore
+    def on(self, event: Literal["update"], func: Callable[[T], Any]) -> Any:  # type: ignore
         super().on(event, func)
 
 
@@ -65,7 +63,7 @@ class Property(PropertyEventEmitter[T]):
         if not isinstance(value, self._dtype):
             raise TypeError(f"Expected data of type {self._dtype}, got {type(value)}")
         self._value = value
-        self.emit("change", value)
+        self.emit("update", value)
         LOGGER.debug(
-            f"Property '{self.name}' updated to {value} and 'change' event emitted."
+            f"Property '{self.name}' updated to {value} and 'update' event emitted."
         )
