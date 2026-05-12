@@ -1,14 +1,11 @@
 import asyncio
-import re
 import threading
 import weakref
 from contextlib import asynccontextmanager
-from typing import Any, AsyncGenerator, Callable, Dict, Literal, Optional, overload
+from typing import Any, Callable, Literal, Optional, overload
 
 import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
-
-from pyspec._connection.associative_array import AssociativeArray
 
 from .connection import Connection
 from .data import DataType, ErrorStr

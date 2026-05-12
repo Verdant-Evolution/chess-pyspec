@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import (
     Any,
     AsyncGenerator,
-    AsyncIterator,
     Awaitable,
     Callable,
     Generic,
@@ -24,7 +23,6 @@ from typing_extensions import Self
 from pyspec._connection import ClientConnection
 from pyspec._connection.associative_array import (
     AssociativeArray,
-    get_associative_array_key,
     pack_associative_array_element,
     unpack_associative_array_element,
 )

@@ -2,10 +2,9 @@ import asyncio
 import ctypes
 import logging
 from dataclasses import dataclass
-from typing import Literal, TypeVar, overload, Optional, Union
+from typing import Literal, Optional, TypeVar, Union, overload
 
 from pyee.asyncio import AsyncIOEventEmitter
-
 
 from . import protocol
 from .protocol import DataType, Header, message_stream
@@ -91,15 +90,15 @@ class Connection(AsyncIOEventEmitter):
                 )
             self._reader = host_or_reader
             self._writer = port_or_writer
-            self.host: str = self._writer.get_extra_info("peername")[0]
-            self.port: int = self._writer.get_extra_info("peername")[1]
+            self.host = self._writer.get_extra_info("peername")[0]
+            self.port = self._writer.get_extra_info("peername")[1]
         else:
             if not isinstance(port_or_writer, int):
                 raise TypeError(
                     "If the first argument is a host string, the second must be an integer port"
                 )
-            self.host: str = host_or_reader
-            self.port: int = port_or_writer
+            self.host = host_or_reader
+            self.port = port_or_writer
             self._reader = None
             self._writer = None
 
