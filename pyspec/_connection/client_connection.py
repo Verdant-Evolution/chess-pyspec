@@ -13,6 +13,8 @@ from .protocol import Command, Header
 
 LAST_SEQUENCE_NUMBER = 0
 
+VAR_PROPERTY_NAME_PATTERN = re.compile(r"^/?var/([A-Za-z_][A-Za-z0-9_]*)/?$")
+
 
 class RemoteException(Exception):
     """
@@ -35,6 +37,32 @@ def get_next_sequence_number() -> int:
     if LAST_SEQUENCE_NUMBER == 0:
         return get_next_sequence_number()
     return LAST_SEQUENCE_NUMBER
+
+
+def _remote_function_arg_string(arg: Any) -> str:
+    """
+    Serialize one remote function argument.
+
+    Client-side properties under the SPEC variable tree are sent as bare
+    symbols so the server can resolve them. All other values keep the historic
+    repr-based serialization.
+    """
+    from pyspec.client import Property
+
+    if isinstance(arg, Property):
+        match = VAR_PROPERTY_NAME_PATTERN.match(arg.name)
+        if match:
+            return match.group(1)
+        else:
+            raise ValueError(
+                f"Property `{arg.name}` cannot be resolved to a remote variable."
+            )
+    return repr(arg)
+
+
+def build_remote_function_string(func: str, *args: Any) -> str:
+    args_string = ", ".join(_remote_function_arg_string(arg) for arg in args)
+    return f"{func}({args_string})"
 
 
 class IndexedSingleton:
@@ -331,7 +359,7 @@ class ClientConnection(
             func (str): The name of the function to call on the remote host.
             *args: The arguments to pass to the function. These will all be converted to strings before sending.
         """
-        func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
+        func_string = build_remote_function_string(func, *args)
         await self._send(Header(Command.FUNC), data=func_string)
 
     async def remote_func(self, func: str, *args) -> DataType:
@@ -345,7 +373,7 @@ class ClientConnection(
         Returns:
             DataType: The result of the function execution from the remote host.
         """
-        func_string = f"{func}(" + ", ".join(repr(arg) for arg in args) + ")"
+        func_string = build_remote_function_string(func, *args)
         async with self._abort_on_interrupt():
             return await self._send_with_reply(
                 Header(Command.FUNC_WITH_RETURN), data=func_string
