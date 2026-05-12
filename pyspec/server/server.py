@@ -145,7 +145,7 @@ class Server(AsyncIOEventEmitter, Singleton):
                 remote_properties[prop.name] = prop
 =======
                 names = property_names(prop)
-                prop.on("change", make_broadcaster(names))
+                prop.on("update", make_broadcaster(names))
                 for property_name in names:
                     remote_properties[property_name] = prop
 >>>>>>> 16f80b4 (Resolve CMDs to explicitly exposed remote function calls if possible.)
