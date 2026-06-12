@@ -7,6 +7,7 @@ from exceptiongroup import suppress
 import pyspec._connection
 import pyspec._connection.connection
 from pyspec._connection import ClientConnection
+from pyspec._connection.associative_array import AssociativeArray
 from pyspec._connection.client_connection import RemoteException
 from pyspec._connection.data import ErrorStr
 
@@ -74,6 +75,42 @@ async def test_function_argument_data_type_resolution():
         server.temperature.set(40)
         result = await server.execute_function("argument_types(1.0, 2, 'x', TEMP)")
         assert result == "float,int,str,int"
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_function_argument_resolution_with_numeric_array_symbol():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        result = await server.execute_function("identity(NUMBERS[1])")
+        assert result == 20
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_function_argument_resolution_with_associative_array_symbol():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        lookup = AssociativeArray()
+        lookup["alpha"] = 40
+        server.lookup.set(lookup)
+        result = await server.execute_function("identity(LOOKUP['alpha'])")
+        assert result == 40
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_command_resolves_associative_array_symbol_without_remote_code_execution():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        lookup = AssociativeArray()
+        lookup["alpha"] = 40
+        server.lookup.set(lookup)
+        result = await server.execute_command("LOOKUP['alpha']")
+        assert result == 40
     finally:
         Server.dispose()
 

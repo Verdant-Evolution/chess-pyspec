@@ -65,6 +65,14 @@ async def test_client_exec_command(server_process):
 
 @pytest.mark.asyncio
 @pytest.mark.timeout(2)
+async def test_client_exec_command_invalid_syntax(server_process):
+    async with Client(HOST, PORT) as client:
+        with pytest.raises(ValueError, match="line 1, column"):
+            await client.exec("sum(1,")
+
+
+@pytest.mark.asyncio
+@pytest.mark.timeout(2)
 async def test_client_property_wait_for(server_process):
     async with (
         Client(HOST, PORT) as client,

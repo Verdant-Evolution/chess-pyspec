@@ -1,9 +1,9 @@
-import ast
 import asyncio
 import logging
 from typing import Any, Callable, Coroutine, Optional, TypeVar, Tuple, Union
 
 from pyspec._connection.data import DataType
+from pyspec._spec_syntax import parse_function_call, parse_function_name
 
 LOGGER = logging.getLogger("pyspec.server")
 
@@ -63,22 +63,9 @@ def parse_remote_function_name(function_string: str) -> str:
         str: The function name.
     """
     try:
-        expression = ast.parse(function_string.strip(), mode="eval")
-    except SyntaxError as exc:
-        raise ValueError(f"Invalid function call string: {function_string}") from exc
-    if not isinstance(expression.body, ast.Call):
+        return parse_function_name(function_string)
+    except ValueError:
         raise ValueError(f"Invalid function call string: {function_string}")
-    if not isinstance(expression.body.func, ast.Name):
-        raise ValueError(f"Invalid function call string: {function_string}")
-    return expression.body.func.id
-
-
-def _literal_eval_with_symbols(
-    node: ast.AST, resolve_symbol: Optional[SymbolResolver] = None
-) -> Any:
-    if resolve_symbol is not None and isinstance(node, ast.Name):
-        return resolve_symbol(node.id)
-    return ast.literal_eval(node)
 
 
 def parse_remote_function_string(
@@ -94,24 +81,10 @@ def parse_remote_function_string(
     Returns:
         tuple: Tuple of function name and arguments.
     """
-    function_string = function_string.strip()
     try:
-        expression = ast.parse(function_string, mode="eval")
-    except SyntaxError as exc:
+        return parse_function_call(function_string, resolve_symbol=resolve_symbol)
+    except ValueError as exc:
         raise ValueError(f"Invalid function call string: {function_string}") from exc
-
-    if not isinstance(expression.body, ast.Call):
-        raise ValueError(f"Invalid function call string: {function_string}")
-
-    call = expression.body
-    if not isinstance(call.func, ast.Name) or call.keywords:
-        raise ValueError(f"Invalid function call string: {function_string}")
-
-    # Use ast.literal_eval to safely parse arguments. Bare names can optionally
-    # resolve through a caller-provided symbol table, matching SPEC variables.
-    args = tuple(_literal_eval_with_symbols(arg, resolve_symbol) for arg in call.args)
-
-    return call.func.id, args
 
 
 def build_remote_function_string(
