@@ -8,8 +8,6 @@ from typing import Any, Callable, Literal, Optional, overload
 import numpy as np
 from pyee.asyncio import AsyncIOEventEmitter
 
-from pyspec._spec_syntax import validate_spec_expression
-
 from .connection import Connection
 from .data import DataType, ErrorStr
 from .protocol import Command, Header
@@ -335,7 +333,6 @@ class ClientConnection(
         Args:
             cmd (str): The command string to send to the remote host. e.g. "1+1"
         """
-        validate_spec_expression(cmd)
         await self._send(Header(Command.CMD), data=cmd)
 
     async def remote_cmd(self, cmd: str) -> DataType:
@@ -348,7 +345,6 @@ class ClientConnection(
         Returns:
             DataType: The result of the command execution from the remote host.
         """
-        validate_spec_expression(cmd)
         async with self._abort_on_interrupt():
             return await self._send_with_reply(
                 Header(Command.CMD_WITH_RETURN), data=cmd

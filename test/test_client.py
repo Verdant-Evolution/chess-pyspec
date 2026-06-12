@@ -1,6 +1,7 @@
 import pytest
 from pyspec.client import Client
 from pyspec._connection.client_connection import build_remote_function_string
+from pyspec._connection.client_connection import RemoteException
 from conftest import HOST, PORT
 import asyncio
 
@@ -67,7 +68,7 @@ async def test_client_exec_command(server_process):
 @pytest.mark.timeout(2)
 async def test_client_exec_command_invalid_syntax(server_process):
     async with Client(HOST, PORT) as client:
-        with pytest.raises(ValueError, match=r"line 1, column \d+"):
+        with pytest.raises(RemoteException, match=r"line 1"):
             await client.exec("sum(1,")
 
 
