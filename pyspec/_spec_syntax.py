@@ -1,3 +1,23 @@
+"""
+Shared parser/evaluator for SPEC command strings used by PySpec client/server APIs.
+
+This module intentionally accepts a narrow, Python-parseable subset of expressions:
+
+- scalar literals (`1`, `1.5`, `'abc'`, `True`, `None`)
+- container literals (`[1, 2]`, `(1, 2)`, `{'k': 1}`, `{1, 2}`)
+- symbol references (`TEMP`)
+- indexed symbol access (`NUMBERS[1]`, `LOOKUP['alpha']`)
+- function-call form for remote function dispatch (`sum(1, TEMP)`)
+
+This is not a full SPEC parser. In particular, SPEC macro-command syntax that is not
+valid Python expression syntax (for example, whitespace-style macro invocation such as
+``umv th 1``) is rejected.
+
+References:
+- SPEC server/client protocol help: https://certif.com/spec_help/server.html
+- SPEC macro language help: https://www.certif.com/spec_help/macros.html
+"""
+
 import ast
 from typing import Any, Callable, Optional, Tuple
 
