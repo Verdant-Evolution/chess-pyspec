@@ -6,7 +6,8 @@ This module intentionally accepts a narrow, Python-parseable subset of expressio
 - scalar literals (`1`, `1.5`, `'abc'`, `True`, `None`)
 - container literals (`[1, 2]`, `(1, 2)`, `{'k': 1}`, `{1, 2}`)
 - symbol references (`TEMP`)
-- indexed symbol access (`NUMBERS[1]`, `LOOKUP['alpha']`)
+- indexed symbol access (`NUMBERS[1]`, `LOOKUP['alpha']`, `ARRAY[X]`)
+- chained index access up to depth 2 (`ARRAY[1][2]`)
 - function-call form for remote function dispatch (`sum(1, TEMP)`)
 
 This is not a full SPEC parser. In particular, SPEC macro-command syntax that is not
@@ -20,6 +21,8 @@ References:
 
 import ast
 from typing import Any, Callable, Optional, Tuple
+
+from pyspec._connection.associative_array import AssociativeArray
 
 
 class SpecSyntaxError(ValueError):
@@ -89,10 +92,28 @@ def _evaluate_expression_node(
         return resolve_symbol(node.id)
 
     if isinstance(node, ast.Subscript):
-        value = _evaluate_expression_node(node.value, resolve_symbol)
-        key = _evaluate_expression_node(node.slice, resolve_symbol)
+        value_node = node.value
+        keys: list[Any] = [_evaluate_expression_node(node.slice, resolve_symbol)]
+        while isinstance(value_node, ast.Subscript):
+            keys.append(_evaluate_expression_node(value_node.slice, resolve_symbol))
+            value_node = value_node.value
+        keys.reverse()
+
+        value = _evaluate_expression_node(value_node, resolve_symbol)
         try:
-            return value[key]
+            if isinstance(value, AssociativeArray):
+                if len(keys) == 1:
+                    return value[keys[0]]
+                if len(keys) == 2:
+                    return value[keys[0], keys[1]]
+                raise SpecSyntaxError(
+                    f"Associative array index depth > 2 is not supported: {ast.unparse(node)!r}"
+                )
+
+            current = value
+            for key in keys:
+                current = current[key]
+            return current
         except Exception as exc:  # noqa: BLE001
             raise SpecSyntaxError(
                 f"Unable to resolve array index {ast.unparse(node)!r}: {exc}"

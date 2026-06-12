@@ -36,10 +36,14 @@ class Server(PyspecServer):
     flag = Property[int]("flag", 0)
 
     temperature = Variable[int]("TEMP", 0)
+    index = Variable[int]("X", 1)
     numbers = Variable("NUMBERS", [10, 20, 30])
     _lookup = AssociativeArray()
     _lookup["alpha"] = 40
     lookup = Variable("LOOKUP", _lookup)
+    _lookup2 = AssociativeArray()
+    _lookup2[1, 2] = 99
+    lookup2 = Variable("LOOKUP2", _lookup2)
 
     async def tick(self):
         while True:

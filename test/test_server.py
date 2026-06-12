@@ -103,6 +103,26 @@ async def test_function_argument_resolution_with_associative_array_symbol():
 
 
 @pytest.mark.asyncio
+async def test_function_argument_resolution_with_symbol_index():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        result = await server.execute_function("identity(NUMBERS[X])")
+        assert result == 20
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_function_argument_resolution_with_associative_array_depth_2():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        result = await server.execute_function("identity(LOOKUP2[1][2])")
+        assert result == 99
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
 async def test_command_resolves_associative_array_symbol_without_remote_code_execution():
     server = Server(allow_remote_code_execution=False)
     try:
@@ -111,6 +131,26 @@ async def test_command_resolves_associative_array_symbol_without_remote_code_exe
         server.lookup.set(lookup)
         result = await server.execute_command("LOOKUP['alpha']")
         assert result == 40
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_command_resolves_associative_array_symbol_with_symbol_index():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        result = await server.execute_command("NUMBERS[X]")
+        assert result == 20
+    finally:
+        Server.dispose()
+
+
+@pytest.mark.asyncio
+async def test_command_resolves_associative_array_symbol_with_depth_2():
+    server = Server(allow_remote_code_execution=False)
+    try:
+        result = await server.execute_command("LOOKUP2[1][2]")
+        assert result == 99
     finally:
         Server.dispose()
 
