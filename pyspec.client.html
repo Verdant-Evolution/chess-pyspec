@@ -117,6 +117,8 @@
 <li><a class="reference internal" href="#pyspec.client._motor.Motor.unusable"><code class="docutils literal notranslate"><span class="pre">Motor.unusable</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#pyspec.client._motor.enter_all"><code class="docutils literal notranslate"><span class="pre">enter_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.synchronized_motors"><code class="docutils literal notranslate"><span class="pre">synchronized_motors()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.client._status.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
 <li><a class="reference internal" href="#pyspec.client._status.Status.quit"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.client._status.Status.shell"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>
@@ -277,11 +279,33 @@
 <dt class="sig sig-object py" id="pyspec.client.Client.call">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.call" title="Link to this definition">¶</a></dt>
 <dd><p>Call a remote function on the server.</p>
+<p>If this task raises an exception (e.g. due to a timeout),
+the client will send an abort message to the server to stop the execution of the remote function.</p>
+<p>A timeout can be enforced with the following patterns:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pattern 1: Using asyncio.wait_for</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>  <span class="c1"># seconds</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">5.0</span><span class="p">):</span>  <span class="c1"># seconds</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>function_name</strong> (<em>str</em>) – The name of the remote function to call.</p></li>
-<li><p><strong>*args</strong> (<em>str</em><em> | </em><em>float</em><em> | </em><em>int</em>) – The arguments to pass to the remote function.</p></li>
+<li><p><strong>*args</strong> (<em>str</em><em> | </em><em>float</em><em> | </em><em>int</em><em> | </em><a class="reference internal" href="#pyspec.client.Property" title="pyspec.client.Property"><em>Property</em></a><em>[</em><em>Any</em><em>]</em>) – The arguments to pass to the remote function.
+Properties under the var/ tree are passed as remote variable symbols.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -301,7 +325,7 @@
 .. code-block:: none</p>
 <blockquote>
 <div><dl class="simple">
-<dt>on(“change”)</dt><dd><p>Sent when counting starts (data is True) and when counting stops (data is False).</p>
+<dt>on(“update”)</dt><dd><p>Sent when counting starts (data is True) and when counting stops (data is False).</p>
 </dd>
 <dt>get</dt><dd><p>Data indicates counting (True) or not counting (False).</p>
 </dd>
@@ -324,6 +348,27 @@ If data is False, counting is aborted as if a ^C had been typed at the server.</
 <dt class="sig sig-object py" id="pyspec.client.Client.exec">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.exec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.exec" title="Link to this definition">¶</a></dt>
 <dd><p>Execute a command on the server.</p>
+<p>If this task raises an exception (e.g. due to a timeout),
+the client will send an abort message to the server to stop the execution of the remote function.</p>
+<p>A timeout can be enforced with the following patterns:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pattern 1: Using asyncio.wait_for</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>  <span class="c1"># seconds</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">5.0</span><span class="p">):</span>  <span class="c1"># seconds</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>command</strong> (<em>str</em>) – The command to execute.</p>
@@ -360,7 +405,7 @@ The parameters for the commands that are sent from the client and the values in 
 <span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.output" title="Link to this definition">¶</a></dt>
 <dd><p>The output property puts copies of the strings written to files or to the screen in events sent to clients.</p>
 <p>output/filename</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;):
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;):
     Sent when the server sends output to the file or device given by filename, where filename can be the built-in name &quot;tty&quot; or a file or device name. The data will be a string representing the output.
 
 Once a client has registered for output events from a particular file, the server will keep track of the client&#39;s request as the file is opened and closed.
@@ -433,8 +478,8 @@ File names are given relative to the server&#39;s current directory and can be r
 <dd><p>The var properties allow values of any variables to be transferred between the server and the client.
 Enter only the variable name; the property will be created as: var/{var_name}</p>
 <p>var/var_name</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;)
-    Sent to clients who have registered when the variable var_name changes value.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;)
+    Sent to clients who have registered when the variable var_name updates value.
 get
     Returns the value of the var_name in the data, if var_name is an existing variable on the server.
 set
@@ -479,7 +524,7 @@ set
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyspec.client.EventStream.EventType">
 <span class="sig-name descname"><span class="pre">EventType</span></span><a class="headerlink" href="#pyspec.client.EventStream.EventType" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘change’, ‘event’]</p>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘update’, ‘event’]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -565,11 +610,6 @@ set
 <span class="sig-name descname"><span class="pre">subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.subscribed" title="Link to this definition">¶</a></dt>
 <dd><p>Context manager that subscribes to the property for the duration of the context.</p>
 <p>WARNING: Data arrays will not send events. You must use get() to receive the data array values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>]</span></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -668,7 +708,7 @@ The parameters for the commands that are sent from the client and the values in 
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.dial_position">
 <span class="sig-name descname"><span class="pre">dial_position</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.dial_position" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/dial_position
-on(“change”): Sent when the dial position changes.
+on(“update”): Sent when the dial position updates.
 get: Returns the current motor position in dial units.
 set: Sets the dial position on the server by pushing a</p>
 <blockquote>
@@ -683,7 +723,7 @@ set: Sets the dial position on the server by pushing a</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.emergency_stop">
 <span class="sig-name descname"><span class="pre">emergency_stop</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.emergency_stop" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/emergency_stop
-on(“change”): Sent when a motor controller indicates a hardware emergency stop.
+on(“update”): Sent when a motor controller indicates a hardware emergency stop.
 get: True if an emergency-stop switch or condition has been activated.</p>
 </dd></dl>
 
@@ -691,7 +731,7 @@ get: True if an emergency-stop switch or condition has been activated.</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.high_lim_hit">
 <span class="sig-name descname"><span class="pre">high_lim_hit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.high_lim_hit" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/high_lim_hit
-on(“change”): Sent when the high-limit switch has been hit.
+on(“update”): Sent when the high-limit switch has been hit.
 get: True if the high-limit switch has been hit.</p>
 </dd></dl>
 
@@ -699,7 +739,7 @@ get: True if the high-limit switch has been hit.</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.high_limit">
 <span class="sig-name descname"><span class="pre">high_limit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.high_limit" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/high_limit
-on(“change”): Sent when the value of the high limit position changes.
+on(“update”): Sent when the value of the high limit position updates.
 get: Returns the high limit in dial units.
 set: Sets the high limit by pushing</p>
 <blockquote>
@@ -714,7 +754,7 @@ set: Sets the high limit by pushing</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.low_lim_hit">
 <span class="sig-name descname"><span class="pre">low_lim_hit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.low_lim_hit" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/low_lim_hit
-on(“change”): Sent when the low-limit switch has been hit.
+on(“update”): Sent when the low-limit switch has been hit.
 get: True if the low-limit switch has been hit.</p>
 </dd></dl>
 
@@ -722,7 +762,7 @@ get: True if the low-limit switch has been hit.</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.low_limit">
 <span class="sig-name descname"><span class="pre">low_limit</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.low_limit" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/low_limit
-on(“change”): Sent when the value of the low limit position changes.
+on(“update”): Sent when the value of the low limit position updates.
 get: Returns the low limit in dial units.
 set: Sets the low limit by pushing</p>
 <blockquote>
@@ -737,7 +777,7 @@ set: Sets the low limit by pushing</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.motor_fault">
 <span class="sig-name descname"><span class="pre">motor_fault</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.motor_fault" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/motor_fault
-on(“change”): Sent when a motor controller indicates a hardware motor fault.
+on(“update”): Sent when a motor controller indicates a hardware motor fault.
 get: True if a motor-fault condition has been activated.</p>
 </dd></dl>
 
@@ -746,19 +786,18 @@ get: True if a motor-fault condition has been activated.</p>
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.move" title="Link to this definition">¶</a></dt>
 <dd><p>Move the motor to the specified position.</p>
 <p>If motor synchronization is enabled, the move will be queued until synchronization is executed.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.moving">
 <span class="sig-name descname"><span class="pre">moving</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.moving" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
-<dt>motor/{mne}/move_done</dt><dd><p>on(“change”): Sent when moving starts (True) and stops (False).
+<dt>motor/{mne}/move_done</dt><dd><p>on(“update”): Sent when moving starts (True) and stops (False).
 get: True if the motor is busy, otherwise False.</p>
 </dd>
 </dl>
@@ -769,7 +808,7 @@ get: True if the motor is busy, otherwise False.</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.offset">
 <span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.offset" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/offset
-on(“change”): Sent when the offset changes.
+on(“update”): Sent when the offset updates.
 get: Returns the current user offset in dial units.
 set: Sets the user offset by pushing the</p>
 <blockquote>
@@ -786,7 +825,7 @@ The server will calculate <cite>value</cite> for the argument in <cite>set</cite
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.position">
 <span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.position" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/position
-on(“change”): Sent when the dial position or user offset changes.
+on(“update”): Sent when the dial position or user offset updates.
 get: Returns the current motor position in user units.
 set: Sets the user offset on the server.</p>
 </dd></dl>
@@ -796,12 +835,11 @@ set: Sets the user offset on the server.</p>
 <span class="sig-name descname"><span class="pre">prepare_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#Motor.prepare_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.Motor.prepare_move" title="Link to this definition">¶</a></dt>
 <dd><p>Prepare a move to the specified position without starting it.</p>
 <p>This is used for motor synchronization, where multiple moves are queued and then executed together when synchronization is executed.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -847,7 +885,7 @@ chg_dial(mne, how, home_pos)
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.sign">
 <span class="sig-name descname"><span class="pre">sign</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.sign" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/sign
-on(“change”): Sent when the sign-of-user*dial parameter changes.
+on(“update”): Sent when the sign-of-user*dial parameter updates.
 get: Returns the current sign-of-user*dial parameter.</p>
 </dd></dl>
 
@@ -858,19 +896,18 @@ get: Returns the current sign-of-user*dial parameter.</p>
 This will wait for the motor to start moving, and then return a task that can be awaited to wait for the move to complete.</p>
 <p>This is a convenience method that combines move() with waiting for the motor to start moving, which can be useful
 if you want to ensure that the motor is moving before moving on to other tasks.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>position (float): The target position to move the motor to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>float</em>) – The target position to move the motor to.</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.step_size">
 <span class="sig-name descname"><span class="pre">step_size</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.step_size" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/step_size
-on(“change”): Sent when the steps-per-unit parameter changes.
+on(“update”): Sent when the steps-per-unit parameter updates.
 get: Returns the current steps-per-unit parameter.</p>
 </dd></dl>
 
@@ -878,10 +915,47 @@ get: Returns the current steps-per-unit parameter.</p>
 <dt class="sig sig-object py" id="pyspec.client._motor.Motor.unusable">
 <span class="sig-name descname"><span class="pre">unusable</span></span><a class="headerlink" href="#pyspec.client._motor.Motor.unusable" title="Link to this definition">¶</a></dt>
 <dd><p>motor/{mne}/unusable
-on(“change”): Sent when a “disable” option to motor_par() has changed the enabled/disabled state of a motor on the server.
+on(“update”): Sent when a “disable” option to motor_par() has updated the enabled/disabled state of a motor on the server.
 get: True if the motor is unusable.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.client._motor.enter_all">
+<span class="sig-prename descclassname"><span class="pre">pyspec.client._motor.</span></span><span class="sig-name descname"><span class="pre">enter_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contexts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#enter_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.enter_all" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspec.client._motor.synchronized_motors">
+<span class="sig-prename descclassname"><span class="pre">pyspec.client._motor.</span></span><span class="sig-name descname"><span class="pre">synchronized_motors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_property_table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_motor.html#synchronized_motors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._motor.synchronized_motors" title="Link to this definition">¶</a></dt>
+<dd><p>Context manager to enable synchronized motor operations for the client.</p>
+<p>While this context is active, motor movements will be held.
+Upon exiting the context, the movements will be initialized simultaneously.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">synchronized_motors</span><span class="p">():</span>
+    <span class="c1"># Motor movement will be held in here.</span>
+    <span class="n">motor1</span><span class="o">.</span><span class="n">prepare_move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+    <span class="n">motor2</span><span class="o">.</span><span class="n">prepare_move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+    <span class="c1"># Motors will not start moving yet.</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Simulate other operations</span>
+    <span class="c1"># Motors will start moving simultaneously here.</span>
+
+<span class="c1"># Outside of the context, all motors have completed their movements.</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum time to wait for all motors to complete, in seconds.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If there are pending motor motions from a previous context.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class" id="module-pyspec.client._status">
@@ -942,7 +1016,7 @@ get: True if the motor is unusable.</p>
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">quit</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
 <dd><p>status/quit</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server exits.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server exits.
 get: Always read back as zero.
 </pre></div>
 </div>
@@ -952,7 +1026,7 @@ get: Always read back as zero.
 <dt class="sig sig-object py" id="id1">
 <span class="sig-name descname"><span class="pre">ready</span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
 <dd><p>status/ready</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server is waiting for input at the interactive prompt (True)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server is waiting for input at the interactive prompt (True)
               and after a return has been typed at the interactive prompt (False).
               The server is available to execute commands from clients when it is ready.
 
@@ -965,7 +1039,7 @@ get: True if the server command thread is busy and unable to immediately process
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">shell</span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
 <dd><p>status/shell</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).
 get: True if server command thread is in a subshell, otherwise False.
 </pre></div>
 </div>
@@ -978,7 +1052,7 @@ Prior to spec release 6.06.01, the server did not process commands when in a sub
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">simulate</span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
 <dd><p>status/simulate</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;change&quot;): Sent when the server enters (True) or leaves (False) simulate mode.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server enters (True) or leaves (False) simulate mode.
 get: True if server is in simulate mode, otherwise False.
 </pre></div>
 </div>
@@ -1034,7 +1108,7 @@ get: True if server is in simulate mode, otherwise False.
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyspec.client._remote_property_table.EventStream.EventType">
 <span class="sig-name descname"><span class="pre">EventType</span></span><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.EventType" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘change’, ‘event’]</p>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘update’, ‘event’]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1120,11 +1194,6 @@ get: True if server is in simulate mode, otherwise False.
 <span class="sig-name descname"><span class="pre">subscribed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.subscribed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.subscribed" title="Link to this definition">¶</a></dt>
 <dd><p>Context manager that subscribes to the property for the duration of the context.</p>
 <p>WARNING: Data arrays will not send events. You must use get() to receive the data array values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>]</span></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1462,6 +1531,8 @@ whenever the property value changes.</p>
 <li><a class="reference internal" href="#pyspec.client._motor.Motor.unusable"><code class="docutils literal notranslate"><span class="pre">Motor.unusable</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#pyspec.client._motor.enter_all"><code class="docutils literal notranslate"><span class="pre">enter_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyspec.client._motor.synchronized_motors"><code class="docutils literal notranslate"><span class="pre">synchronized_motors()</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.client._status.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
 <li><a class="reference internal" href="#pyspec.client._status.Status.quit"><code class="docutils literal notranslate"><span class="pre">Status.quit</span></code></a></li>
 <li><a class="reference internal" href="#pyspec.client._status.Status.shell"><code class="docutils literal notranslate"><span class="pre">Status.shell</span></code></a></li>

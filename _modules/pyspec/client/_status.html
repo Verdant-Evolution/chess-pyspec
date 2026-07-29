@@ -148,10 +148,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;quit&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        status/quit</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;change&quot;): Sent when the server exits.</span>
+<span class="sd">            on(&quot;update&quot;): Sent when the server exits.</span>
 <span class="sd">            get: Always read back as zero.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -161,7 +161,7 @@
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;change&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).</span>
+<span class="sd">            on(&quot;update&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).</span>
 <span class="sd">            get: True if server command thread is in a subshell, otherwise False.</span>
 
 <span class="sd">        Starting with spec release 6.06.01, when entering a subshell,</span>
@@ -174,10 +174,10 @@
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;change&quot;): Sent when the server is waiting for input at the interactive prompt (True)</span>
+<span class="sd">            on(&quot;update&quot;): Sent when the server is waiting for input at the interactive prompt (True)</span>
 <span class="sd">                          and after a return has been typed at the interactive prompt (False).</span>
 <span class="sd">                          The server is available to execute commands from clients when it is ready.</span>
-<span class="sd">                          </span>
+
 <span class="sd">            get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
@@ -185,8 +185,8 @@
 <span class="sd">        status/simulate</span>
 
 <span class="sd">        .. code-block:: none</span>
-<span class="sd">        </span>
-<span class="sd">            on(&quot;change&quot;): Sent when the server enters (True) or leaves (False) simulate mode.</span>
+
+<span class="sd">            on(&quot;update&quot;): Sent when the server enters (True) or leaves (False) simulate mode.</span>
 <span class="sd">            get: True if server is in simulate mode, otherwise False.</span>
 
 <span class="sd">        Note, when in simulate mode, the server will not send commands to hardware devices.</span>

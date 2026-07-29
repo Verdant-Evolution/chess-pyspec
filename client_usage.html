@@ -65,6 +65,7 @@
 <li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
 <li><a class="reference internal" href="#example-usage">Example Usage</a></li>
 <li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#command-expression-syntax">Command Expression Syntax</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a></li>
 <li><a class="reference internal" href="#connection">Connection</a></li>
 <li><a class="reference internal" href="#properties">Properties</a></li>
@@ -197,6 +198,30 @@
 <li><p><strong>Event-Driven Programming</strong>: Subscribe to property changes and handle updates asynchronously.</p></li>
 </ul>
 </section>
+<section id="command-expression-syntax">
+<h2>Command Expression Syntax<a class="headerlink" href="#command-expression-syntax" title="Link to this heading">¶</a></h2>
+<p>PySpec does <strong>not</strong> pre-validate <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.exec" title="pyspec.client.Client.exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.exec</span></code></a>
+syntax on the client. Commands are sent to the server as-is, and syntax handling is
+performed server-side.</p>
+<p>For the built-in PySpec server when remote code execution is disabled, command and
+function argument parsing supports a restricted, Python-parseable expression subset:</p>
+<ul class="simple">
+<li><p>literals: <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">1.5</span></code>, <code class="docutils literal notranslate"><span class="pre">'text'</span></code>, <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p>collection literals: <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code>, <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">2)</span></code>, <code class="docutils literal notranslate"><span class="pre">{'k':</span> <span class="pre">1}</span></code>, <code class="docutils literal notranslate"><span class="pre">{1,</span> <span class="pre">2}</span></code></p></li>
+<li><p>variable symbols: <code class="docutils literal notranslate"><span class="pre">TEMP</span></code></p></li>
+<li><p>indexed access: <code class="docutils literal notranslate"><span class="pre">NUMBERS[1]</span></code>, <code class="docutils literal notranslate"><span class="pre">LOOKUP['alpha']</span></code>, <code class="docutils literal notranslate"><span class="pre">ARRAY[X]</span></code></p></li>
+<li><p>chained index access (depth &lt;= 2): <code class="docutils literal notranslate"><span class="pre">ARRAY[1][2]</span></code></p></li>
+<li><p>function-call form: <code class="docutils literal notranslate"><span class="pre">sum(1,</span> <span class="pre">TEMP)</span></code></p></li>
+</ul>
+<p>This is <strong>not</strong> a full SPEC language parser. SPEC macro forms that are not valid as
+Python expressions are rejected in this restricted server-side mode, including
+whitespace-style macro invocation such as <code class="docutils literal notranslate"><span class="pre">umv</span> <span class="pre">th</span> <span class="pre">1</span></code>.</p>
+<p>References:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://certif.com/spec_help/server.html">SPEC server/client help</a></p></li>
+<li><p><a class="reference external" href="https://www.certif.com/spec_help/macros.html">SPEC macro language help</a></p></li>
+</ul>
+</section>
 <section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
 <ul class="simple">
@@ -299,7 +324,7 @@ a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="
 <h2>Event-Based Programming<a class="headerlink" href="#event-based-programming" title="Link to this heading">¶</a></h2>
 <p>You can subscribe to property changes and handle updates asynchronously:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
     <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>  <span class="c1"># Wait forever</span>
 </pre></div>
@@ -366,6 +391,7 @@ x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&q
 <li><a class="reference internal" href="#key-concepts">Key Concepts</a></li>
 <li><a class="reference internal" href="#example-usage">Example Usage</a></li>
 <li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#command-expression-syntax">Command Expression Syntax</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a></li>
 <li><a class="reference internal" href="#connection">Connection</a></li>
 <li><a class="reference internal" href="#properties">Properties</a></li>
