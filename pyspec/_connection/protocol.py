@@ -280,8 +280,10 @@ def _deserialize_data(
     data_type = Type(header.data_type)
     if data_bytes:
         # Null terminations are not required on arrays
+        has_null_termination = data_bytes.endswith(b"\x00")
         if not data_type.is_array_type():
-            assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
+            assert has_null_termination, "Data bytes should end with NULL byte."
+        if has_null_termination:
             data_bytes = data_bytes[:-1]
 
     if data_type == Type.DOUBLE:
