@@ -132,7 +132,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
-    <span class="n">AsyncGenerator</span><span class="p">,</span>
+    <span class="n">AsyncIterator</span><span class="p">,</span>
     <span class="n">Awaitable</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Generic</span><span class="p">,</span>
@@ -147,6 +147,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConnection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.associative_array</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AssociativeArray</span><span class="p">,</span>
+    <span class="n">get_associative_array_key</span><span class="p">,</span>
     <span class="n">pack_associative_array_element</span><span class="p">,</span>
     <span class="n">unpack_associative_array_element</span><span class="p">,</span>
 <span class="p">)</span>
@@ -286,9 +287,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The next value of the property.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span><span class="n">property_name</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">&quot;Property must be watched to read next value.&quot;</span>
-        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span>
+            <span class="n">property_name</span>
+        <span class="p">),</span> <span class="s2">&quot;Property must be watched to read next value.&quot;</span>
 
         <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;property-</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
@@ -453,7 +454,7 @@
 <span class="sd">        coerce (Callable[[DataType], T], optional): Optional function to coerce the data to a specific type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">EventType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="s2">&quot;event&quot;</span><span class="p">]</span>
+    <span class="n">EventType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="s2">&quot;event&quot;</span><span class="p">]</span>
 
     <span class="n">_subscriber_depth</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -477,10 +478,10 @@
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_emit_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_emit_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
                 <span class="s2">&quot;Received value of incorrect type for property &#39;</span><span class="si">%s</span><span class="s2">&#39;: expected </span><span class="si">%s</span><span class="s2">, got </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -556,11 +557,11 @@
                 <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">on_done</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
 
         <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">on_done</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="p">))</span></div>
 
 
@@ -581,7 +582,7 @@
     <span class="nd">@asynccontextmanager</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">subscribed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Context manager that subscribes to the property for the duration of the context.</span>
 
@@ -594,11 +595,11 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">skip_first_emit_change</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># This shenanigans is necessary to preserve change semantics.</span>
             <span class="c1"># The initial value of the property is sent back immediately upon subscribing as an &quot;event&quot;.</span>
-            <span class="c1"># We don&#39;t want to call that a &quot;update&quot; at this level, so we don&#39;t emit that.</span>
+            <span class="c1"># We don&#39;t want to call that a &quot;change&quot; at this level, so we don&#39;t emit that.</span>
             <span class="c1"># The initialized value is of course still available from read() at any time.</span>
             <span class="k">nonlocal</span> <span class="n">initialized</span>
             <span class="k">if</span> <span class="n">initialized</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_emit_update</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_emit_change</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -681,8 +682,10 @@
 <div class="viewcode-block" id="PropertyGroup">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.PropertyGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PropertyGroup</span><span class="p">:</span>
+
+    <span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">:</span> <span class="n">RemotePropertyTable</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">AsyncExitStack</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prefix</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span> <span class="o">=</span> <span class="n">remote_property_table</span>
 

@@ -124,6 +124,7 @@
   <h1>Source code for pyspec.server.server</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -135,14 +136,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyee.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._spec_syntax</span><span class="w"> </span><span class="kn">import</span> <span class="n">evaluate_spec_expression</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.server._remote_property</span><span class="w"> </span><span class="kn">import</span> <span class="n">Property</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.._connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServerConnection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._remote_function</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SyncOrAsyncCallable</span><span class="p">,</span>
     <span class="n">is_remote_function</span><span class="p">,</span>
-    <span class="n">parse_remote_function_name</span><span class="p">,</span>
     <span class="n">parse_remote_function_string</span><span class="p">,</span>
     <span class="n">remote_function_name</span><span class="p">,</span>
 <span class="p">)</span>
@@ -189,6 +188,7 @@
 <div class="viewcode-block" id="Server">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">Singleton</span><span class="p">):</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
@@ -243,13 +243,10 @@
 <span class="sd">            dict: Dictionary mapping property names to Property objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">make_broadcaster</span><span class="p">(</span>
-            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">]:</span>
-            <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">broadcast_all</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">broadcast_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">broadcast_all</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">make_broadcaster</span><span class="p">(</span><span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">broadcast_property</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">remote_properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Property</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -257,7 +254,7 @@
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="s2">&quot;Registering remote property: `</span><span class="si">%s</span><span class="s2">` at `</span><span class="si">%s</span><span class="s2">`&quot;</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">)</span>
-                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
                 <span class="n">remote_properties</span><span class="p">[</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop</span>
         <span class="k">return</span> <span class="n">remote_properties</span>
 
@@ -296,21 +293,11 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            PermissionError: If not in test mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">parse_remote_function_name</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_functions</span><span class="p">:</span>
-            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_function</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_remote_code_execution</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">evaluate_spec_expression</span><span class="p">(</span>
-                    <span class="n">command</span><span class="p">,</span> <span class="n">resolve_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_variable_symbol</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="s2">&quot;Attempted to execute non-literal command in non-test mode: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -318,15 +305,6 @@
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="s2">&quot;Command execution is only allowed in test mode.&quot;</span><span class="p">)</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_variable_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Resolve a bare SPEC symbol to a remote variable property value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;var/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">prop</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable &#39;</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&#39; not found on server.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Server.execute_function">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.execute_function">[docs]</a>
@@ -341,10 +319,7 @@
 <span class="sd">            DataType: The result of the function call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">name</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">parse_remote_function_string</span><span class="p">(</span>
-            <span class="n">function_call</span><span class="p">,</span>
-            <span class="n">resolve_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_variable_symbol</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">parse_remote_function_string</span><span class="p">(</span><span class="n">function_call</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_functions</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remote function &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found on server.&quot;</span><span class="p">)</span>
 
@@ -359,7 +334,7 @@
                     <span class="k">return</span> <span class="k">await</span> <span class="n">task</span>
             <span class="k">return</span> <span class="n">result</span>
         <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Function &#39;</span><span class="si">%s</span><span class="s2">&#39; aborted.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Function &#39;</span><span class="si">%s</span><span class="s2">&#39; aborted.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Function execution aborted.&quot;</span><span class="p">)</span></div>
 
 
@@ -402,7 +377,7 @@
 <span class="sd">            client_reader (asyncio.StreamReader): The stream reader for the client connection.</span>
 <span class="sd">            client_writer (asyncio.StreamWriter): The stream writer for the client connection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)</span>
+        <span class="n">host</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">LOGGER</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">connection</span> <span class="o">=</span> <span class="n">ServerConnection</span><span class="p">(</span><span class="n">client_reader</span><span class="p">,</span> <span class="n">client_writer</span><span class="p">)</span>
 

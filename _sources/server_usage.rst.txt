@@ -89,12 +89,7 @@ API Reference
 Notes
 -----
 
-- Always use caution with ``allow_remote_code_execution=True`` as it allows arbitrary code execution. If disabled (default), the server only accepts a restricted expression subset for command/function argument resolution: Python literals and collections, bare symbols, and indexed access such as ``NUMBERS[1]`` or ``LOOKUP['alpha']``.
-- SPEC macro syntax that is not Python-expression syntax (for example ``umv th 1``) is intentionally rejected in restricted mode.
+- Always use caution with ``allow_remote_code_execution=True`` as it allows arbitrary code execution. If disabled (default) only literal values through `ast.literal_eval <https://docs.python.org/3/library/ast.html#ast.literal_eval>`_ can be evaluated from client inputs, which is much safer for production use.
 - The server uses asyncio for concurrency and can handle multiple clients.
 
-References:
-
-- `SPEC server/client help <https://certif.com/spec_help/server.html>`_
-- `SPEC macro language help <https://www.certif.com/spec_help/macros.html>`_
 

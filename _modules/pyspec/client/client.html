@@ -130,7 +130,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConnection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspec._connection.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">._motor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Motor</span><span class="p">,</span> <span class="n">synchronized_motors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._motor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Motor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._remote_property_table</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">EventStream</span><span class="p">,</span>
     <span class="n">Property</span><span class="p">,</span>
@@ -207,8 +207,8 @@
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;)</span>
-<span class="sd">                Sent to clients who have registered when the variable var_name updates value.</span>
+<span class="sd">            on(&quot;change&quot;)</span>
+<span class="sd">                Sent to clients who have registered when the variable var_name changes value.</span>
 <span class="sd">            get</span>
 <span class="sd">                Returns the value of the var_name in the data, if var_name is an existing variable on the server.</span>
 <span class="sd">            set</span>
@@ -241,7 +241,7 @@
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;):</span>
+<span class="sd">            on(&quot;change&quot;):</span>
 <span class="sd">                Sent when the server sends output to the file or device given by filename, where filename can be the built-in name &quot;tty&quot; or a file or device name. The data will be a string representing the output.</span>
 
 <span class="sd">            Once a client has registered for output events from a particular file, the server will keep track of the client&#39;s request as the file is opened and closed.</span>
@@ -267,7 +267,7 @@
 <span class="sd">        scaler/.all./count</span>
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;)</span>
+<span class="sd">            on(&quot;change&quot;)</span>
 <span class="sd">                Sent when counting starts (data is True) and when counting stops (data is False).</span>
 <span class="sd">            get</span>
 <span class="sd">                Data indicates counting (True) or not counting (False).</span>
@@ -284,40 +284,13 @@
 
 <div class="viewcode-block" id="Client.call">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.Client.call">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Property</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call a remote function on the server.</span>
 
-<span class="sd">        If this task raises an exception (e.g. due to a timeout),</span>
-<span class="sd">        the client will send an abort message to the server to stop the execution of the remote function.</span>
-
-<span class="sd">        A timeout can be enforced with the following patterns:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # Pattern 1: Using asyncio.wait_for</span>
-<span class="sd">            try:</span>
-<span class="sd">                result = await asyncio.wait_for(</span>
-<span class="sd">                    client.call(&quot;function_name&quot;, arg1, arg2),</span>
-<span class="sd">                    timeout=5.0,  # seconds</span>
-<span class="sd">                )</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
-
-
-<span class="sd">            # Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
-<span class="sd">            try:</span>
-<span class="sd">                with asyncio.timeout(5.0):  # seconds</span>
-<span class="sd">                    result = await client.call(&quot;function_name&quot;, arg1, arg2)</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
-
 <span class="sd">        Args:</span>
 <span class="sd">            function_name (str): The name of the remote function to call.</span>
-<span class="sd">            *args (str | float | int | Property[Any]): The arguments to pass to the remote function.</span>
-<span class="sd">                Properties under the var/ tree are passed as remote variable symbols.</span>
+<span class="sd">            *args (str | float | int): The arguments to pass to the remote function.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the remote function call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -329,31 +302,6 @@
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a command on the server.</span>
-
-
-<span class="sd">        If this task raises an exception (e.g. due to a timeout),</span>
-<span class="sd">        the client will send an abort message to the server to stop the execution of the remote function.</span>
-
-<span class="sd">        A timeout can be enforced with the following patterns:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # Pattern 1: Using asyncio.wait_for</span>
-<span class="sd">            try:</span>
-<span class="sd">                result = await asyncio.wait_for(</span>
-<span class="sd">                    client.call(&quot;function_name&quot;, arg1, arg2),</span>
-<span class="sd">                    timeout=5.0,  # seconds</span>
-<span class="sd">                )</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
-
-
-<span class="sd">            # Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
-<span class="sd">            try:</span>
-<span class="sd">                with asyncio.timeout(5.0):  # seconds</span>
-<span class="sd">                    result = await client.call(&quot;function_name&quot;, arg1, arg2)</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print(&quot;Remote function call timed out.&quot;)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            command (str): The command to execute.</span>
@@ -394,9 +342,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            RuntimeError: If there are pending motor motions from a previous context.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">async</span> <span class="k">with</span> <span class="n">synchronized_motors</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
-        <span class="p">):</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">synchronized_motors</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">):</span>
             <span class="k">yield</span></div>
 </div>
 

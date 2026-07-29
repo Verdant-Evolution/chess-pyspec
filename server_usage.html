@@ -225,14 +225,8 @@
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Always use caution with <code class="docutils literal notranslate"><span class="pre">allow_remote_code_execution=True</span></code> as it allows arbitrary code execution. If disabled (default), the server only accepts a restricted expression subset for command/function argument resolution: Python literals and collections, bare symbols, and indexed access such as <code class="docutils literal notranslate"><span class="pre">NUMBERS[1]</span></code> or <code class="docutils literal notranslate"><span class="pre">LOOKUP['alpha']</span></code>.</p></li>
-<li><p>SPEC macro syntax that is not Python-expression syntax (for example <code class="docutils literal notranslate"><span class="pre">umv</span> <span class="pre">th</span> <span class="pre">1</span></code>) is intentionally rejected in restricted mode.</p></li>
+<li><p>Always use caution with <code class="docutils literal notranslate"><span class="pre">allow_remote_code_execution=True</span></code> as it allows arbitrary code execution. If disabled (default) only literal values through <a class="reference external" href="https://docs.python.org/3/library/ast.html#ast.literal_eval">ast.literal_eval</a> can be evaluated from client inputs, which is much safer for production use.</p></li>
 <li><p>The server uses asyncio for concurrency and can handle multiple clients.</p></li>
-</ul>
-<p>References:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://certif.com/spec_help/server.html">SPEC server/client help</a></p></li>
-<li><p><a class="reference external" href="https://www.certif.com/spec_help/macros.html">SPEC macro language help</a></p></li>
 </ul>
 </section>
 </section>
