@@ -277,17 +277,19 @@ def _deserialize_data(
         ValueError: If the type is unsupported for deserialization.
         UnicodeDecodeError: If the bytes cannot be decoded as UTF-8 for string types.
     """
-    if data_bytes:
-        assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
-        data_bytes = data_bytes[:-1]
-
     data_type = Type(header.data_type)
+    if data_bytes:
+        # Null terminations are not required on arrays
+        if not data_type.is_array_type():
+            assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
+            data_bytes = data_bytes[:-1]
+
     if data_type == Type.DOUBLE:
         # This is not actually sent by a true SPEC server.
         return struct.unpack(f"{endianness}d", data_bytes)[0]
     elif data_type == Type.STRING:
         data_string = data_bytes.decode("utf-8")
-        # Try to cast to numeric is possible.
+        # Try to cast to numeric if possible.
         # https://certif.com/spec_help/server.html
         # The spec server sends both string-valued and number-valued items as strings.
         # Numbers are converted to strings using a printf("%.15g") format.
@@ -334,12 +336,12 @@ async def _read_prefix(
     # Unless the size of the header is larger than 2GB, this should not cause issues.
     fields = "Iii"
     prefix_bytes = await stream.readexactly(struct.calcsize(fields))
-    (magic_le, version, size) = struct.unpack(f"<{fields}", prefix_bytes)
+    magic_le, version, size = struct.unpack(f"<{fields}", prefix_bytes)
     if magic_le == SPEC_MAGIC:
         endianness = "<"
         return prefix_bytes, version, size, endianness
 
-    (magic_be, version, size) = struct.unpack(f">{fields}", prefix_bytes)
+    magic_be, version, size = struct.unpack(f">{fields}", prefix_bytes)
     if magic_be == SPEC_MAGIC:
         endianness = ">"
         return prefix_bytes, version, size, endianness
