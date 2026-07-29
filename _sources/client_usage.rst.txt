@@ -51,6 +51,32 @@ Features
 - **Associative Arrays**: Access and manipulate SPEC associative arrays as Python dictionaries.
 - **Event-Driven Programming**: Subscribe to property changes and handle updates asynchronously.
 
+Command Expression Syntax
+-------------------------
+
+PySpec does **not** pre-validate :py:meth:`client.exec <pyspec.client.Client.exec>`
+syntax on the client. Commands are sent to the server as-is, and syntax handling is
+performed server-side.
+
+For the built-in PySpec server when remote code execution is disabled, command and
+function argument parsing supports a restricted, Python-parseable expression subset:
+
+- literals: ``1``, ``1.5``, ``'text'``, ``True``, ``None``
+- collection literals: ``[1, 2]``, ``(1, 2)``, ``{'k': 1}``, ``{1, 2}``
+- variable symbols: ``TEMP``
+- indexed access: ``NUMBERS[1]``, ``LOOKUP['alpha']``, ``ARRAY[X]``
+- chained index access (depth <= 2): ``ARRAY[1][2]``
+- function-call form: ``sum(1, TEMP)``
+
+This is **not** a full SPEC language parser. SPEC macro forms that are not valid as
+Python expressions are rejected in this restricted server-side mode, including
+whitespace-style macro invocation such as ``umv th 1``.
+
+References:
+
+- `SPEC server/client help <https://certif.com/spec_help/server.html>`_
+- `SPEC macro language help <https://www.certif.com/spec_help/macros.html>`_
+
 API Reference
 -------------
 

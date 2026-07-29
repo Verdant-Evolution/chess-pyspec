@@ -472,7 +472,6 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the command execution from the remote host.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_abort_on_interrupt</span><span class="p">():</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span>
                 <span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD_WITH_RETURN</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span>
