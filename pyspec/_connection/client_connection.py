@@ -345,7 +345,6 @@ class ClientConnection(
         Returns:
             DataType: The result of the command execution from the remote host.
         """
-
         async with self._abort_on_interrupt():
             return await self._send_with_reply(
                 Header(Command.CMD_WITH_RETURN), data=cmd

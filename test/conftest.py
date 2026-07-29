@@ -3,6 +3,7 @@ from contextlib import suppress
 
 import pytest_asyncio
 
+from pyspec._connection.associative_array import AssociativeArray
 from pyspec.server import Property, Variable
 from pyspec.server import Server as PyspecServer
 from pyspec.server import remote_function
@@ -24,6 +25,10 @@ class Server(PyspecServer):
     def argument_types(self, *args):
         return ",".join(type(arg).__name__ for arg in args)
 
+    @remote_function
+    def identity(self, value):
+        return value
+
     foo = Property[int]("foo", 0)
 
     ticker = Property[int]("ticker", 0)
@@ -31,6 +36,14 @@ class Server(PyspecServer):
     flag = Property[int]("flag", 0)
 
     temperature = Variable[int]("TEMP", 0)
+    index = Variable[int]("X", 1)
+    numbers = Variable("NUMBERS", [10, 20, 30])
+    _lookup = AssociativeArray()
+    _lookup["alpha"] = 40
+    lookup = Variable("LOOKUP", _lookup)
+    _lookup2 = AssociativeArray()
+    _lookup2[1, 2] = 99
+    lookup2 = Variable("LOOKUP2", _lookup2)
 
     async def tick(self):
         while True:

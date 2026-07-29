@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import ast
 import asyncio
 import inspect
 import logging
@@ -12,6 +11,7 @@ from typing import Any, Callable
 from pyee.asyncio import AsyncIOEventEmitter
 
 from pyspec._connection.data import DataType
+from pyspec._spec_syntax import evaluate_spec_expression
 from pyspec.server._remote_property import Property
 
 from .._connection import ServerConnection
@@ -177,7 +177,9 @@ class Server(AsyncIOEventEmitter, Singleton):
             return eval(command)
         else:
             try:
-                return ast.literal_eval(command)
+                return evaluate_spec_expression(
+                    command, resolve_symbol=self._resolve_variable_symbol
+                )
             except Exception:
                 LOGGER.warning(
                     "Attempted to execute non-literal command in non-test mode: %s",
