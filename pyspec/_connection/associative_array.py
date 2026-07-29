@@ -55,6 +55,9 @@ class AssociativeArray:
         super().__init__()
         self.data = {}
 
+    def __contains__(self, key: AssociativeArrayKey) -> bool:
+        return self.data.get(self.compose_key(key)) is not None
+
     def __getitem__(
         self,
         key: AssociativeArrayKey,
