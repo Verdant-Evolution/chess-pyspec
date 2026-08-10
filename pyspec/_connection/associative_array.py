@@ -1,5 +1,6 @@
 import re
-from typing import Dict, Iterable, Optional, Tuple, TypeVar, Union
+from typing import Dict, Iterable, Iterator, Optional, Tuple, TypeVar, Union
+from collections import defaultdict
 
 AssociativeArrayElement = Union[float, int, str]
 AssociativeArrayKey = Union[
@@ -58,6 +59,10 @@ class AssociativeArray:
     def __contains__(self, key: AssociativeArrayKey) -> bool:
         return self.data.get(self.compose_key(key)) is not None
 
+    def __iter__(self) -> Iterator[AssociativeArrayKey]:
+        for key in self.data.keys():
+            yield self.decompose_key(key)
+
     def __getitem__(
         self,
         key: AssociativeArrayKey,
@@ -91,6 +96,23 @@ class AssociativeArray:
                 f"{cls.stringify_key(key1)}{cls.KEY_SEPARATOR}{cls.stringify_key(key2)}"
             )
         return cls.stringify_key(key)
+
+    @classmethod
+    def decompose_key(cls, key: str) -> AssociativeArrayKey:
+        if cls.KEY_SEPARATOR in key:
+            key1, key2 = key.split(cls.KEY_SEPARATOR)
+            return cls.try_parse_key(key1), cls.try_parse_key(key2)
+        return cls.try_parse_key(key)
+
+    @classmethod
+    def try_parse_key(cls, key: str) -> AssociativeArrayElement:
+        try:
+            v = float(key)
+            if v.is_integer():
+                return int(v)
+            return v
+        except ValueError:
+            return key
 
     @staticmethod
     def stringify_key(key: Union[float, int, str]) -> str:
@@ -156,6 +178,40 @@ class AssociativeArray:
             other (AssociativeArray): The other associative array to update from.
         """
         self.data.update(other.data)
+
+    def to_dict(
+        self,
+    ) -> Dict[
+        AssociativeArrayKey,
+        Union[
+            Dict[AssociativeArrayKey, AssociativeArrayElement], AssociativeArrayElement
+        ],
+    ]:
+        """
+        Convert the associative array to a dictionary.
+
+        Returns:
+            Dict[AssociativeArrayKey, AssociativeArrayElement]: The dictionary representation of the associative array.
+        """
+        d: Dict[
+            AssociativeArrayKey,
+            Union[
+                Dict[AssociativeArrayKey, AssociativeArrayElement],
+                AssociativeArrayElement,
+            ],
+        ] = defaultdict(dict)
+        for key in self:
+            if isinstance(key, tuple):
+                key1, key2 = key
+                d2 = d[key1]
+                if not isinstance(d2, dict):
+                    raise ValueError(
+                        f"Key {key1} is already set to a non-dict value, cannot set {key2} as a subkey."
+                    )
+                d2[key2] = self[key]
+            else:
+                d[key] = self[key]
+        return dict(d)
 
 
 # This is just:
