@@ -279,11 +279,8 @@ def _deserialize_data(
     """
     data_type = Type(header.data_type)
     if data_bytes:
-        # Null terminations are not required on arrays
-        has_null_termination = data_bytes.endswith(b"\x00")
         if not data_type.is_array_type():
-            assert has_null_termination, "Data bytes should end with NULL byte."
-        if has_null_termination:
+            assert data_bytes.endswith(b"\x00"), "Data bytes should end with NULL byte."
             data_bytes = data_bytes[:-1]
 
     if data_type == Type.DOUBLE:
@@ -305,9 +302,17 @@ def _deserialize_data(
         return ErrorStr(data_bytes.decode("utf-8"))
     elif data_type.is_array_type():
         if data_type == Type.ARR_STRING:
+            if data_bytes.endswith(b"\x00"):
+                data_bytes = data_bytes[:-1]
             array = _decode_to_numpy_string_array(data_bytes)
         else:
-            array = np.frombuffer(data_bytes, dtype=data_type.to_numpy_type(endianness))
+            numpy_dtype = data_type.to_numpy_type(endianness)
+            expected_size = header.rows * header.cols * np.dtype(numpy_dtype).itemsize
+            if expected_size not in (len(data_bytes), len(data_bytes) - 1):
+                raise ValueError(
+                    f"Data size mismatch: expected {expected_size} bytes, got {len(data_bytes)} bytes."
+                )
+            array = np.frombuffer(data_bytes[:expected_size], dtype=numpy_dtype)
 
         array = array.reshape((header.rows, header.cols))
         # TODO: Need to test this with SPEC.
@@ -379,7 +384,14 @@ async def _read_one_message(
     )
 
     data_bytes = await stream.readexactly(header.length)
-    data = _deserialize_data(header, data_bytes, apparent_endianness)
+
+    try:
+        data = _deserialize_data(header, data_bytes, apparent_endianness)
+    except Exception as e:
+        logger.critical("Failed to deserialize data: %s", e)
+        logger.critical("Header: %s", long_str(header, None))
+        logger.critical("Data bytes: %s", data_bytes)
+        raise
 
     logger.info("Received: %s", short_str(header, data))
     logger.debug("Detail: %s", long_str(header, data))
@@ -414,6 +426,9 @@ async def message_stream(
             yield await _read_one_message(stream, logger)
         except asyncio.IncompleteReadError:
             break
+        except Exception as e:
+            logger.critical("Error reading message: %s", e)
+            
 
 
 def serialize(

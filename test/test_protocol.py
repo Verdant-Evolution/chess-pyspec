@@ -183,3 +183,42 @@ async def test_numpy_string_array_serialization():
     assert isinstance(read_data, np.ndarray)
     assert read_data.dtype.kind in {"U", "S"}  # Unicode or bytes string
     np.testing.assert_array_equal(read_data, array)
+
+
+@pytest.mark.asyncio
+async def test_array_deserialization_when_data_incidentally_ends_with_null_byte():
+    # Raw uint16 little-endian bytes for [1] are b"\x01\x00" and incidentally end with NULL.
+    array = np.array([1], dtype=np.uint16)
+    header = Header(Command.CHAN_SEND, 3, "array ends with null data byte")
+    header_struct, data_bytes = serialize(header, array, endianness="<")
+
+    # Simulate a sender that does not append an explicit terminator for array data.
+    data_bytes = data_bytes[:-1]
+    header_struct.length -= 1
+
+    read_header, read_data, read_endianness = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert read_endianness == "<"
+    assert isinstance(read_data, np.ndarray)
+    np.testing.assert_array_equal(read_data, array)
+
+
+@pytest.mark.asyncio
+async def test_array_deserialization_when_data_ends_with_null_and_has_terminator():
+    # Raw uint16 little-endian bytes for [1] are b"\x01\x00" and incidentally end with NULL.
+    # We keep the extra trailing NULL terminator produced by serialize.
+    array = np.array([1], dtype=np.uint16)
+    header = Header(Command.CHAN_SEND, 4, "array null data byte plus terminator")
+    header_struct, data_bytes = serialize(header, array, endianness="<")
+
+    read_header, read_data, read_endianness = await read_one_message(
+        bytes(header_struct) + data_bytes
+    )
+
+    assert read_header == header
+    assert read_endianness == "<"
+    assert isinstance(read_data, np.ndarray)
+    np.testing.assert_array_equal(read_data, array)
