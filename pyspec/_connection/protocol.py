@@ -428,7 +428,7 @@ async def message_stream(
             break
         except Exception as e:
             logger.critical("Error reading message: %s", e)
-            
+            break
 
 
 def serialize(
