@@ -1,0 +1,12 @@
+{
+  "scan_count": 1,
+  "scans": [
+    {
+      "number": 1,
+      "columns": 3,
+      "labels": ["Temperature", "Voltage", "Counts"],
+      "data": [[23.4, 1.01, 30456], [23.6, 1.015, 24000]],
+      "errors": []
+    }
+  ]
+}

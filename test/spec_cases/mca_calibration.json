@@ -1,0 +1,18 @@
+{
+  "scan_count": 1,
+  "scans": [
+    {
+      "number": 3,
+      "command": "mca",
+      "columns": 1,
+      "errors": [],
+      "mcas": [
+        {
+          "calib": [0.5, 2, 0],
+          "data": [[0, 7], [1, 8], [2, 9]],
+          "calibrated_data": [[0.5, 7], [2.5, 8], [4.5, 9]]
+        }
+      ]
+    }
+  ]
+}
