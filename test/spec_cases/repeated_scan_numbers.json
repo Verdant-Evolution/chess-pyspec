@@ -1,0 +1,28 @@
+{
+  "scan_count": 2,
+  "number_of_scans": 2,
+  "lookups": [
+    {"number": 10, "command": "second"},
+    {"number": 10, "instance": 1, "command": "first"}
+  ],
+  "scans": [
+    {
+      "number": 10,
+      "command": "first",
+      "order": 1,
+      "number_in_file": 0,
+      "columns": 1,
+      "data": [[1]],
+      "errors": []
+    },
+    {
+      "number": 10,
+      "command": "second",
+      "order": 2,
+      "number_in_file": 1,
+      "columns": 1,
+      "data": [[2]],
+      "errors": []
+    }
+  ]
+}

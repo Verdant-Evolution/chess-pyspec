@@ -1,0 +1,16 @@
+{
+  "scan_count": 1,
+  "scans": [
+    {
+      "number": 2,
+      "command": "ascan theta 0 1 2 1",
+      "source": "example.spec",
+      "file_epoch": 1700000000,
+      "columns": 2,
+      "labels": ["angle", "counts"],
+      "count_time": ["1", "seconds"],
+      "data": [[0, 10], [1, 11]],
+      "errors": []
+    }
+  ]
+}

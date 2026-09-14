@@ -1,0 +1,23 @@
+{
+  "scan_count": 2,
+  "scans": [
+    {
+      "number": 1,
+      "command": "first",
+      "columns": 1,
+      "motor_names": ["Theta"],
+      "motor_positions": [["Theta", "1"]],
+      "data": [[10]],
+      "errors": []
+    },
+    {
+      "number": 2,
+      "command": "second",
+      "columns": 1,
+      "motor_names": ["Chi", "Phi"],
+      "motor_positions": [["Chi", "2"], ["Phi", "3"]],
+      "data": [[20]],
+      "errors": []
+    }
+  ]
+}
