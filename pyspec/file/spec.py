@@ -212,7 +212,7 @@ class FileSpec(list):
             if not sline.strip():
                 continue
 
-            if sline[0] in ["S", "F", "E"]:
+            if sline[0] in ["S", "F", "E"] or (sline[0] == "O" and not self.inheader):
 
                 btype = sline[0]
 
@@ -227,7 +227,7 @@ class FileSpec(list):
                 if fb is not None:
                     fb.end()
 
-                if btype in ("F", "E"):
+                if btype in ("F", "E", "O"):
                     if btype == "F":
                         self.origfilename = sline[2:].strip()
                     fb = Header(blockstart, blockline)
