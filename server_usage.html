@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
@@ -164,27 +164,27 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">Server</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">remote_function</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MySpecServer</span><span class="p">(</span><span class="n">Server</span><span class="p">):</span>
-    <span class="n">my_property</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_property&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">my_property</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"my_property"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="nd">@remote_function</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">MySpecServer</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">server</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">MySpecServer</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">server</span><span class="p">:</span>
         <span class="k">await</span> <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>SPEC Client Side:</p>
-<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>&gt;&gt;<span class="w"> </span>host<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;localhost:12345&quot;</span>
-&gt;&gt;<span class="w"> </span>remote_par(host,<span class="w"> </span><span class="s2">&quot;connect&quot;</span>)
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>&gt;&gt;<span class="w"> </span>host<span class="w"> </span>=<span class="w"> </span><span class="s2">"localhost:12345"</span>
+&gt;&gt;<span class="w"> </span>remote_par(host,<span class="w"> </span><span class="s2">"connect"</span>)
 <span class="c"># Now the connection should be established.</span>
-&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>)
+&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">"my_property"</span>)
 0
-&gt;&gt;<span class="w"> </span>property_put(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>,<span class="w"> </span>42)
-&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">&quot;my_property&quot;</span>)
+&gt;&gt;<span class="w"> </span>property_put(host,<span class="w"> </span><span class="s2">"my_property"</span>,<span class="w"> </span>42)
+&gt;&gt;<span class="w"> </span>property_get(host,<span class="w"> </span><span class="s2">"my_property"</span>)
 42
-&gt;&gt;<span class="w"> </span>remote_cmd(host,<span class="w"> </span><span class="s2">&quot;add(1, 2)&quot;</span>)
+&gt;&gt;<span class="w"> </span>remote_cmd(host,<span class="w"> </span><span class="s2">"add(1, 2)"</span>)
 3.0
 </pre></div>
 </div>
@@ -193,14 +193,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># Should print 3.0</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;my_property&#39;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">'add'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># Should print 3.0</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'my_property'</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># Should print 0</span>
         <span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># Should print 42</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>

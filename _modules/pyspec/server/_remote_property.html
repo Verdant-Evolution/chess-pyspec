@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -132,33 +132,33 @@
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">DataType</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">DataType</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PropertyEventEmitter</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">AsyncIOEventEmitter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This class extends AsyncIOEventEmitter to provide type-safe event emission and handling for property change events.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
-        <span class="c1"># type: (Literal[&quot;update&quot;], T) -&gt; None # type: ignore</span>
+        <span class="c1"># type: (Literal["update"], T) -&gt; None # type: ignore</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;update&quot;</span><span class="p">],</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"update"</span><span class="p">],</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Property">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Property">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Property</span><span class="p">(</span><span class="n">PropertyEventEmitter</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Defines a property that can be remotely accessed by clients.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name (str): The name of the property.</span>
 <span class="sd">        initial_value (T): The initial value of the property.</span>
 <span class="sd">        dtype (type[T] | type[object], optional): The expected data type of the property. Defaults to object (no validation).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -174,59 +174,59 @@
 <div class="viewcode-block" id="Property.get">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Property.get">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the current value of the property.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            T: The current value of the property.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span></div>
 
 
 <div class="viewcode-block" id="Property.set">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Property.set">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the value of the property and emit a change event.</span>
 
 <span class="sd">        :param value: The new value to set.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected data of type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Expected data of type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"update"</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Property &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; updated to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> and &#39;update&#39; event emitted.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Property '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' updated to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> and 'update' event emitted."</span>
         <span class="p">)</span></div>
 </div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">variable_property_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Build the canonical server property path for a SPEC variable.</span>
 
-<span class="sd">    Leading and trailing slashes are stripped so inputs like &quot;NAME/&quot;,</span>
-<span class="sd">    &quot;/var/NAME/&quot;, and &quot;var/NAME&quot; all normalize to &quot;var/NAME&quot;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">normalized_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">normalized_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;var/&quot;</span><span class="p">):</span>
+<span class="sd">    Leading and trailing slashes are stripped so inputs like "NAME/",</span>
+<span class="sd">    "/var/NAME/", and "var/NAME" all normalize to "var/NAME".</span>
+<span class="sd">    """</span>
+    <span class="n">normalized_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normalized_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"var/"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">normalized_name</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;var/</span><span class="si">{</span><span class="n">normalized_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"var/</span><span class="si">{</span><span class="n">normalized_name</span><span class="si">}</span><span class="s2">"</span>
 
 
 <div class="viewcode-block" id="Variable">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Variable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Variable</span><span class="p">(</span><span class="n">Property</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Defines a remotely accessible SPEC variable property.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name (str): The variable name. It will be exposed as var/{name}.</span>
-<span class="sd">            Accepts: &quot;var/NAME&quot;, &quot;/var/NAME&quot;, or &quot;NAME&quot; (all will be treated as var/NAME).</span>
+<span class="sd">            Accepts: "var/NAME", "/var/NAME", or "NAME" (all will be treated as var/NAME).</span>
 <span class="sd">        initial_value (T): The initial value of the variable.</span>
 <span class="sd">        dtype (type[T] | type[object], optional): The expected data type of the variable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -236,7 +236,7 @@
     <span class="p">):</span>
 
         <span class="n">full_name</span> <span class="o">=</span> <span class="n">variable_property_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">variable_name</span> <span class="o">=</span> <span class="n">full_name</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;var/&quot;</span><span class="p">)</span> <span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_name</span> <span class="o">=</span> <span class="n">full_name</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"var/"</span><span class="p">)</span> <span class="p">:]</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 
 </pre></div>

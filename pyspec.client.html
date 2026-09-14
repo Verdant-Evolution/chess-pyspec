@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
@@ -285,19 +285,19 @@ the client will send an abort message to the server to stop the execution of the
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pattern 1: Using asyncio.wait_for</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">"function_name"</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
         <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>  <span class="c1"># seconds</span>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Remote function call timed out."</span><span class="p">)</span>
 
 
 <span class="c1"># Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">5.0</span><span class="p">):</span>  <span class="c1"># seconds</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">"function_name"</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Remote function call timed out."</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -354,19 +354,19 @@ the client will send an abort message to the server to stop the execution of the
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pattern 1: Using asyncio.wait_for</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">"function_name"</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">),</span>
         <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>  <span class="c1"># seconds</span>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Remote function call timed out."</span><span class="p">)</span>
 
 
 <span class="c1"># Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">5.0</span><span class="p">):</span>  <span class="c1"># seconds</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;function_name&quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">"function_name"</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remote function call timed out.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Remote function call timed out."</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -405,11 +405,11 @@ The parameters for the commands that are sent from the client and the values in 
 <span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/client.html#Client.output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.Client.output" title="Link to this definition">¶</a></dt>
 <dd><p>The output property puts copies of the strings written to files or to the screen in events sent to clients.</p>
 <p>output/filename</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;):
-    Sent when the server sends output to the file or device given by filename, where filename can be the built-in name &quot;tty&quot; or a file or device name. The data will be a string representing the output.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update"):
+    Sent when the server sends output to the file or device given by filename, where filename can be the built-in name "tty" or a file or device name. The data will be a string representing the output.
 
-Once a client has registered for output events from a particular file, the server will keep track of the client&#39;s request as the file is opened and closed.
-File names are given relative to the server&#39;s current directory and can be relative or absolute path names, just as with the built-in commands that refer to files.
+Once a client has registered for output events from a particular file, the server will keep track of the client's request as the file is opened and closed.
+File names are given relative to the server's current directory and can be relative or absolute path names, just as with the built-in commands that refer to files.
 
 (The output property was introduced in spec release 5.07.04-1.)
 </pre></div>
@@ -478,7 +478,7 @@ File names are given relative to the server&#39;s current directory and can be r
 <dd><p>The var properties allow values of any variables to be transferred between the server and the client.
 Enter only the variable name; the property will be created as: var/{var_name}</p>
 <p>var/var_name</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update")
     Sent to clients who have registered when the variable var_name updates value.
 get
     Returns the value of the var_name in the data, if var_name is an existing variable on the server.
@@ -532,9 +532,9 @@ set
 <span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client.EventStream.capture" title="Link to this definition">¶</a></dt>
 <dd><p>Context manager that captures output from the server for the duration of the context.</p>
 <p>Example usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
-    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;print(&quot;Hello, world!&quot;)&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"tty"</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">'print("Hello, world!")'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Hello, world!</span><span class="se">\n</span><span class="s2">"</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1016,7 +1016,7 @@ Upon exiting the context, the movements will be initialized simultaneously.</p>
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">quit</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
 <dd><p>status/quit</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server exits.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update"): Sent when the server exits.
 get: Always read back as zero.
 </pre></div>
 </div>
@@ -1026,7 +1026,7 @@ get: Always read back as zero.
 <dt class="sig sig-object py" id="id1">
 <span class="sig-name descname"><span class="pre">ready</span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
 <dd><p>status/ready</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server is waiting for input at the interactive prompt (True)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update"): Sent when the server is waiting for input at the interactive prompt (True)
               and after a return has been typed at the interactive prompt (False).
               The server is available to execute commands from clients when it is ready.
 
@@ -1039,7 +1039,7 @@ get: True if the server command thread is busy and unable to immediately process
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">shell</span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
 <dd><p>status/shell</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update"): Sent when the server enters a subshell (True) or returns from a subshell (False).
 get: True if server command thread is in a subshell, otherwise False.
 </pre></div>
 </div>
@@ -1052,7 +1052,7 @@ Prior to spec release 6.06.01, the server did not process commands when in a sub
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">simulate</span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
 <dd><p>status/simulate</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on(&quot;update&quot;): Sent when the server enters (True) or leaves (False) simulate mode.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>on("update"): Sent when the server enters (True) or leaves (False) simulate mode.
 get: True if server is in simulate mode, otherwise False.
 </pre></div>
 </div>
@@ -1116,9 +1116,9 @@ get: True if server is in simulate mode, otherwise False.
 <span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspec/client/_remote_property_table.html#EventStream.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspec.client._remote_property_table.EventStream.capture" title="Link to this definition">¶</a></dt>
 <dd><p>Context manager that captures output from the server for the duration of the context.</p>
 <p>Example usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
-    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">&#39;print(&quot;Hello, world!&quot;)&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="s2">"tty"</span><span class="p">)</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s1">'print("Hello, world!")'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Hello, world!</span><span class="se">\n</span><span class="s2">"</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

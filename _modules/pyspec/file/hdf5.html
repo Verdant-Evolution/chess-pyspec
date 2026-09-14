@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -132,9 +132,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
 
-<span class="n">DATA_LOCATION</span> <span class="o">=</span> <span class="s2">&quot;/entry/data/&quot;</span>
+<span class="n">DATA_LOCATION</span> <span class="o">=</span> <span class="s2">"/entry/data/"</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>  <span class="c1"># TODO: Bind to h5py stuff</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>  <span class="c1"># TODO: Bind to h5py stuff</span>
 
 
 <div class="viewcode-block" id="get">
@@ -142,7 +142,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
     <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected_type</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Expected </span><span class="si">{</span><span class="n">expected_type</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">value</span></div>
 
 
@@ -158,21 +158,21 @@
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hdf5.H5Reader.get_nb_images">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_nb_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">ifd</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ifd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;nb_images&quot;</span><span class="p">]</span></div>
+            <span class="k">return</span> <span class="n">ifd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"nb_images"</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="H5Reader.get_image">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hdf5.H5Reader.get_image">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imgno</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">ifd</span><span class="p">:</span>
-            <span class="n">nb_images</span> <span class="o">=</span> <span class="n">ifd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;nb_images&quot;</span><span class="p">]</span>
+            <span class="n">nb_images</span> <span class="o">=</span> <span class="n">ifd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"nb_images"</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">imgno</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">imgno</span> <span class="o">&lt;=</span> <span class="n">nb_images</span><span class="p">:</span>
                 <span class="n">dgroup</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">ifd</span><span class="p">,</span> <span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">dgroup</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">d</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">dgroup</span><span class="p">,</span> <span class="n">ky</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="n">h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
-                    <span class="n">fimg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;image_nr_low&quot;</span><span class="p">]</span>
-                    <span class="n">limg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;image_nr_high&quot;</span><span class="p">]</span>
+                    <span class="n">fimg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"image_nr_low"</span><span class="p">]</span>
+                    <span class="n">limg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"image_nr_high"</span><span class="p">]</span>
                     <span class="k">if</span> <span class="n">imgno</span> <span class="o">&gt;=</span> <span class="n">fimg</span> <span class="ow">and</span> <span class="n">imgno</span> <span class="o">&lt;=</span> <span class="n">limg</span><span class="p">:</span>
                         <span class="n">idx</span> <span class="o">=</span> <span class="n">imgno</span> <span class="o">-</span> <span class="n">fimg</span>
                         <span class="k">return</span> <span class="n">d</span><span class="p">[()][</span><span class="n">idx</span><span class="p">]</span>
@@ -196,21 +196,21 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">choose_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="n">log</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Creating file: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"Creating file: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofd</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofd</span><span class="p">:</span>
             <span class="n">ofd</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="H5Writer.save_metadata">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hdf5.H5Writer.save_metadata">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">rootky</span><span class="o">=</span><span class="s2">&quot;/entry&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">rootky</span><span class="o">=</span><span class="s2">"/entry"</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
-        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_save_metadata</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">rootky</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_save_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">rootky</span><span class="o">=</span><span class="s2">&quot;/entry&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_save_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">rootky</span><span class="o">=</span><span class="s2">"/entry"</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">ky</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">h5ky</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootky</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
 
@@ -221,18 +221,18 @@
                     <span class="k">pass</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_save_metadata</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">h5ky</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;looking for </span><span class="si">%s</span><span class="s2"> in </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">rootky</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"looking for </span><span class="si">%s</span><span class="s2"> in </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">rootky</span><span class="p">))</span>
                 <span class="k">if</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">fd</span><span class="p">[</span><span class="n">rootky</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> already exists&quot;</span> <span class="o">%</span> <span class="n">ky</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> already exists"</span> <span class="o">%</span> <span class="n">ky</span><span class="p">)</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                         <span class="k">del</span> <span class="n">fd</span><span class="p">[</span><span class="n">h5ky</span><span class="p">]</span>
                         <span class="n">fd</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">h5ky</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">fd</span><span class="p">[</span><span class="n">h5ky</span><span class="p">]</span><span class="o">.</span><span class="n">write_direct</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">value</span><span class="p">]))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> creating&quot;</span> <span class="o">%</span> <span class="n">ky</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> creating"</span> <span class="o">%</span> <span class="n">ky</span><span class="p">)</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                        <span class="n">dtype</span> <span class="o">=</span> <span class="s2">&quot;S&quot;</span>
+                        <span class="n">dtype</span> <span class="o">=</span> <span class="s2">"S"</span>
                     <span class="k">else</span><span class="p">:</span>  <span class="c1"># valid for single number values and for list/tuple objects</span>
                         <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                         <span class="n">dtype</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span>
@@ -244,13 +244,13 @@
         <span class="n">dkeys</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">fileno</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofd</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofd</span><span class="p">:</span>
             <span class="n">data_group</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">ofd</span><span class="p">,</span> <span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">data_group</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">fileno</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">dkeys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ky</span><span class="p">)</span>
-                <span class="n">last_imgno</span> <span class="o">=</span> <span class="n">data_group</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;image_nr_high&quot;</span><span class="p">]</span>
+                <span class="n">last_imgno</span> <span class="o">=</span> <span class="n">data_group</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"image_nr_high"</span><span class="p">]</span>
 
             <span class="c1"># how many images in last one</span>
             <span class="n">newfile</span> <span class="o">=</span> <span class="kc">False</span>
@@ -267,36 +267,36 @@
                 <span class="n">fileno</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="n">imgno</span> <span class="o">=</span> <span class="mi">1</span>
 
-            <span class="n">dataky</span> <span class="o">=</span> <span class="s2">&quot;data_</span><span class="si">%06d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fileno</span>
+            <span class="n">dataky</span> <span class="o">=</span> <span class="s2">"data_</span><span class="si">%06d</span><span class="s2">"</span> <span class="o">%</span> <span class="n">fileno</span>
             <span class="n">fullky</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="n">dataky</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">newfile</span><span class="p">:</span>
                 <span class="n">data_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_datafile</span><span class="p">(</span><span class="n">dataky</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
                 <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">ExternalLink</span><span class="p">(</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_filename</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_filename</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;image_nr_low&quot;</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
-                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;image_nr_high&quot;</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
+                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">"image_nr_low"</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
+                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">"image_nr_high"</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># append data to latest file</span>
                 <span class="n">dset</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">ofd</span><span class="p">,</span> <span class="n">fullky</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="n">h5py</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
                 <span class="n">newlen</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="n">newshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">newlen</span><span class="p">,</span> <span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
                 <span class="n">dset</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">newshape</span><span class="p">)</span>
                 <span class="n">dset</span><span class="p">[</span><span class="n">newlen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="s2">&quot;image_nr_high&quot;</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
-            <span class="n">ofd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="s2">&quot;nb_images&quot;</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span></div>
+                <span class="n">ofd</span><span class="p">[</span><span class="n">fullky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="s2">"image_nr_high"</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span>
+            <span class="n">ofd</span><span class="p">[</span><span class="n">DATA_LOCATION</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="s2">"nb_images"</span><span class="p">,</span> <span class="n">imgno</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="H5Writer.create_datafile">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hdf5.H5Writer.create_datafile">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_datafile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataky</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="n">data_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;master&quot;</span><span class="p">,</span> <span class="n">dataky</span><span class="p">)</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot; - creating datafile </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data_filename</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">data_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfd</span><span class="p">:</span>
+        <span class="n">data_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"master"</span><span class="p">,</span> <span class="n">dataky</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">" - creating datafile </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">data_filename</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">data_filename</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfd</span><span class="p">:</span>
             <span class="n">maxshape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="kc">None</span><span class="p">,)</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">dfd</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_LOCATION</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">),</span>
                 <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                 <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
@@ -314,17 +314,17 @@
         <span class="k">return</span> <span class="n">filename</span>
 
     <span class="c1"># search for _master</span>
-    <span class="n">mat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(.*?)(([\-\.\_]master)(.*?)$)&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(.*?)(([\-\.\_]master)(.*?)$)"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mat</span><span class="p">:</span>
         <span class="n">base</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">master</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">base</span><span class="p">,</span> <span class="n">master</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="n">master</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">master</span>
+        <span class="n">master</span> <span class="o">=</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">master</span>
 
     <span class="n">fileno</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">while</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%02d%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">fileno</span><span class="p">,</span> <span class="n">master</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">_</span><span class="si">%02d%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">fileno</span><span class="p">,</span> <span class="n">master</span><span class="p">)</span>
         <span class="n">fileno</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">return</span> <span class="n">filename</span></div>
@@ -338,24 +338,24 @@
     <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;instrument&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;chi&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-            <span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-            <span class="s2">&quot;th&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-            <span class="s2">&quot;scanpositions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+        <span class="s2">"instrument"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"chi"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+            <span class="s2">"phi"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="s2">"th"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="s2">"scanpositions"</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
         <span class="p">},</span>
-        <span class="s2">&quot;save_time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
-        <span class="s2">&quot;detector&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;exptime&quot;</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>
-            <span class="s2">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span>
-            <span class="s2">&quot;acqmode&quot;</span><span class="p">:</span> <span class="s2">&quot;PC&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;StreakCamera&quot;</span><span class="p">,</span>
+        <span class="s2">"save_time"</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+        <span class="s2">"detector"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"exptime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>
+            <span class="s2">"threshold"</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span>
+            <span class="s2">"acqmode"</span><span class="p">:</span> <span class="s2">"PC"</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"StreakCamera"</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">}</span>
 
-    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"f"</span><span class="p">)</span>
 
-    <span class="n">w</span> <span class="o">=</span> <span class="n">H5Writer</span><span class="p">(</span><span class="s2">&quot;/tmp/multi_master.h5&quot;</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">H5Writer</span><span class="p">(</span><span class="s2">"/tmp/multi_master.h5"</span><span class="p">)</span>
     <span class="n">w</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
     <span class="n">w</span><span class="o">.</span><span class="n">save_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span>
@@ -364,7 +364,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">log</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">test</span><span class="p">()</span>
 </pre></div>

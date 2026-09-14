@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -129,8 +129,8 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="n">re_comment</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;key&gt;\w+)=</span><span class="se">\&quot;</span><span class="s2">(?P&lt;value&gt;\w+)</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">re_group</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\[(?P&lt;groupname&gt;.*?)\]&quot;</span><span class="p">)</span>
+<span class="n">re_comment</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(?P&lt;key&gt;\w+)=</span><span class="se">\"</span><span class="s2">(?P&lt;value&gt;\w+)</span><span class="se">\"</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">re_group</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\[(?P&lt;groupname&gt;.*?)\]"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ItexImage">
@@ -142,7 +142,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No data loaded&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"No data loaded"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -157,17 +157,17 @@
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hamamatsu.ItexImage.from_buffer">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buff</span><span class="p">):</span>
 
-        <span class="n">_id</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;2c&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
-        <span class="n">_fst</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"2c"</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">_fst</span> <span class="o">=</span> <span class="s2">""</span>
 
         <span class="k">for</span> <span class="n">_c</span> <span class="ow">in</span> <span class="n">_id</span><span class="p">:</span>
-            <span class="n">_fst</span> <span class="o">+=</span> <span class="n">_c</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">_fst</span> <span class="o">+=</span> <span class="n">_c</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">_fst</span> <span class="o">!=</span> <span class="s2">&quot;IM&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;not an ITEX data file&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_fst</span> <span class="o">!=</span> <span class="s2">"IM"</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"not an ITEX data file"</span><span class="p">)</span>
             <span class="k">return</span>
 
-        <span class="n">head_info</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;5h&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
+        <span class="n">head_info</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"5h"</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">head_info</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xoffset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yoffset</span> <span class="o">=</span> <span class="n">head_info</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
@@ -175,7 +175,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
         <span class="n">comm_length</span> <span class="o">=</span> <span class="n">head_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">comm_string</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">64</span> <span class="p">:</span> <span class="n">comm_length</span> <span class="o">+</span> <span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">comm_string</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">64</span> <span class="p">:</span> <span class="n">comm_length</span> <span class="o">+</span> <span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parse_comments</span><span class="p">(</span><span class="n">comm_string</span><span class="p">)</span>
 
         <span class="n">img_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mi">2</span>
@@ -188,7 +188,7 @@
 
         <span class="c1"># only if calib present (ScalingXScalingFile in comments)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">calib_data</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;672f&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="n">end_img</span><span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calib_data</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"672f"</span><span class="p">,</span> <span class="n">buff</span><span class="p">[</span><span class="n">end_img</span><span class="p">:])</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">calib_data</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -196,7 +196,7 @@
 <div class="viewcode-block" id="ItexImage.from_file">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hamamatsu.ItexImage.from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="n">buff</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">buff</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">from_buffer</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span></div>
 
 
@@ -209,7 +209,7 @@
 <div class="viewcode-block" id="ItexImage.parse_comments">
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.hamamatsu.ItexImage.parse_comments">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comms</span><span class="p">):</span>
-        <span class="n">curr_group</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">curr_group</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">group_begin</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -219,14 +219,14 @@
                     <span class="n">group_block</span> <span class="o">=</span> <span class="n">comms</span><span class="p">[</span><span class="n">group_begin</span> <span class="p">:</span> <span class="n">mat</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">curr_group</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">group_block</span><span class="p">)</span>
-                <span class="n">curr_group</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;groupname&quot;</span><span class="p">)</span>
+                <span class="n">curr_group</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">"groupname"</span><span class="p">)</span>
                 <span class="n">cursor</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
                 <span class="n">group_begin</span> <span class="o">=</span> <span class="n">cursor</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
 
         <span class="k">if</span> <span class="n">group_begin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No groups found in comments&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No groups found in comments"</span><span class="p">)</span>
 
         <span class="n">group_block</span> <span class="o">=</span> <span class="n">comms</span><span class="p">[</span><span class="n">group_begin</span><span class="p">:]</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">curr_group</span><span class="p">)</span>
@@ -246,7 +246,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

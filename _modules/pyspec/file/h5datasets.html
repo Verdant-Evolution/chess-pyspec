@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -150,13 +150,13 @@
 <a class="viewcode-back" href="../../../pyspec.file.html#pyspec.file.h5datasets.h5crawler.search_key">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">search_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_key</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kyroot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">search_wrapper</span><span class="p">(</span>
-            <span class="n">search_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_key_function</span><span class="p">,</span> <span class="n">pars</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;search_key&quot;</span><span class="p">:</span> <span class="n">search_key</span><span class="p">}</span>
+            <span class="n">search_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_key_function</span><span class="p">,</span> <span class="n">pars</span><span class="o">=</span><span class="p">{</span><span class="s2">"search_key"</span><span class="p">:</span> <span class="n">search_key</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_search_key_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pars</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">full_key</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="n">search_key</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s2">&quot;search_key&quot;</span><span class="p">]</span>
+        <span class="n">search_key</span> <span class="o">=</span> <span class="n">pars</span><span class="p">[</span><span class="s2">"search_key"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">search_key</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">full_key</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -181,7 +181,7 @@
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hfile</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">kyroot</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+            <span class="n">kyroot</span> <span class="o">=</span> <span class="s2">"/"</span>
 
         <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">cky</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kyroot</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
@@ -200,11 +200,11 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">cr</span> <span class="o">=</span> <span class="n">h5crawler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">cr</span><span class="o">.</span><span class="n">search_2d</span><span class="p">()</span>
-    <span class="c1"># result = cr.search_key(&#39;data&#39;)</span>
+    <span class="c1"># result = cr.search_key('data')</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </pre></div>

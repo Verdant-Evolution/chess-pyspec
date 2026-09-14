@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -128,8 +128,8 @@
 <div class="viewcode-block" id="Status">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client._status.Status">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">PropertyGroup</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The status properties reflect changes in the server state that may affect the server&#39;s ability to execute client commands or control hardware.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The status properties reflect changes in the server state that may affect the server's ability to execute client commands or control hardware.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        remote_property_table (RemotePropertyTable): The remote property table instance.</span>
@@ -139,63 +139,63 @@
 <span class="sd">        shell (bool): Whether or not the server is in a subshell.</span>
 <span class="sd">        ready (bool): Whether or not the server is ready to execute commands.</span>
 <span class="sd">        simulate (bool): Whether or not the server is in simulate mode.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">:</span> <span class="n">RemotePropertyTable</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">"status"</span><span class="p">,</span> <span class="n">remote_property_table</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span> <span class="o">=</span> <span class="n">remote_property_table</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;quit&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">"quit"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        status/quit</span>
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;): Sent when the server exits.</span>
+<span class="sd">            on("update"): Sent when the server exits.</span>
 <span class="sd">            get: Always read back as zero.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;shell&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">"shell"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        status/shell</span>
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;): Sent when the server enters a subshell (True) or returns from a subshell (False).</span>
+<span class="sd">            on("update"): Sent when the server enters a subshell (True) or returns from a subshell (False).</span>
 <span class="sd">            get: True if server command thread is in a subshell, otherwise False.</span>
 
 <span class="sd">        Starting with spec release 6.06.01, when entering a subshell,</span>
 <span class="sd">        the server does not process commands from clients for the first one second of the subshell.</span>
 <span class="sd">        Prior to spec release 6.06.01, the server did not process commands when in a subshell at all.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ready</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;ready&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ready</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">"ready"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        status/ready</span>
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;): Sent when the server is waiting for input at the interactive prompt (True)</span>
+<span class="sd">            on("update"): Sent when the server is waiting for input at the interactive prompt (True)</span>
 <span class="sd">                          and after a return has been typed at the interactive prompt (False).</span>
 <span class="sd">                          The server is available to execute commands from clients when it is ready.</span>
 
 <span class="sd">            get: True if the server command thread is busy and unable to immediately process a new command, otherwise False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="s2">"simulate"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        status/simulate</span>
 
 <span class="sd">        .. code-block:: none</span>
 
-<span class="sd">            on(&quot;update&quot;): Sent when the server enters (True) or leaves (False) simulate mode.</span>
+<span class="sd">            on("update"): Sent when the server enters (True) or leaves (False) simulate mode.</span>
 <span class="sd">            get: True if server is in simulate mode, otherwise False.</span>
 
 <span class="sd">        Note, when in simulate mode, the server will not send commands to hardware devices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
 <div class="viewcode-block" id="Status.to_str">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client._status.Status.to_str">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Status(quit=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">quit</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, shell=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, ready=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, simulate=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Status(quit=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">quit</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, shell=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, ready=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">, simulate=</span><span class="si">{</span><span class="k">await</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">)"</span></div>
 </div>
 
 </pre></div>

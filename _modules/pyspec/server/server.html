@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -147,7 +147,7 @@
     <span class="n">remote_function_name</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pyspec.server&quot;</span><span class="p">)</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"pyspec.server"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Singleton</span><span class="p">:</span>
@@ -155,30 +155,30 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;_instance&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"_instance"</span><span class="p">):</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Singleton</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dispose</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Disposes of the singleton instance. This can be useful in testing scenarios</span>
 <span class="sd">        where you want to reset the state of the server between tests.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;_instance&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"_instance"</span><span class="p">):</span>
                 <span class="k">del</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> singleton instance disposed.&quot;</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> singleton instance disposed."</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ServerException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Exception for server errors.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            msg (str): The error message.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
 
@@ -191,18 +191,18 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">Singleton</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+        <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"localhost"</span><span class="p">,</span>
         <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">allow_remote_code_execution</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize the server.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            host (str, optional): The hostname to bind the server to.</span>
 <span class="sd">            port (int | None, optional): The port to bind the server to.</span>
 <span class="sd">            allow_remote_code_execution (bool, optional): If True, enables test mode (arbitrary code execution allowed).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
@@ -216,32 +216,32 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_remote_code_execution</span><span class="p">:</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Server is running in ALLOW_REMOTE_CODE_EXECUTION mode. Arbitrary code execution is allowed.&quot;</span>
+                <span class="s2">"Server is running in ALLOW_REMOTE_CODE_EXECUTION mode. Arbitrary code execution is allowed."</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_remote_function_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Builds the table of remote functions by inspecting the Server instance for</span>
 <span class="sd">        methods decorated with @remote_function.</span>
 
 <span class="sd">        This table is used to dispatch remote function calls from clients.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Dictionary mapping function names to callables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">remote_functions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SyncOrAsyncCallable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">is_remote_function</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Registering remote function: `</span><span class="si">%s</span><span class="s2">`&quot;</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Registering remote function: `</span><span class="si">%s</span><span class="s2">`"</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
                 <span class="n">remote_functions</span><span class="p">[</span><span class="n">remote_function_name</span><span class="p">(</span><span class="n">attr</span><span class="p">)]</span> <span class="o">=</span> <span class="n">attr</span>
         <span class="k">return</span> <span class="n">remote_functions</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_register_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Registers all Property attributes found on the Server instance.</span>
 <span class="sd">        This method sets up listeners to broadcast property changes to connected clients.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Dictionary mapping property names to Property objects.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">make_broadcaster</span><span class="p">(</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -255,9 +255,9 @@
         <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">Property</span><span class="p">):</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Registering remote property: `</span><span class="si">%s</span><span class="s2">` at `</span><span class="si">%s</span><span class="s2">`&quot;</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span>
+                    <span class="s2">"Registering remote property: `</span><span class="si">%s</span><span class="s2">` at `</span><span class="si">%s</span><span class="s2">`"</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">)</span>
-                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"update"</span><span class="p">,</span> <span class="n">make_broadcaster</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
                 <span class="n">remote_properties</span><span class="p">[</span><span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop</span>
         <span class="k">return</span> <span class="n">remote_properties</span>
 
@@ -265,14 +265,14 @@
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.abortable">[docs]</a>
     <span class="nd">@contextmanager</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">abortable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Context manager to register a task as an abortable task on the server.</span>
 
-<span class="sd">        A task registered like this will be interrupted by ABORT commands from clients or by calling the server&#39;s abort() method.</span>
+<span class="sd">        A task registered like this will be interrupted by ABORT commands from clients or by calling the server's abort() method.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            task (asyncio.Task): The task to register as abortable.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_abortable_tasks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
             <span class="k">yield</span>
@@ -283,7 +283,7 @@
 <div class="viewcode-block" id="Server.execute_command">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.execute_command">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        WARNING: This method allows execution of arbitrary code.</span>
 <span class="sd">        You should not allow this to be called in production environments.</span>
 
@@ -295,11 +295,11 @@
 <span class="sd">            DataType: The result of the executed command.</span>
 <span class="sd">        Raises:</span>
 <span class="sd">            PermissionError: If not in test mode.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">parse_remote_function_name</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">""</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_functions</span><span class="p">:</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_function</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -313,40 +313,40 @@
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Attempted to execute non-literal command in non-test mode: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Attempted to execute non-literal command in non-test mode: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">command</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="s2">&quot;Command execution is only allowed in test mode.&quot;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="s2">"Command execution is only allowed in test mode."</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_variable_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Resolve a bare SPEC symbol to a remote variable property value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;var/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"var/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">prop</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable &#39;</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&#39; not found on server.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Variable '</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">' not found on server."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Server.execute_function">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.execute_function">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_call</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Attempts to execute a function call defined on the server.</span>
 <span class="sd">        Refers to the table of remote functions built at server initialization.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            function_call (str): The function call string, e.g. &quot;func_name(arg1, arg2)&quot;.</span>
+<span class="sd">            function_call (str): The function call string, e.g. "func_name(arg1, arg2)".</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the function call.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">name</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">parse_remote_function_string</span><span class="p">(</span>
             <span class="n">function_call</span><span class="p">,</span>
             <span class="n">resolve_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_variable_symbol</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_functions</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remote function &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found on server.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Remote function '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' not found on server."</span><span class="p">)</span>
 
         <span class="c1"># These are already bound to self if necessary, since they came from</span>
         <span class="c1"># getattr(self, attr_name)</span>
@@ -359,20 +359,20 @@
                     <span class="k">return</span> <span class="k">await</span> <span class="n">task</span>
             <span class="k">return</span> <span class="n">result</span>
         <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Function &#39;</span><span class="si">%s</span><span class="s2">&#39; aborted.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Function execution aborted.&quot;</span><span class="p">)</span></div>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Function '</span><span class="si">%s</span><span class="s2">' aborted."</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Function execution aborted."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Server.broadcast_property">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.broadcast_property">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">broadcast_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Broadcasts a property value to all connected clients that are subscribed to updates for that property.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            property_name (str): The name of the property to broadcast.</span>
 <span class="sd">            value (DataType): The value to broadcast.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">listening_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
         <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
             <span class="o">*</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">prop_send</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="n">listening_clients</span><span class="p">]</span>
@@ -382,10 +382,10 @@
 <div class="viewcode-block" id="Server.abort">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.abort">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Aborts all abortable tasks on the server.</span>
 <span class="sd">        See the abortable() context manager.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_abortable_tasks</span><span class="p">):</span>
             <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_abortable_tasks</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
@@ -394,16 +394,16 @@
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_on_client_connected</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">client_reader</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamReader</span><span class="p">,</span> <span class="n">client_writer</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamWriter</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Handles a new client connection. Sets up event handlers for all of the necessary</span>
-<span class="sd">        messages that the server needs to handle to implement a &quot;SPEC Server.&quot;</span>
+<span class="sd">        messages that the server needs to handle to implement a "SPEC Server."</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            client_reader (asyncio.StreamReader): The stream reader for the client connection.</span>
 <span class="sd">            client_writer (asyncio.StreamWriter): The stream writer for the client connection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)</span>
-        <span class="n">logger</span> <span class="o">=</span> <span class="n">LOGGER</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">client_writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">"peername"</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">LOGGER</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">connection</span> <span class="o">=</span> <span class="n">ServerConnection</span><span class="p">(</span><span class="n">client_reader</span><span class="p">,</span> <span class="n">client_writer</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">on_close</span><span class="p">():</span>
@@ -416,7 +416,7 @@
             <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">hello_reply</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_cmd_no_return</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Command: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_cmd</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -424,7 +424,7 @@
                 <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">,</span> <span class="k">await</span> <span class="n">on_cmd_no_return</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_func_no_return</span><span class="p">(</span><span class="n">function_call</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Function call: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">function_call</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Function call: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">function_call</span><span class="p">)</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_function</span><span class="p">(</span><span class="n">function_call</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_func</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">function_call</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -434,26 +434,26 @@
                 <span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_property_get</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Property get: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Property get: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
             <span class="k">async</span> <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">catch_reply_exceptions</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">property_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Property &#39;</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&#39; not found on server.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Property '</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">' not found on server."</span>
                     <span class="p">)</span>
                 <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span>
                 <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">sequence_number</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_property_set</span><span class="p">(</span><span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DataType</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Property set: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Property value: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Property set: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Property value: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">property_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Property &#39;</span><span class="si">%s</span><span class="s2">&#39; not found on server.&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Property '</span><span class="si">%s</span><span class="s2">' not found on server."</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span>
             <span class="n">prop</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_property_watch</span><span class="p">(</span><span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Subscribed to property: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Subscribed to property: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_property_listeners</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
             <span class="c1"># Immediately send the current value of the property upon subscription</span>
             <span class="k">if</span> <span class="n">property_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_properties</span><span class="p">:</span>
@@ -461,55 +461,55 @@
                 <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">prop_send</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">prop</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_property_unwatch</span><span class="p">(</span><span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unsubscribed from property: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Unsubscribed from property: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_property_listeners</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">with</span> <span class="n">connection</span><span class="p">:</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">on_close</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;abort&quot;</span><span class="p">,</span> <span class="n">on_abort</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;remote-cmd-no-return&quot;</span><span class="p">,</span> <span class="n">on_cmd_no_return</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;remote-cmd&quot;</span><span class="p">,</span> <span class="n">on_cmd</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;remote-func-no-return&quot;</span><span class="p">,</span> <span class="n">on_func_no_return</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;remote-func&quot;</span><span class="p">,</span> <span class="n">on_func</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-get&quot;</span><span class="p">,</span> <span class="n">on_property_get</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-set&quot;</span><span class="p">,</span> <span class="n">on_property_set</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-watch&quot;</span><span class="p">,</span> <span class="n">on_property_watch</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;property-unwatch&quot;</span><span class="p">,</span> <span class="n">on_property_unwatch</span><span class="p">)</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="n">on_hello</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"close"</span><span class="p">,</span> <span class="n">on_close</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"abort"</span><span class="p">,</span> <span class="n">on_abort</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"remote-cmd-no-return"</span><span class="p">,</span> <span class="n">on_cmd_no_return</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"remote-cmd"</span><span class="p">,</span> <span class="n">on_cmd</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"remote-func-no-return"</span><span class="p">,</span> <span class="n">on_func_no_return</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"remote-func"</span><span class="p">,</span> <span class="n">on_func</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"property-get"</span><span class="p">,</span> <span class="n">on_property_get</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"property-set"</span><span class="p">,</span> <span class="n">on_property_set</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"property-watch"</span><span class="p">,</span> <span class="n">on_property_watch</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"property-unwatch"</span><span class="p">,</span> <span class="n">on_property_unwatch</span><span class="p">)</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="n">on_hello</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Connected&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Connected"</span><span class="p">)</span>
 
             <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Async context manager entry. Starts the server.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_server</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">start_server</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_on_client_connected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">reuse_port</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Async context manager exit. Shuts down the server and disposes the singleton instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="o">.</span><span class="n">wait_closed</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_server</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server shut down.&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Server shut down."</span><span class="p">)</span>
         <span class="c1"># Dispose of the singleton instance to allow for fresh instances in testing or future runs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.serve_forever">
 <a class="viewcode-back" href="../../../pyspec.server.html#pyspec.server.Server.serve_forever">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Runs the server indefinitely.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Server is not running. Use &#39;async with Server(...)&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Server is not running. Use 'async with Server(...)'."</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span></div>

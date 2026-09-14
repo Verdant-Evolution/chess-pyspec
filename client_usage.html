@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="_static/pydoctheme.css?v=23252803" />
-    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=5349f25f" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css?v=0fc419ee" />
     
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
@@ -171,18 +171,18 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="c1"># The HELLO is sent automatically when connecting.</span>
         <span class="c1"># You can now interact with the server:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;add(1, 2) =&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">'add'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"add(1, 2) ="</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
         <span class="c1"># Access a SPEC variable</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-        <span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Hello from client!&quot;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"Hello from client!"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -240,12 +240,12 @@ whitespace-style macro invocation such as <code class="docutils literal notransl
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspec.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6510</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="c1"># The HELLO is sent automatically when connecting.</span>
         <span class="c1"># An error will be raised if the server does not respond with a HELLO_REPLY message.</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
     <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
@@ -281,35 +281,35 @@ whitespace-style macro invocation such as <code class="docutils literal notransl
 <h2>Working with Variables and Associative Arrays<a class="headerlink" href="#working-with-variables-and-associative-arrays" title="Link to this heading">¶</a></h2>
 <p>One of the most common direct interface with properties is when accessing SPEC variables stored under <strong>var/…</strong> on the server. These can be accessed by name through the <cite>client.var</cite> interface. Variables in SPEC will implement the full read-write-subscribe interface.</p>
 <p>Example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt; x = &quot;This is a spec variable&quot;
-x = &quot;This is a spec variable&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt; x = "This is a spec variable"
+x = "This is a spec variable"
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a reference to the variable &#39;x&#39; on the server.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a reference to the variable 'x' on the server.</span>
 <span class="c1"># This does not retrieve the value of x,</span>
 <span class="c1"># but instead gives you an interface to interact with it.</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: &quot;This is a spec variable&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: "This is a spec variable"</span>
 </pre></div>
 </div>
 <p>Associative arrays are handled similarly:</p>
-<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Value at key&quot;</span>
-a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Value at key&quot;</span>
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>a[<span class="s2">"key"</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">"Value at key"</span>
+a[<span class="s2">"key"</span>]<span class="w"> </span>=<span class="w"> </span><span class="s2">"Value at key"</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
-<span class="n">a_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a[key]&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: {&quot;key&quot;: &quot;Value at key&quot;}</span>
-<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a_key</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: &quot;Value at key&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+<span class="n">a_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'a[key]'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: {"key": "Value at key"}</span>
+<span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">a_key</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="c1"># Output: "Value at key"</span>
 </pre></div>
 </div>
 <p>Writing associative array values back to the server is batched by default, so to update the server, you have to do the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
 <span class="c1"># Get the current value of the associative array</span>
 <span class="n">associative_array</span> <span class="o">=</span> <span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">associative_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;value at </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">associative_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"value at </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="c1"># Write the updated associative array back to the server</span>
 <span class="k">await</span> <span class="n">a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">associative_array</span><span class="p">)</span>
@@ -323,24 +323,24 @@ a[<span class="s2">&quot;key&quot;</span>]<span class="w"> </span>=<span class="
 <section id="event-based-programming">
 <h2>Event-Based Programming<a class="headerlink" href="#event-based-programming" title="Link to this heading">¶</a></h2>
 <p>You can subscribe to property changes and handle updates asynchronously:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"update"</span><span class="p">,</span> <span class="nb">print</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
     <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>  <span class="c1"># Wait forever</span>
 </pre></div>
 </div>
-<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
-x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
+<div class="highlight-spec notranslate"><div class="highlight"><pre><span></span>69.SPEC_sim&gt;<span class="w"> </span>x<span class="w"> </span>=<span class="w"> </span><span class="s2">"Hello"</span>
+x<span class="w"> </span>=<span class="w"> </span><span class="s2">"Hello"</span>
 
 <span class="c"># The client will print:</span>
-<span class="c"># &quot;Hello&quot;</span>
+<span class="c"># "Hello"</span>
 </pre></div>
 </div>
 <p>To record all changes in a list:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">with</span> <span class="n">x</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">changes</span><span class="p">:</span>
     <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="c1"># &#39;changes&#39; is now a list of all values x took during those 10 seconds.</span>
+<span class="c1"># 'changes' is now a list of all values x took during those 10 seconds.</span>
 </pre></div>
 </div>
 </section>
@@ -348,20 +348,20 @@ x<span class="w"> </span>=<span class="w"> </span><span class="s2">&quot;Hello&q
 <h2>Moving Motors<a class="headerlink" href="#moving-motors" title="Link to this heading">¶</a></h2>
 <p>The client provides a high-level interface for moving motors on the server. You can access motors through the <a class="reference internal" href="pyspec.client.html#pyspec.client.Client.motor" title="pyspec.client.Client.motor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">client.motor</span></code></a> interface and call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">move</span></code> method to move them to a specified position. The client also supports motor synchronization, allowing you to prepare multiple motor moves and execute them together.</p>
 <p>Moving individual motors:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
 <span class="k">await</span> <span class="n">motor_x</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Move motor x to position 10</span>
 </pre></div>
 </div>
 <p>Doing something else while the motor is moving:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
 <span class="n">move_task</span> <span class="o">=</span> <span class="n">motor_x</span><span class="o">.</span><span class="n">start_move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="c1"># Do other things here while the motor is moving...</span>
 <span class="k">await</span> <span class="n">move_task</span>  <span class="c1"># Wait for the move to complete</span>
 </pre></div>
 </div>
 <p>Synchronizing multiple motors:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">motor_y</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">motor_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
+<span class="n">motor_y</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">motor</span><span class="p">(</span><span class="s1">'y'</span><span class="p">)</span>
 
 <span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">synchronized_motors</span><span class="p">():</span>
     <span class="n">motor_x</span><span class="o">.</span><span class="n">prepare_move</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Prepare move for motor x</span>
