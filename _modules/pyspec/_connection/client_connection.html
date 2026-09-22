@@ -368,11 +368,14 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">response</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reply-</span><span class="si">{</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">set_response</span><span class="p">)</span>
-        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
-        <span class="k">return</span> <span class="k">await</span> <span class="n">response</span>
+        <span class="n">listener</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reply-</span><span class="si">{</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">set_response</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">response</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reply-</span><span class="si">{</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
