@@ -276,8 +276,10 @@ already matches, otherwise it waits for a matching update. Use
 <code class="docutils literal notranslate"><span class="pre">wait_for_update</span></code> when a future matching update is itself the event of
 interest.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">"ready"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span><span class="o">.</span><span class="n">subscribed</span><span class="p">()</span> <span class="k">as</span> <span class="n">ready</span><span class="p">:</span>
+    <span class="c1"># Either wait for the current state:</span>
     <span class="k">await</span> <span class="n">ready</span><span class="o">.</span><span class="n">wait_until</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">ready</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c1"># Or wait for a future matching update:</span>
+    <span class="c1"># await ready.wait_for_update(True, timeout=10)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">wait_for</span></code> is retained as a deprecated alias for <code class="docutils literal notranslate"><span class="pre">wait_for_update</span></code>.</p>
