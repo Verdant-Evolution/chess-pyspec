@@ -127,6 +127,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncExitStack</span><span class="p">,</span> <span class="n">asynccontextmanager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
@@ -178,8 +179,11 @@
 <span class="sd">        awaitable (Awaitable): The awaitable to wait for.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">awaitable</span><span class="p">:</span> <span class="n">Awaitable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">awaitable</span><span class="p">:</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cancel</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_awaitable</span> <span class="o">=</span> <span class="n">awaitable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cancel</span> <span class="o">=</span> <span class="n">cancel</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -192,7 +196,17 @@
             <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="p">:</span>
                 <span class="k">pass</span>
 
-        <span class="k">return</span> <span class="n">enter_exit</span><span class="p">()</span><span class="o">.</span><span class="fm">__await__</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">enter_exit</span><span class="p">()</span><span class="o">.</span><span class="fm">__await__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ContextWaiter.cancel">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.ContextWaiter.cancel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Cancel this waiter without waiting for it to complete."""</span>
+        <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">iscoroutine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_awaitable</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_awaitable</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cancel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cancel</span><span class="p">()</span></div>
+</div>
 
 
 
@@ -286,9 +300,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The next value of the property.</span>
 <span class="sd">        """</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span><span class="n">property_name</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">"Property must be watched to read next value."</span>
-        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(</span>
+            <span class="n">property_name</span>
+        <span class="p">),</span> <span class="s2">"Property must be watched to read next value."</span>
 
         <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">"property-</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
@@ -525,27 +539,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="EventStream.wait_for">
-<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.wait_for">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextWaiter</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        Waits until the property changes to the specified value.</span>
+<div class="viewcode-block" id="EventStream.wait_for_update">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.wait_for_update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_update</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextWaiter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Wait for a future update carrying the specified value.</span>
 
-<span class="sd">        Usage:</span>
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            async with test_var.wait_for(123, timeout=10):</span>
-<span class="sd">                # Do something...</span>
-
-<span class="sd">            # Wait for the property to change to 123 before continuing</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # Just wait until the property changes</span>
-<span class="sd">            await test_var.wait_for(123, timeout=10)</span>
+<span class="sd">        Use it when a matching update represents a deliberate event or pulse.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value (T): The value to wait for.</span>
+<span class="sd">            value (T): The value to wait for in a future update.</span>
 <span class="sd">            timeout (float, optional): Optional timeout in seconds.</span>
 <span class="sd">        """</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_subscribed</span><span class="p">(),</span> <span class="s2">"Property must be watched to wait for a value."</span>
@@ -555,13 +559,25 @@
             <span class="k">if</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">value</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">future</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
                 <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">on_done</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_done</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="s2">"update"</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
 
         <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">on_done</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"update"</span><span class="p">,</span> <span class="n">check_value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="p">),</span> <span class="n">cancel</span><span class="o">=</span><span class="n">future</span><span class="o">.</span><span class="n">cancel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EventStream.wait_for">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.EventStream.wait_for">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextWaiter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Deprecated alias for :meth:`wait_for_update`."""</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">"wait_for() is deprecated; use wait_until() for state waits or "</span>
+            <span class="s2">"wait_for_update() for future updates."</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EventStream.is_subscribed">
@@ -657,6 +673,31 @@
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_property_table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReadableProperty.wait_until">
+<a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.ReadableProperty.wait_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextWaiter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Wait until the property currently has the specified value.</span>
+
+<span class="sd">        If the current value already matches, this completes immediately.</span>
+<span class="sd">        Otherwise it waits for an update carrying the requested value. This is</span>
+<span class="sd">        the usual choice for state-based control workflows.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (T): The value to wait for.</span>
+<span class="sd">            timeout (float, optional): Optional timeout in seconds.</span>
+<span class="sd">        """</span>
+        <span class="n">update_waiter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_current_or_update</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">await</span> <span class="n">update_waiter</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">update_waiter</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ContextWaiter</span><span class="p">(</span><span class="n">wait_for_current_or_update</span><span class="p">())</span></div>
 </div>
 
 
@@ -701,7 +742,7 @@
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">coerce</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventStream</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">readonly_property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">coerce</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_property_table</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">coerce</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_readonly_property</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

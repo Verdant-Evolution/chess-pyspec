@@ -333,13 +333,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">wait_closed</span><span class="p">()</span>
 
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_send_with_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Header</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_send_with_reply</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Header</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Sends a message to the connected server and waits for a reply.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            header (Header): The header to send.</span>
 <span class="sd">            data (DataType, optional): The data to send.</span>
+<span class="sd">            timeout (float, optional): Maximum time to wait for a reply, in seconds. If None, wait indefinitely.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The reply data from the server.</span>
 <span class="sd">        Raises:</span>
@@ -367,6 +370,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reply-</span><span class="si">{</span><span class="n">sequence_number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">set_response</span><span class="p">)</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">await</span> <span class="n">response</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">prop_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
@@ -462,19 +467,20 @@
 <span class="sd">        """</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span><span class="p">)</span>
 
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Puts the spec command on the execution queue of the remote host.</span>
 <span class="sd">        Waits for the command to resolve and returns the resulting value.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            cmd (str): The command string to send to the remote host. e.g. "1+1"</span>
+<span class="sd">            timeout (float, optional): Maximum time to wait for the command to resolve, in seconds. If None, wait indefinitely.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the command execution from the remote host.</span>
 <span class="sd">        """</span>
         <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_abort_on_interrupt</span><span class="p">():</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_reply</span><span class="p">(</span>
-                <span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD_WITH_RETURN</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span>
+                <span class="n">Header</span><span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">CMD_WITH_RETURN</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
             <span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">remote_func_no_return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

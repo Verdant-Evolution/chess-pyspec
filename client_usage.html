@@ -69,6 +69,7 @@
 <li><a class="reference internal" href="#api-reference">API Reference</a></li>
 <li><a class="reference internal" href="#connection">Connection</a></li>
 <li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#waiting-for-property-values">Waiting for Property Values</a></li>
 <li><a class="reference internal" href="#property-types">Property Types</a></li>
 <li><a class="reference internal" href="#working-with-variables-and-associative-arrays">Working with Variables and Associative Arrays</a></li>
 <li><a class="reference internal" href="#event-based-programming">Event-Based Programming</a></li>
@@ -267,6 +268,20 @@ whitespace-style macro invocation such as <code class="docutils literal notransl
 <li><p><a class="reference internal" href="pyspec.client.html#pyspec.client.EventStream" title="pyspec.client.EventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventStream</span></code></a>: A property that only supports <strong>subscribe</strong>.</p></li>
 </ul>
 </section>
+<section id="waiting-for-property-values">
+<h2>Waiting for Property Values<a class="headerlink" href="#waiting-for-property-values" title="Link to this heading">¶</a></h2>
+<p>Subscribe to a readable property before waiting for it. Use <code class="docutils literal notranslate"><span class="pre">wait_until</span></code> for
+state-based control flow: it completes immediately when the current value
+already matches, otherwise it waits for a matching update. Use
+<code class="docutils literal notranslate"><span class="pre">wait_for_update</span></code> when a future matching update is itself the event of
+interest.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">"ready"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span><span class="o">.</span><span class="n">subscribed</span><span class="p">()</span> <span class="k">as</span> <span class="n">ready</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">ready</span><span class="o">.</span><span class="n">wait_until</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">ready</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">wait_for</span></code> is retained as a deprecated alias for <code class="docutils literal notranslate"><span class="pre">wait_for_update</span></code>.</p>
+</section>
 <section id="property-types">
 <h2>Property Types<a class="headerlink" href="#property-types" title="Link to this heading">¶</a></h2>
 <p>Properties in SPEC can be:</p>
@@ -395,6 +410,7 @@ x<span class="w"> </span>=<span class="w"> </span><span class="s2">"Hello"</span
 <li><a class="reference internal" href="#api-reference">API Reference</a></li>
 <li><a class="reference internal" href="#connection">Connection</a></li>
 <li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#waiting-for-property-values">Waiting for Property Values</a></li>
 <li><a class="reference internal" href="#property-types">Property Types</a></li>
 <li><a class="reference internal" href="#working-with-variables-and-associative-arrays">Working with Variables and Associative Arrays</a></li>
 <li><a class="reference internal" href="#event-based-programming">Event-Based Programming</a></li>

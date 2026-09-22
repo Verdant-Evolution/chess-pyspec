@@ -126,6 +126,23 @@ Properties fall into a couple of different categories depending on which interfa
 - :py:class:`WritableProperty <pyspec.client.WritableProperty>`: A property that supports **set**, but not **get** or **subscribe**.
 - :py:class:`EventStream <pyspec.client.EventStream>`: A property that only supports **subscribe**.
 
+Waiting for Property Values
+---------------------------
+
+Subscribe to a readable property before waiting for it. Use ``wait_until`` for
+state-based control flow: it completes immediately when the current value
+already matches, otherwise it waits for a matching update. Use
+``wait_for_update`` when a future matching update is itself the event of
+interest.
+
+.. code-block:: python
+
+    async with client.var("ready", bool).subscribed() as ready:
+        await ready.wait_until(True, timeout=10)
+        await ready.wait_for_update(True, timeout=10)
+
+``wait_for`` is retained as a deprecated alias for ``wait_for_update``.
+
 Property Types
 --------------
 

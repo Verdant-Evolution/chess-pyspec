@@ -255,7 +255,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            EventStream[str]: An event stream for output events.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readonly_property</span><span class="p">(</span><span class="sa">f</span><span class="s2">"output/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_stream</span><span class="p">(</span><span class="sa">f</span><span class="s2">"output/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Client.count">
@@ -326,7 +326,7 @@
 
 <div class="viewcode-block" id="Client.exec">
 <a class="viewcode-back" href="../../../pyspec.client.html#pyspec.client.Client.exec">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Execute a command on the server.</span>
 
@@ -334,33 +334,13 @@
 <span class="sd">        If this task raises an exception (e.g. due to a timeout),</span>
 <span class="sd">        the client will send an abort message to the server to stop the execution of the remote function.</span>
 
-<span class="sd">        A timeout can be enforced with the following patterns:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # Pattern 1: Using asyncio.wait_for</span>
-<span class="sd">            try:</span>
-<span class="sd">                result = await asyncio.wait_for(</span>
-<span class="sd">                    client.call("function_name", arg1, arg2),</span>
-<span class="sd">                    timeout=5.0,  # seconds</span>
-<span class="sd">                )</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print("Remote function call timed out.")</span>
-
-
-<span class="sd">            # Pattern 2 (Python 3.11+): Using asyncio.timeout</span>
-<span class="sd">            try:</span>
-<span class="sd">                with asyncio.timeout(5.0):  # seconds</span>
-<span class="sd">                    result = await client.call("function_name", arg1, arg2)</span>
-<span class="sd">            except asyncio.TimeoutError:</span>
-<span class="sd">                print("Remote function call timed out.")</span>
-
 <span class="sd">        Args:</span>
 <span class="sd">            command (str): The command to execute.</span>
+<span class="sd">            timeout (float, optional): Maximum time to wait for the command to resolve, in seconds. If None, wait indefinitely.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataType: The result of the command execution.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">remote_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">remote_cmd</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Client.synchronized_motors">
