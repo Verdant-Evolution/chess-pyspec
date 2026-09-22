@@ -245,7 +245,12 @@ class ClientConnection(
         try:
             await self._send(header, data)
             if timeout is not None:
-                return await asyncio.wait_for(response, timeout)
+                try:
+                    return await asyncio.wait_for(response, timeout)
+                except asyncio.TimeoutError:
+                    raise asyncio.CancelledError(
+                        f"Timeout waiting for reply for sequence number {sequence_number}"
+                    )
             return await response
         finally:
             self.remove_listener(f"reply-{sequence_number}", listener)
