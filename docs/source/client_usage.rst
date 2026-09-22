@@ -138,8 +138,10 @@ interest.
 .. code-block:: python
 
     async with client.var("ready", bool).subscribed() as ready:
+        # Either wait for the current state:
         await ready.wait_until(True, timeout=10)
-        await ready.wait_for_update(True, timeout=10)
+        # Or wait for a future matching update:
+        # await ready.wait_for_update(True, timeout=10)
 
 ``wait_for`` is retained as a deprecated alias for ``wait_for_update``.
 
