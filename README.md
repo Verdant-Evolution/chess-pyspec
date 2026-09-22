@@ -46,8 +46,12 @@ async def main():
         print("add(2, 3):", result)
 
 
-        # Wait for properties to be set to specific values
-        await foo.wait_for(15, timeout=10)
+        # Wait for a property to have a specific value. This returns immediately
+        # when the value already matches.
+        await foo.wait_until(15, timeout=10)
+
+        # To wait specifically for a future matching update (an event/pulse):
+        await foo.wait_for_update(15, timeout=10)
 
 
 asyncio.run(main())

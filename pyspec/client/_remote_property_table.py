@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 import logging
+import warnings
 from collections import defaultdict
 from contextlib import AsyncExitStack, asynccontextmanager
 from pathlib import Path
@@ -52,8 +53,11 @@ class ContextWaiter:
         awaitable (Awaitable): The awaitable to wait for.
     """
 
-    def __init__(self, awaitable: Awaitable):
+    def __init__(
+        self, awaitable: Awaitable, *, cancel: Callable[[], Any] | None = None
+    ):
         self._awaitable = awaitable
+        self._cancel = cancel
 
     async def __aenter__(self) -> Self:
         return self
@@ -67,6 +71,13 @@ class ContextWaiter:
                 pass
 
         return enter_exit().__await__()
+
+    def cancel(self) -> None:
+        """Cancel this waiter without waiting for it to complete."""
+        if inspect.iscoroutine(self._awaitable):
+            self._awaitable.close()
+        if self._cancel is not None:
+            self._cancel()
 
 
 class RemotePropertyTable(AsyncIOEventEmitter):
@@ -152,9 +163,9 @@ class RemotePropertyTable(AsyncIOEventEmitter):
         Returns:
             DataType: The next value of the property.
         """
-        assert self.is_subscribed(property_name), (
-            "Property must be watched to read next value."
-        )
+        assert self.is_subscribed(
+            property_name
+        ), "Property must be watched to read next value."
 
         future = asyncio.Future()
         self.once(f"property-{property_name}", lambda value: future.set_result(value))
@@ -351,25 +362,15 @@ class EventStream(_PropertyBase[T]):
         value = await self._property_table.read_next(self.name)
         return self._cast_value(value)
 
-    def wait_for(self, value: T, *, timeout: float | None = None) -> ContextWaiter:
-        """
-        Waits until the property changes to the specified value.
+    def wait_for_update(
+        self, value: T, *, timeout: float | None = None
+    ) -> ContextWaiter:
+        """Wait for a future update carrying the specified value.
 
-        Usage:
-        .. code-block:: python
-
-            async with test_var.wait_for(123, timeout=10):
-                # Do something...
-
-            # Wait for the property to change to 123 before continuing
-
-        .. code-block:: python
-
-            # Just wait until the property changes
-            await test_var.wait_for(123, timeout=10)
+        Use it when a matching update represents a deliberate event or pulse.
 
         Args:
-            value (T): The value to wait for.
+            value (T): The value to wait for in a future update.
             timeout (float, optional): Optional timeout in seconds.
         """
         assert self.is_subscribed(), "Property must be watched to wait for a value."
@@ -379,13 +380,22 @@ class EventStream(_PropertyBase[T]):
             if new_value == value and not future.done():
                 future.set_result(None)
 
-        def on_done(*args, **kwargs) -> None:
+        def on_done(*args: Any, **kwargs: Any) -> None:
             self.remove_listener("update", check_value)
 
         future.add_done_callback(on_done)
-
         self.on("update", check_value)
-        return ContextWaiter(asyncio.wait_for(future, timeout))
+        return ContextWaiter(asyncio.wait_for(future, timeout), cancel=future.cancel)
+
+    def wait_for(self, value: T, *, timeout: float | None = None) -> ContextWaiter:
+        """Deprecated alias for :meth:`wait_for_update`."""
+        warnings.warn(
+            "wait_for() is deprecated; use wait_until() for state waits or "
+            "wait_for_update() for future updates.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.wait_for_update(value, timeout=timeout)
 
     def is_subscribed(self) -> bool:
         """
@@ -467,6 +477,28 @@ class ReadableProperty(EventStream[T]):
         value = await self._property_table.read(self.name)
         return self._cast_value(value)
 
+    def wait_until(self, value: T, *, timeout: float | None = None) -> ContextWaiter:
+        """Wait until the property currently has the specified value.
+
+        If the current value already matches, this completes immediately.
+        Otherwise it waits for an update carrying the requested value. This is
+        the usual choice for state-based control workflows.
+
+        Args:
+            value (T): The value to wait for.
+            timeout (float, optional): Optional timeout in seconds.
+        """
+        update_waiter = self.wait_for_update(value, timeout=timeout)
+
+        async def wait_for_current_or_update() -> None:
+            try:
+                if await self.get() != value:
+                    await update_waiter
+            finally:
+                update_waiter.cancel()
+
+        return ContextWaiter(wait_for_current_or_update())
+
 
 class WritableProperty(_PropertyBase[T]):
     async def set(self, value: T) -> None:
@@ -497,7 +529,7 @@ class PropertyGroup:
         name: str,
         coerce: Callable[[Any], T] | None = None,
     ) -> EventStream[T]:
-        return self._remote_property_table.readonly_property(self._path(name), coerce)
+        return self._remote_property_table.event_stream(self._path(name), coerce)
 
     def _readonly_property(
         self,

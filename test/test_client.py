@@ -56,6 +56,12 @@ def test_remote_function_string_uses_only_var_property_references():
         build_remote_function_string("sum", foo, 2)
 
 
+def test_event_stream_has_no_wait_until():
+    client = Client(HOST, PORT)
+
+    assert not hasattr(client.output("tty"), "wait_until")
+
+
 @pytest.mark.asyncio
 @pytest.mark.timeout(2)
 async def test_client_exec_command(server_process):
@@ -74,28 +80,40 @@ async def test_client_exec_command_invalid_syntax(server_process):
 
 @pytest.mark.asyncio
 @pytest.mark.timeout(2)
-async def test_client_property_wait_for(server_process):
+async def test_client_property_wait_methods(server_process):
     async with (
         Client(HOST, PORT) as client,
         client._property("ticker", int).subscribed() as ticker,
         client._property("foo", int).subscribed() as foo,
     ):
         await ticker.set(42)
-        async with ticker.wait_for(45):
+        async with ticker.wait_for_update(45):
             pass
 
         assert await ticker.get() == 45
         await ticker.set(99)
-        await ticker.wait_for(105)
+        await ticker.wait_for_update(105)
         assert await ticker.get() == 105
 
-        async with foo.wait_for(10, timeout=1):
+        async with foo.wait_for_update(10, timeout=1):
             await foo.set(10)
 
         with pytest.raises(asyncio.TimeoutError):
-            async with foo.wait_for(20, timeout=0.1):
+            async with foo.wait_for_update(20, timeout=0.1):
                 # We won't set foo to 20, so this should timeout
                 pass
+
+        # wait_until is level-triggered: the matching state needs no update.
+        await foo.wait_until(10, timeout=0.1)
+
+        # wait_for_update remains edge-triggered even when the value matches.
+        with pytest.raises(asyncio.TimeoutError):
+            await foo.wait_for_update(10, timeout=0.1)
+
+        with pytest.warns(DeprecationWarning, match=r"wait_for\(\) is deprecated"):
+            waiter = foo.wait_for(10)
+        await foo.set(10)
+        await waiter
 
 
 @pytest.mark.asyncio

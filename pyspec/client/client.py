@@ -118,7 +118,7 @@ class Client(PropertyGroup):
         Returns:
             EventStream[str]: An event stream for output events.
         """
-        return self._readonly_property(f"output/{filename}", str)
+        return self._event_stream(f"output/{filename}", str)
 
     def count(self) -> Property[bool]:
         """
