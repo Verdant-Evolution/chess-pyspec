@@ -19,6 +19,8 @@ References:
 - SPEC macro language help: https://www.certif.com/spec_help/macros.html
 """
 
+from __future__ import annotations
+
 import ast
 from typing import Any, Callable, Optional, Tuple
 

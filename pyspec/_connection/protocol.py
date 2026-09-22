@@ -35,6 +35,8 @@ Methods:
 - long_str: Constructs a long string representation of the header and data.
 """
 
+from __future__ import annotations
+
 import asyncio
 import ctypes
 import logging

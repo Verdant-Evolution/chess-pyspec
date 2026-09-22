@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import re
 import threading
@@ -241,7 +243,8 @@ class ClientConnection(
             else:
                 response.set_result(data)
 
-        listener = self.once(f"reply-{sequence_number}", set_response)
+        event_name = f"reply-{sequence_number}"
+        listener = self.once(event_name, set_response)
         try:
             await self._send(header, data)
             if timeout is not None:
@@ -253,7 +256,8 @@ class ClientConnection(
                     )
             return await response
         finally:
-            self.remove_listener(f"reply-{sequence_number}", listener)
+            if listener in self.listeners(event_name):
+                self.remove_listener(event_name, listener)
 
     async def prop_get(self, prop: str) -> DataType:
         """
