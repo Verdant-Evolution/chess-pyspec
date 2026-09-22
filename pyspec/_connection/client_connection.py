@@ -241,11 +241,14 @@ class ClientConnection(
             else:
                 response.set_result(data)
 
-        self.once(f"reply-{sequence_number}", set_response)
-        await self._send(header, data)
-        if timeout is not None:
-            return await asyncio.wait_for(response, timeout)
-        return await response
+        listener = self.once(f"reply-{sequence_number}", set_response)
+        try:
+            await self._send(header, data)
+            if timeout is not None:
+                return await asyncio.wait_for(response, timeout)
+            return await response
+        finally:
+            self.remove_listener(f"reply-{sequence_number}", listener)
 
     async def prop_get(self, prop: str) -> DataType:
         """
