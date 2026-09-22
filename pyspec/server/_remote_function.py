@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import logging
 from typing import Any, Callable, Coroutine, Optional, TypeVar, Tuple, Union
