@@ -223,7 +223,7 @@ class Motor(PropertyGroup):
             )
 
         # Start the tracking before we send the move to avoid race conditions.
-        async with self.moving.subscribed(), self.moving.wait_for(False):
+        async with self.moving.subscribed(), self.moving.wait_for_update(False):
             await self._start_one.set(position)
 
     async def start_move(self, position: float):
@@ -237,8 +237,9 @@ class Motor(PropertyGroup):
         Args:
             position (float): The target position to move the motor to.
         """
-        async with self.moving.wait_for(True):
-            return asyncio.create_task(self.move(position))
+        async with self.moving.subscribed():
+            async with self.moving.wait_for_update(True):
+                return asyncio.create_task(self.move(position))
 
     def prepare_move(self, position: float):
         """
@@ -383,7 +384,10 @@ async def synchronized_motors(
             moving = remote_property_table.readonly_property(
                 f"motor/{mne}/move_done", bool
             )
-            async with moving.subscribed(), moving.wait_for(False, timeout=timeout):
+            async with (
+                moving.subscribed(),
+                moving.wait_for_update(False, timeout=timeout),
+            ):
                 yield
 
         async with enter_all((wait_for_move_done(mne) for mne in pending_motions)):

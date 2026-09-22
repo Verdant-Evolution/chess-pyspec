@@ -206,13 +206,16 @@ class ClientConnection(
             self._writer.close()
             await self._writer.wait_closed()
 
-    async def _send_with_reply(self, header: Header, data: DataType = None) -> DataType:
+    async def _send_with_reply(
+        self, header: Header, data: DataType = None, timeout: float | None = None
+    ) -> DataType:
         """
         Sends a message to the connected server and waits for a reply.
 
         Args:
             header (Header): The header to send.
             data (DataType, optional): The data to send.
+            timeout (float, optional): Maximum time to wait for a reply, in seconds. If None, wait indefinitely.
         Returns:
             DataType: The reply data from the server.
         Raises:
@@ -238,9 +241,19 @@ class ClientConnection(
             else:
                 response.set_result(data)
 
-        self.once(f"reply-{sequence_number}", set_response)
-        await self._send(header, data)
-        return await response
+        listener = self.once(f"reply-{sequence_number}", set_response)
+        try:
+            await self._send(header, data)
+            if timeout is not None:
+                try:
+                    return await asyncio.wait_for(response, timeout)
+                except asyncio.TimeoutError:
+                    raise asyncio.CancelledError(
+                        f"Timeout waiting for reply for sequence number {sequence_number}"
+                    )
+            return await response
+        finally:
+            self.remove_listener(f"reply-{sequence_number}", listener)
 
     async def prop_get(self, prop: str) -> DataType:
         """
@@ -335,19 +348,20 @@ class ClientConnection(
         """
         await self._send(Header(Command.CMD), data=cmd)
 
-    async def remote_cmd(self, cmd: str) -> DataType:
+    async def remote_cmd(self, cmd: str, timeout: float | None = None) -> DataType:
         """
         Puts the spec command on the execution queue of the remote host.
         Waits for the command to resolve and returns the resulting value.
 
         Args:
             cmd (str): The command string to send to the remote host. e.g. "1+1"
+            timeout (float, optional): Maximum time to wait for the command to resolve, in seconds. If None, wait indefinitely.
         Returns:
             DataType: The result of the command execution from the remote host.
         """
         async with self._abort_on_interrupt():
             return await self._send_with_reply(
-                Header(Command.CMD_WITH_RETURN), data=cmd
+                Header(Command.CMD_WITH_RETURN), data=cmd, timeout=timeout
             )
 
     async def remote_func_no_return(self, func: str, *args) -> None:

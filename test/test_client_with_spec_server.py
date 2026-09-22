@@ -38,7 +38,7 @@ async def test_var_subscribe():
         async with client.var("H").subscribed() as H:
             await H.set(10)
 
-            async with H.wait_for(123):
+            async with H.wait_for_update(123):
                 await client.exec("H = 123")
 
             assert await H.get() == 123
