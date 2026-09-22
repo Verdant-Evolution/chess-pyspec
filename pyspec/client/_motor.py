@@ -237,8 +237,9 @@ class Motor(PropertyGroup):
         Args:
             position (float): The target position to move the motor to.
         """
-        async with self.moving.wait_for_update(True):
-            return asyncio.create_task(self.move(position))
+        async with self.moving.subscribed():
+            async with self.moving.wait_for_update(True):
+                return asyncio.create_task(self.move(position))
 
     def prepare_move(self, position: float):
         """
