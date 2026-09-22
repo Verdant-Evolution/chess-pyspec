@@ -86,7 +86,7 @@ DTypes = [
 
 @pytest.mark.parametrize(
     "endianness, dtype",
-    itertools.product(Endianness, DTypes),
+    list(itertools.product(Endianness, DTypes)),
 )
 @pytest.mark.asyncio
 async def test_numpy_array_serialization(endianness, dtype):
