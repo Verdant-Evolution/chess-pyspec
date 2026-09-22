@@ -1,10 +1,10 @@
 [project]
 name = "chess-pyspec"
-version = "1.0.6"
+version = "1.0.7"
 description = "Python SPEC modules and tools"
 license-files = ["LICENSE"]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [{ name = "Kevin Welsh", email = "kevin.welsh@verdantevolution.com" }]
 dependencies = ["cython>=3.2.3", "h5py>=3.0.0", "numpy", "pyee>=13.0.0"]
 urls = { "Homepage" = "https://github.com/Verdant-Evolution/chess-pyspec" }
