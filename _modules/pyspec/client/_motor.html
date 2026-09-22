@@ -368,8 +368,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            position (float): The target position to move the motor to.</span>
 <span class="sd">        """</span>
-        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">))</span></div>
+        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving</span><span class="o">.</span><span class="n">subscribed</span><span class="p">():</span>
+            <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">moving</span><span class="o">.</span><span class="n">wait_for_update</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Motor.prepare_move">
