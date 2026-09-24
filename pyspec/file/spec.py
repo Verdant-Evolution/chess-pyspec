@@ -124,13 +124,18 @@ class FileSpec(list):
     def getFileName(self):
         return self._filename
 
-    def getScanByNumber(self, scanno, scanorder=0):
-        if scanno in self.scans:
-            if scanorder >= 0 and scanorder < len(self.scans[scanno]):
-                scan = self.scans[scanno][scanorder]
-                return scan
-        else:
+    def getScanByNumber(self, scanno, scanorder=None):
+        if scanno not in self.scans:
             return None
+
+        scans = self.scans[scanno]
+        if scanorder is None:
+            return scans[-1]
+
+        if 1 <= scanorder <= len(scans):
+            return scans[scanorder - 1]
+
+        return None
 
     get_scan_by_number = getScanByNumber
 
@@ -174,7 +179,7 @@ class FileSpec(list):
         return self.getNumberScans()
 
     def getNumberScans(self):
-        return len(self.scans)
+        return len(self)
 
     @property
     def headers(self):
@@ -209,16 +214,28 @@ class FileSpec(list):
 
         for lineno, sline in enumerate(data.split("\n#")):
 
+            # Splitting on a newline keeps the leading '#' on the first control
+            # line in a file. Normalize it so first-line headers and scans use
+            # the same path as subsequent control lines.
+            if lineno == 0 and sline.startswith("#"):
+                sline = sline[1:]
+
             if not sline.strip():
                 continue
 
-            if sline[0] in ["S", "F", "E"]:
+            is_motor_header = (
+                not self.inheader
+                and len(sline) > 1
+                and sline[0] == "O"
+                and sline[1].isdigit()
+            )
+            if sline[0] in ["S", "F", "E"] or is_motor_header:
 
                 btype = sline[0]
 
                 if btype in ["F", "E"]:
                     # block not followed by space is not a block. ignore line
-                    if sline[1] != " ":
+                    if len(sline) < 2 or sline[1] != " ":
                         continue
 
                 blockstart = self.lastpos
@@ -227,7 +244,7 @@ class FileSpec(list):
                 if fb is not None:
                     fb.end()
 
-                if btype in ("F", "E"):
+                if btype in ("F", "E", "O"):
                     if btype == "F":
                         self.origfilename = sline[2:].strip()
                     fb = Header(blockstart, blockline)
@@ -267,7 +284,7 @@ class FileSpec(list):
                 self.scans[scanno] = []
 
             self.scans[scanno].append(scan)
-            scan._setOrder(len(self.scans[scanno]) - 1)
+            scan._setOrder(len(self.scans[scanno]))
             scan._setNumberInFile(scanidx)
             scanidx += 1
 
@@ -303,6 +320,10 @@ class FileBlock:
             "C": self.addCommentLine,
             "P": self.addMotorPositionLine,
             "T": self.addTimeLine,
+            "M": self.addMonitorLine,
+            "I": self.addIntensityLine,
+            "R": self.addResultLine,
+            "X": self.addTemperatureLine,
             "G": self.addGeoLine,
             "Q": self.addQLine,
             "@": self.addExtraLine,
@@ -321,6 +342,10 @@ class FileBlock:
         # self._command = ""
 
         self._count_time = 0
+        self._monitor_count = None
+        self._intensity_factor = None
+        self._result_lines = []
+        self._temperature_lines = []
         self._filename = ""
         self._epoch = 0
         self._date = ""
@@ -340,6 +365,7 @@ class FileBlock:
         self._error_messages = []
         self._contains_error = False
         self._find_oned = True
+        self._mca_calib = None
         self.reading_mca = False
 
     def addLine(self, line):
@@ -395,6 +421,8 @@ class FileBlock:
                             self._oneds.append(OneD())
 
                         self.tmpmca = McaData()
+                        if self._mca_calib is not None:
+                            self.tmpmca.calib = list(self._mca_calib)
                         complete = self.tmpmca._addLine(sline)
                         if complete:
                             self._oneds[oned_idx].append(self.tmpmca)
@@ -460,7 +488,7 @@ class FileBlock:
 
     def addColumnsLine(self, content, keyval=None):
         if not self._columns:
-            self._columns = int(content)
+            self._columns = int(content.split()[0])
         else:
             pass
 
@@ -505,6 +533,18 @@ class FileBlock:
         else:
             self._count_time = [content, ""]
 
+    def addMonitorLine(self, content, keyval=None):
+        self._monitor_count = content
+
+    def addIntensityLine(self, content, keyval=None):
+        self._intensity_factor = content
+
+    def addResultLine(self, content, keyval=None):
+        self._result_lines.append(content)
+
+    def addTemperatureLine(self, content, keyval=None):
+        self._temperature_lines.append(content)
+
     def addGeoLine(self, content, keyval=None):
         self._geo_pars.append(content.split())
 
@@ -513,6 +553,11 @@ class FileBlock:
 
     def addExtraLine(self, content, keyval=None):
         self._extra_lines.append([keyval, content])
+        if keyval == "CALIB":
+            calibration = [float(value) for value in content.split()]
+            if len(calibration) != 3:
+                raise ValueError("MCA calibration must contain three values")
+            self._mca_calib = calibration
 
     @property
     def date(self):
@@ -604,19 +649,19 @@ class Scan(FileBlock):
         poserr = False
         self.motor_positions_list = None
 
-        if not labels:
+        if not labels and poss:
             ermsg = "no motor names"
             self._error_messages.append([self._id, "", ermsg])
             self._contains_error = True
             poserr = True
 
-        elif len(labels) != len(poss):
+        elif labels and len(labels) != len(poss):
             ermsg = "number of motor labels and positions are different"
             self._error_messages.append([self._id, "", ermsg])
             self._contains_error = True
             poserr = True
 
-        if not poserr:
+        if labels and not poserr:
             self.motor_positions_list = list(zip(labels, poss))
 
     def _setFileHeader(self, header):
@@ -968,7 +1013,7 @@ class Scan(FileBlock):
             "scanno": "",
             "motors": None,
             "comments": None,
-            "errors": None,
+            "errors": [],
         }
 
         # spec and user. In fileheader comment line
@@ -1130,7 +1175,7 @@ class McaData:
         return self.getCalib()
 
     def getCalib(self):
-        return self.calib
+        return self._calib
 
     @calib.setter
     def calib(self, calib):
